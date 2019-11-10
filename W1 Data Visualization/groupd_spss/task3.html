@@ -1,0 +1,103 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <title>Template</title>
+
+	<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
+	<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+	<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+	<meta content="text/html;charset=utf-8" http-equiv="Content-Type">
+	<meta content="utf-8" http-equiv="encoding">
+</head>
+
+<body>
+<style type="text/css">
+	body{font-family:Tahoma,"Times New Roman", Times, serif;}
+	p{	margin:20px; }
+	.center {
+    display: block;
+    margin-left: auto;
+    margin-right: auto;
+    width: 40%;
+}
+fieldset { padding: 10px; background:#fbfbfb; border-radius:5px; margin-bottom:5px; }
+</style>
+
+
+<section class="container" >
+	<div class="panel panel-primary">
+		<div class="panel-heading">
+			<h3 class="panel-title">
+				<a data-target="#instruction" data-toggle="collapse" >Example</a>
+			</h3>
+		</div>
+		<div  class="panel-collapse collapse in" id="instruction">
+			<div class="panel-body" >
+			  <p>Provide a script and html files which generates/shows a stacked histogram (sum of both groups on top of each other for each bar/bin) visualizing the age distribution (grouped by gender) of participants in the speaker likeability dataset (number of plots: 1, dataset: speaker likeability/speech_quality_ratings.xlsx)</p>
+			</div>
+		</div>
+
+	</div>
+</section>
+
+<section class="container" >
+	<div class="panel panel-primary">
+		<div class="panel-heading">
+			<h3 class="panel-title">
+				<a data-target="#setup" data-toggle="collapse" >Setup and transfering data format</a>
+			</h3>
+		</div>
+		<div  class="panel-collapse collapse in" id="setup">
+			<div class="panel-body" >
+			  <p>Simply import the data into SPSS, no addiontal steps are needed.</p>
+			</div>
+		</div>
+
+	</div>
+</section> 
+
+<section class="container" >
+	<div class="panel panel-primary">
+		<div class="panel-heading">
+			<h3 class="panel-title">
+				<a data-target="#process" data-toggle="collapse" >Performing the test</a>
+			</h3>
+		</div>
+		<div  class="panel-collapse collapse in" id="process">
+			<div class="panel-body" >
+		  	<fieldset><label>Step 1: Create stacked bar-plot</label>
+				<ol>
+					<li>Click Graphs > Chart Builder > Choose “Stacked Bar”-Plot type</li>
+					<li>Define Graph:</li>
+					<ul>
+						<li>Add “Age” variable on the x-axis</li>
+						<li>Add the “Gender” variable to the “Stack: set colour”-section</li>
+						<li>Give the x- and y-axis meaningful names</li>
+					</ul>
+				</ol>
+				<img src="imgs/t3/t3p1.png" alt="Define Graph" style="width:auto;height:550px;">
+			</fieldset>
+			</div>
+		</div>
+	</div>
+</section> 
+
+<section class="container" >
+	<div class="panel panel-primary">
+		<div class="panel-heading">
+			<h3 class="panel-title">
+				<a data-target="#output" data-toggle="collapse" >Output</a>
+			</h3>
+		</div>
+		<div  class="panel-collapse collapse in" id="output">
+			<div class="panel-body" >
+			  	<fieldset><label>The output consists of one graph, i.e. the stacked histogram</label>
+					<fieldset><img src="imgs/t3/Stacked_Bar_Plot_Age_Gender.jpeg" alt="Histogram" style="width:auto;height:550px;"></fieldset>					
+				</fieldset>	 
+			</div>
+		</div>
+
+	</div>
+</section>
+</body>
+</html>

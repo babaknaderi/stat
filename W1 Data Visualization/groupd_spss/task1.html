@@ -1,0 +1,113 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <title>Template</title>
+
+	<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
+	<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+	<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+	<meta content="text/html;charset=utf-8" http-equiv="Content-Type">
+	<meta content="utf-8" http-equiv="encoding">
+</head>
+
+<body>
+<style type="text/css">
+	body{font-family:Tahoma,"Times New Roman", Times, serif;}
+	p{	margin:20px; }
+	.center {
+    display: block;
+    margin-left: auto;
+    margin-right: auto;
+    width: 40%;
+}
+fieldset { padding: 10px; background:#fbfbfb; border-radius:5px; margin-bottom:5px; }
+</style>
+
+
+<section class="container" >
+	<div class="panel panel-primary">
+		<div class="panel-heading">
+			<h3 class="panel-title">
+				<a data-target="#instruction" data-toggle="collapse" >Example</a>
+			</h3>
+		</div>
+		<div  class="panel-collapse collapse in" id="instruction">
+			<div class="panel-body" >
+			  <p>Provide a script and html file which generates/shows for each of the 3 resolutions a separated chart, visualizing the mean values of the video quality ratings and the 95% confidence interval in form of a bar plot. Use all available framerate-bitrate pairs on the x-axis and the game as grouping variable (number of plots: 3, dataset: Gaming_Video_Quality_dataset.xlsx)
+			  </p>
+			</div>
+		</div>
+
+	</div>
+</section>
+
+<section class="container" >
+	<div class="panel panel-primary">
+		<div class="panel-heading">
+			<h3 class="panel-title">
+				<a data-target="#setup" data-toggle="collapse" >Setup and transfering data format</a>
+			</h3>
+		</div>
+		<div  class="panel-collapse collapse in" id="setup">
+			<div class="panel-body" >
+			  <p> Import the dataset in SPSS. Optional: The type of the "resolution" row is recognized as numeric data. It can be changed from "numeric" to "string", because it is actually nominal data. Note that this will not affect the output for this task.</p>
+			</div>
+		</div>
+
+	</div>
+</section> 
+
+<section class="container" >
+	<div class="panel panel-primary">
+		<div class="panel-heading">
+			<h3 class="panel-title">
+				<a data-target="#process" data-toggle="collapse" >Performing the test</a>
+			</h3>
+		</div>
+		<div  class="panel-collapse collapse in" id="process">
+			<div class="panel-body" >
+			  	<fieldset><label>Step 1: Split the data with regard to the “Resolution” variable.</label>
+					<p>Split File > Check option “Organize output by groups” and add “Resolution” to be the variable groups are based on</p>
+					<img src="imgs/t1/t1p1.png" alt="Split File" style="width:auto;height:550px;">
+				</fieldset>
+				<fieldset><label>Step 2: Create bar plot</label>
+					<p><ol>
+						<li>Click Graphs > Chart Builder > Choose “Clustered Bar”-Plot</li>
+						<img src="imgs/t1/t1p2.png" alt="Open Graph Builder" style="width:auto;height:100px;">
+						<li>Define graph
+							<ul><li>Add “VQ” variable on the y-axis</li>
+							<li>Add “Condition_params” variable on the x-axis</li>
+							<li>Add the “Game” variable to the “Cluster on X”-section</li>
+							<li>Give the x- and y-axis meaningful names</li></ul></li>
+							
+						<li>Show the 95% CI:  Click on the chart bars > Check option “Display error bars” > In the “Error Bars Represent”-section check the “Confidence intervals”-option and give it a “Level”-value of 95</li>
+						<img src="imgs/t1/t1p3.png" alt="Define Graph" style="width:auto;height:550px;">
+					</ol></p>
+				</fieldset>
+			</div>
+		</div>
+
+	</div>
+</section> 
+
+<section class="container" >
+	<div class="panel panel-primary">
+		<div class="panel-heading">
+			<h3 class="panel-title">
+				<a data-target="#output" data-toggle="collapse" >Output</a>
+			</h3>
+		</div>
+		<div  class="panel-collapse collapse in" id="output">
+			<div class="panel-body" >
+			  	<FIELDSET><label>The output consists of three graphs, one for each resolution</label>
+				<FIELDSET><img src="imgs/t1/Bar_Plot_480.jpeg" alt="Output-480" style="width:auto;height:550px;"></FIELDSET>
+				<fieldset><img src="imgs/t1/Bar_Plot_720.jpeg" alt="Output-720" style="width:auto;height:550px;"></fieldset>
+				<fieldset></fieldset><img src="imgs/t1/Bar_Plot_1080.jpeg" alt="Output-1080" style="width:auto;height:550px;"></fieldset>
+				</FIELDSET>	  	
+			</div>
+		</div>
+
+	</div>
+</section>
+</body>
+</html>
