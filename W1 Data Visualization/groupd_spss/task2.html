@@ -1,0 +1,114 @@
+﻿<!DOCTYPE html>
+<html lang="en">
+<head>
+    <title>Template</title>
+
+	<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
+	<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+	<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+	<meta content="text/html;charset=utf-8" http-equiv="Content-Type">
+	<meta content="utf-8" http-equiv="encoding">
+</head>
+
+<body>
+<style type="text/css">
+	body{font-family:Tahoma,"Times New Roman", Times, serif;}
+	p{	margin:20px; }
+	.center {
+    display: block;
+    margin-left: auto;
+    margin-right: auto;
+    width: 40%;
+}
+fieldset { padding: 10px; background:#fbfbfb; border-radius:5px; margin-bottom:5px; }
+</style>
+
+
+<section class="container" >
+	<div class="panel panel-primary">
+		<div class="panel-heading">
+			<h3 class="panel-title">
+				<a data-target="#instruction" data-toggle="collapse" >Example</a>
+			</h3>
+		</div>
+		<div  class="panel-collapse collapse in" id="instruction">
+			<div class="panel-body" >
+			  <p>Provide a script and html file which generates/shows a boxplot separated for each game, visualizing the video quality ratings (VQ) for the condition IDs15, 43, and 66 (they are all the same) representing the following combination of parameters: resolution: 480, framerate: 30, bitrate: 300 (number of plots: 6,dataset: Gaming_Video_Quality_dataset.xlsx)</p>
+			</div>
+		</div>
+
+	</div>
+</section>
+
+<section class="container" >
+	<div class="panel panel-primary">
+		<div class="panel-heading">
+			<h3 class="panel-title">
+				<a data-target="#setup" data-toggle="collapse" >Setup and transfering data format</a>
+			</h3>
+		</div>
+		<div  class="panel-collapse collapse in" id="setup">
+			<div class="panel-body" >
+			  <fieldset><label>Step 1: Select data that matches the condition IDs 15, 43, 66</label>
+			  	<p>Click Select Cases > Select “If condition is satisfied” > click “If…” > Define condition “Condition = 15 OR Condition = 43 OR Condition = 66”</p>
+			  	<img src="./imgs/t2/t2p1.png" alt="Condition" style="width:auto;height:550px;"></fieldset>
+			  <fieldset><label>Step 2: Split data with regard to the “Game” variable</label>
+			  	<p>Click "Split File" > Split File-Modal: Check option “Organize output by groups” and add “Game” to be the variable that the groups are based on</p>
+			  	<img src="./imgs/t2/t2p2.png" alt="Split File" style="width:auto;height:550px;"></fieldset>
+			</div>
+		</div>
+
+	</div>
+</section> 
+
+<section class="container" >
+	<div class="panel panel-primary">
+		<div class="panel-heading">
+			<h3 class="panel-title">
+				<a data-target="#process" data-toggle="collapse" >Performing the test</a>
+			</h3>
+		</div>
+		<div  class="panel-collapse collapse in" id="process">
+			<div class="panel-body" >
+		  	<fieldset><label>Step 3: Create box plot</label>
+				<ol>
+					<li>Click Graphs > Chart Builder > Choose “Clustered Boxplot”-Plot type</li>
+					<li>Define Graph:</li>
+					<ul>
+						<li>Add “VQ” variable on the y-axis</li>
+						<li>Add “Condition_params” variable on the x-axis</li>
+						<li>Add the “Game” variable to the “Cluster on X”-section</li>
+						<li>Give the x- and y-axis meaningful names</li>
+					</ul>
+				</ol>
+				<img src="./imgs/t2/t2p3.png" alt="Define Graph" style="width:auto;height:550px;">
+			</fieldset>
+			</div>
+		</div>
+	</div>
+</section> 
+
+<section class="container" >
+	<div class="panel panel-primary">
+		<div class="panel-heading">
+			<h3 class="panel-title">
+				<a data-target="#output" data-toggle="collapse" >Output</a>
+			</h3>
+		</div>
+		<div  class="panel-collapse collapse in" id="output">
+			<div class="panel-body" >
+			  	<fieldset><label>The output consists of six graphs, one for each game</label>
+					<fieldset><img src="./imgs/t2/Box_Plot_Game_1ndp.jpg" alt="Game 1" style="width:auto;height:300px;"></fieldset>
+					<fieldset><img src="./imgs/t2/Box_Plot_Game_2ndp.jpg" alt="Game 2" style="width:auto;height:300px;"></fieldset>
+					<fieldset><img src="./imgs/t2/Box_Plot_Game_3ndp.jpg" alt="Game 3" style="width:auto;height:300px;"></fieldset>
+					<fieldset><img src="./imgs/t2/Box_Plot_Game_4ndp.jpg" alt="Game 4" style="width:auto;height:300px;"></fieldset>
+					<fieldset><img src="./imgs/t2/Box_Plot_Game_5ndp.jpg" alt="Game 5" style="width:auto;height:300px;"></fieldset>
+					<fieldset><img src="./imgs/t2/Box_Plot_Game_6ndp.jpg" alt="Game 6" style="width:auto;height:300px;"></fieldset>
+				</fieldset>	 
+			</div>
+		</div>
+
+	</div>
+</section>
+</body>
+</html>
