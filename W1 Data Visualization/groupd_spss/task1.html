@@ -1,4 +1,4 @@
-<!DOCTYPE html>
+﻿<!DOCTYPE html>
 <html lang="en">
 <head>
     <title>Template</title>
@@ -50,7 +50,7 @@ fieldset { padding: 10px; background:#fbfbfb; border-radius:5px; margin-bottom:5
 		</div>
 		<div  class="panel-collapse collapse in" id="setup">
 			<div class="panel-body" >
-			  <p> Import the dataset in SPSS. Optional: The type of the "resolution" row is recognized as numeric data. It can be changed from "numeric" to "string", because it is actually nominal data. Note that this will not affect the output for this task.</p>
+			  <p> Import the dataset in SPSS. The type of the "resolution" row is recognized as metric data, but the "resolution" variable is actually representing 3 categories. Change measure of the “resolution” variable from “Scale” to “Nominal”</p>
 			</div>
 		</div>
 
@@ -68,12 +68,12 @@ fieldset { padding: 10px; background:#fbfbfb; border-radius:5px; margin-bottom:5
 			<div class="panel-body" >
 			  	<fieldset><label>Step 1: Split the data with regard to the “Resolution” variable.</label>
 					<p>Split File > Check option “Organize output by groups” and add “Resolution” to be the variable groups are based on</p>
-					<img src="imgs/t1/t1p1.png" alt="Split File" style="width:auto;height:550px;">
+					<img src="./imgs/t1/t1p1.png" alt="Split File" style="width:auto;height:550px;">
 				</fieldset>
 				<fieldset><label>Step 2: Create bar plot</label>
 					<p><ol>
 						<li>Click Graphs > Chart Builder > Choose “Clustered Bar”-Plot</li>
-						<img src="imgs/t1/t1p2.png" alt="Open Graph Builder" style="width:auto;height:100px;">
+						<img src="./imgs/t1/t1p2.png" alt="Open Graph Builder" style="width:auto;height:100px;">
 						<li>Define graph
 							<ul><li>Add “VQ” variable on the y-axis</li>
 							<li>Add “Condition_params” variable on the x-axis</li>
@@ -81,7 +81,7 @@ fieldset { padding: 10px; background:#fbfbfb; border-radius:5px; margin-bottom:5
 							<li>Give the x- and y-axis meaningful names</li></ul></li>
 							
 						<li>Show the 95% CI:  Click on the chart bars > Check option “Display error bars” > In the “Error Bars Represent”-section check the “Confidence intervals”-option and give it a “Level”-value of 95</li>
-						<img src="imgs/t1/t1p3.png" alt="Define Graph" style="width:auto;height:550px;">
+						<img src="./imgs/t1/t1p3.png" alt="Define Graph" style="width:auto;height:550px;">
 					</ol></p>
 				</fieldset>
 			</div>
@@ -100,9 +100,9 @@ fieldset { padding: 10px; background:#fbfbfb; border-radius:5px; margin-bottom:5
 		<div  class="panel-collapse collapse in" id="output">
 			<div class="panel-body" >
 			  	<FIELDSET><label>The output consists of three graphs, one for each resolution</label>
-				<FIELDSET><img src="imgs/t1/Bar_Plot_480ndp.jpg" alt="Output-480" style="width:auto;height:550px;"></FIELDSET>
-				<fieldset><img src="imgs/t1/Bar_Plot_720ndp.jpg" alt="Output-720" style="width:auto;height:550px;"></fieldset>
-				<fieldset></fieldset><img src="imgs/t1/Bar_Plot_1080ndp.jpg" alt="Output-1080" style="width:auto;height:550px;"></fieldset>
+				<FIELDSET><img src="./imgs/t1/Bar_Plot_480ndp.jpg" alt="Output-480" style="width:auto;height:550px;"></FIELDSET>
+				<fieldset><img src="./imgs/t1/Bar_Plot_720ndp.jpg" alt="Output-720" style="width:auto;height:550px;"></fieldset>
+				<fieldset></fieldset><img src="./imgs/t1/Bar_Plot_1080ndp.jpg" alt="Output-1080" style="width:auto;height:550px;"></fieldset>
 				</FIELDSET>	  	
 			</div>
 		</div>
