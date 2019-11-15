@@ -1,0 +1,220 @@
+
+<!DOCTYPE html
+  PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+<html><head>
+      <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+   <!--
+This HTML was auto-generated from MATLAB code.
+To make changes, update the MATLAB code and republish this document.
+      --><title>Aufgabe1_1</title><meta name="generator" content="MATLAB 9.4"><link rel="schema.DC" href="http://purl.org/dc/elements/1.1/"><meta name="DC.date" content="2019-11-14"><meta name="DC.source" content="Aufgabe1_1.m"><style type="text/css">
+html,body,div,span,applet,object,iframe,h1,h2,h3,h4,h5,h6,p,blockquote,pre,a,abbr,acronym,address,big,cite,code,del,dfn,em,font,img,ins,kbd,q,s,samp,small,strike,strong,sub,sup,tt,var,b,u,i,center,dl,dt,dd,ol,ul,li,fieldset,form,label,legend,table,caption,tbody,tfoot,thead,tr,th,td{margin:0;padding:0;border:0;outline:0;font-size:100%;vertical-align:baseline;background:transparent}body{line-height:1}ol,ul{list-style:none}blockquote,q{quotes:none}blockquote:before,blockquote:after,q:before,q:after{content:'';content:none}:focus{outine:0}ins{text-decoration:none}del{text-decoration:line-through}table{border-collapse:collapse;border-spacing:0}
+
+html { min-height:100%; margin-bottom:1px; }
+html body { height:100%; margin:0px; font-family:Arial, Helvetica, sans-serif; font-size:10px; color:#000; line-height:140%; background:#fff none; overflow-y:scroll; }
+html body td { vertical-align:top; text-align:left; }
+
+h1 { padding:0px; margin:0px 0px 25px; font-family:Arial, Helvetica, sans-serif; font-size:1.5em; color:#d55000; line-height:100%; font-weight:normal; }
+h2 { padding:0px; margin:0px 0px 8px; font-family:Arial, Helvetica, sans-serif; font-size:1.2em; color:#000; font-weight:bold; line-height:140%; border-bottom:1px solid #d6d4d4; display:block; }
+h3 { padding:0px; margin:0px 0px 5px; font-family:Arial, Helvetica, sans-serif; font-size:1.1em; color:#000; font-weight:bold; line-height:140%; }
+
+a { color:#005fce; text-decoration:none; }
+a:hover { color:#005fce; text-decoration:underline; }
+a:visited { color:#004aa0; text-decoration:none; }
+
+p { padding:0px; margin:0px 0px 20px; }
+img { padding:0px; margin:0px 0px 20px; border:none; }
+p img, pre img, tt img, li img, h1 img, h2 img { margin-bottom:0px; } 
+
+ul { padding:0px; margin:0px 0px 20px 23px; list-style:square; }
+ul li { padding:0px; margin:0px 0px 7px 0px; }
+ul li ul { padding:5px 0px 0px; margin:0px 0px 7px 23px; }
+ul li ol li { list-style:decimal; }
+ol { padding:0px; margin:0px 0px 20px 0px; list-style:decimal; }
+ol li { padding:0px; margin:0px 0px 7px 23px; list-style-type:decimal; }
+ol li ol { padding:5px 0px 0px; margin:0px 0px 7px 0px; }
+ol li ol li { list-style-type:lower-alpha; }
+ol li ul { padding-top:7px; }
+ol li ul li { list-style:square; }
+
+.content { font-size:1.2em; line-height:140%; padding: 20px; }
+
+pre, code { font-size:12px; }
+tt { font-size: 1.2em; }
+pre { margin:0px 0px 20px; }
+pre.codeinput { padding:10px; border:1px solid #d3d3d3; background:#f7f7f7; }
+pre.codeoutput { padding:10px 11px; margin:0px 0px 20px; color:#4c4c4c; }
+pre.error { color:red; }
+
+@media print { pre.codeinput, pre.codeoutput { word-wrap:break-word; width:100%; } }
+
+span.keyword { color:#0000FF }
+span.comment { color:#228B22 }
+span.string { color:#A020F0 }
+span.untermstring { color:#B20000 }
+span.syscmd { color:#B28C00 }
+
+.footer { width:auto; padding:10px 0px; margin:25px 0px 0px; border-top:1px dotted #878787; font-size:0.8em; line-height:140%; font-style:italic; color:#878787; text-align:left; float:none; }
+.footer p { margin:0px; }
+.footer a { color:#878787; }
+.footer a:hover { color:#878787; text-decoration:underline; }
+.footer a:visited { color:#878787; }
+
+table th { padding:7px 5px; text-align:left; vertical-align:middle; border: 1px solid #d6d4d4; font-weight:bold; }
+table td { padding:7px 5px; text-align:left; vertical-align:top; border:1px solid #d6d4d4; }
+
+
+
+
+
+  </style></head><body><div class="content"><pre class="codeinput"> T = readtable(<span class="string">"Gaming_Video_Quality_dataset.xlsx"</span>);
+
+    plotgamebar(<span class="string">'480'</span>, T, 1)
+    plotgamebar(<span class="string">'720'</span>,T, 2)
+    plotgamebar(<span class="string">'1080'</span>,T, 3)
+</pre><img vspace="5" hspace="5" src="Aufgabe1_1_01.png" alt=""> <p>Below is the content of the function plotgamebar used to plot the bars.</p><pre class="language-matlab">
+<span class="keyword">function</span>[] = plotgamebar(resolution, T, plotID)
+
+err = double.empty(6,0);
+y = double.empty(6,0);
+
+<span class="keyword">for</span> i = 1:12 
+    <span class="keyword">switch</span> i
+        <span class="keyword">case</span> 1
+            current_bitrate = <span class="string">'300'</span>;
+            current_fps = <span class="string">'30'</span>;
+        <span class="keyword">case</span> 2
+            current_bitrate = <span class="string">'300'</span>;
+            current_fps = <span class="string">'60'</span>;
+        <span class="keyword">case</span> 3
+            current_bitrate = <span class="string">'1000'</span>;
+            current_fps = <span class="string">'30'</span>;
+        <span class="keyword">case</span> 4
+            current_bitrate = <span class="string">'1000'</span>;
+            current_fps = <span class="string">'60'</span>;
+        <span class="keyword">case</span> 5
+            current_bitrate = <span class="string">'2000'</span>;
+            current_fps = <span class="string">'30'</span>;
+        <span class="keyword">case</span> 6
+            current_bitrate = <span class="string">'2000'</span>;
+            current_fps = <span class="string">'60'</span>;
+        <span class="keyword">case</span> 7
+            current_bitrate = <span class="string">'4000'</span>;
+            current_fps = <span class="string">'30'</span>;
+        <span class="keyword">case</span> 8
+            current_bitrate = <span class="string">'4000'</span>;
+            current_fps = <span class="string">'60'</span>;
+        <span class="keyword">case</span> 9
+            current_bitrate = <span class="string">'6000'</span>;
+            current_fps = <span class="string">'30'</span>;
+        <span class="keyword">case</span> 10
+            current_bitrate = <span class="string">'6000'</span>;
+            current_fps = <span class="string">'60'</span>;
+        <span class="keyword">case</span> 11
+            current_bitrate = <span class="string">'50000'</span>;
+            current_fps = <span class="string">'30'</span>;
+        <span class="keyword">case</span> 12
+            current_bitrate = <span class="string">'50000'</span>;
+            current_fps = <span class="string">'60'</span>;
+    <span class="keyword">end</span>
+    T_bit_fps = T(contains(T.Condition_params, current_bitrate),:);
+    T_bit_fps = T_bit_fps(contains(T_bit_fps.Condition_params, current_fps),:);
+
+new_T = table([1:6]', zeros(6,1), zeros(6,1),zeros(6,1));
+new_T.Properties.VariableNames{<span class="string">'Var1'</span>} = <span class="string">'Game'</span>;
+new_T.Properties.VariableNames{<span class="string">'Var2'</span>} = <span class="string">'Mean_VQ'</span>;
+new_T.Properties.VariableNames{<span class="string">'Var3'</span>} = <span class="string">'SEM_VQ'</span>;
+new_T.Properties.VariableNames{<span class="string">'Var4'</span>} = <span class="string">'CI95'</span>;
+
+T_res = T_bit_fps(contains(T_bit_fps.Condition_params, resolution),[2 8]);
+VQ_Game1 = T_res(contains(T_res.Game, <span class="string">'Game1'</span>), 2);
+VQ_Game2 = T_res(contains(T_res.Game, <span class="string">'Game2'</span>), 2);
+VQ_Game3 = T_res(contains(T_res.Game, <span class="string">'Game3'</span>), 2);
+VQ_Game4 = T_res(contains(T_res.Game, <span class="string">'Game4'</span>), 2);
+VQ_Game5 = T_res(contains(T_res.Game, <span class="string">'Game5'</span>), 2);
+VQ_Game6 = T_res(contains(T_res.Game, <span class="string">'Game6'</span>), 2);
+
+N = size(VQ_Game1,1);                           <span class="comment">% Number of ?Experiments? In Data Set</span>
+
+Game1_SEM = std(table2array(VQ_Game1))/sqrt(N); <span class="comment">% Compute ?Standard Error Of The Mean?</span>
+Game2_SEM = std(table2array(VQ_Game2))/sqrt(N);
+Game3_SEM = std(table2array(VQ_Game3))/sqrt(N);
+Game4_SEM = std(table2array(VQ_Game4))/sqrt(N);
+Game5_SEM = std(table2array(VQ_Game5))/sqrt(N);
+Game6_SEM = std(table2array(VQ_Game6))/sqrt(N);
+
+
+Game1_mean = mean(table2array(VQ_Game1));
+Game2_mean = mean(table2array(VQ_Game2));
+Game3_mean = mean(table2array(VQ_Game3));
+Game4_mean = mean(table2array(VQ_Game4));
+Game5_mean = mean(table2array(VQ_Game5));
+Game6_mean = mean(table2array(VQ_Game6));
+
+
+new_T{1,3} = Game1_SEM;
+new_T{2,3} = Game2_SEM;
+new_T{3,3} = Game3_SEM;
+new_T{4,3} = Game4_SEM;
+new_T{5,3} = Game5_SEM;
+new_T{6,3} = Game6_SEM;
+
+new_T{1,2} = Game1_mean;
+new_T{2,2} = Game2_mean;
+new_T{3,2} = Game3_mean;
+new_T{4,2} = Game4_mean;
+new_T{5,2} = Game5_mean;
+new_T{6,2} = Game6_mean;
+
+t_score = tinv([0.025 0.975], N-1);                    <span class="comment">% Calculate 95% Probability Intervals Of t-Distribution</span>
+new_T.CI95 = new_T.Mean_VQ + t_score.*new_T.SEM_VQ;           <span class="comment">% Calculate 95% Confidence Intervals Of All Experiments At Each Value Of ?x?</span>
+new_T.CI95 = diff(new_T.CI95')';
+
+err = [err new_T.CI95];
+y = [y new_T.Mean_VQ];
+
+<span class="keyword">end</span>
+y = y';
+err = err';
+set(gcf, <span class="string">'Units'</span>, <span class="string">'Normalized'</span>, <span class="string">'OuterPosition'</span>, [0, 0.04, 0.5, 0.8]);
+subplot(3,1,plotID)
+
+h1 = bar(y);
+ax = gca;
+ax.YLim = [0 7];
+xticks([1 2 3 4 5 6 7 8 9 10 11 12]);
+xticklabels({<span class="string">'0.3kbps, 30fps'</span>,<span class="string">'0.3kbps, 60fps'</span>,<span class="string">'1kbps, 30fps'</span>,<span class="string">'1kbps, 60fps'</span>,<span class="string">'2kbps, 30fps '</span>,<span class="string">'2kbps, 60fps'</span>, <span class="string">'4kbps, 30fps'</span>,<span class="string">'4kbps, 60fps'</span>, <span class="string">'6kbps, 30fps'</span>,<span class="string">'6kbps, 60fps'</span>,<span class="string">'50kbps, 30fps'</span>,<span class="string">'50kbps, 60fps'</span>});
+hold <span class="string">on</span>
+legend(<span class="string">'Game1'</span>,<span class="string">'Game2'</span>,<span class="string">'Game3'</span>,<span class="string">'Game4'</span>,<span class="string">'Game5'</span>, <span class="string">'Game6'</span>,<span class="string">'Location'</span>,<span class="string">'bestoutside'</span>,<span class="string">'Orientation'</span>,<span class="string">'horizontal'</span>,<span class="string">'AutoUpdate'</span>,<span class="string">'off'</span>);
+ngroups = size(y, 1);
+nbars = size(y, 2);
+<span class="comment">%Calculating the width for each bar group</span>
+groupwidth = min(0.8, nbars/(nbars + 1.5));
+<span class="keyword">for</span> i = 1:nbars
+    x = (1:ngroups) - groupwidth/2 + (2*i-1) * groupwidth / (2*nbars);
+    errorbar(x, y(:,i), err(:,i), <span class="string">'.'</span>);
+<span class="keyword">end</span>
+hold <span class="string">off</span>
+grid
+
+title(strcat(<span class="string">'Game resolution at '</span>,{<span class="string">' '</span>}, resolution)) 
+xlabel(<span class="string">'Bitrate'</span>)
+ylabel(<span class="string">'Video Quality Rating'</span>)
+<span class="keyword">end</span>
+
+</pre><p class="footer"><br><a href="https://www.mathworks.com/products/matlab/">Published with MATLAB&reg; R2018a</a><br></p></div><!--
+##### SOURCE BEGIN #####
+ T = readtable("Gaming_Video_Quality_dataset.xlsx");
+   
+    plotgamebar('480', T, 1)
+    plotgamebar('720',T, 2)
+    plotgamebar('1080',T, 3)       
+ 
+    %%
+    %
+    % Below is the content of the function plotgamebar used to plot the
+    % bars.
+    % 
+    % <include>plotgamebar.m</include>
+    %
+##### SOURCE END #####
+--></body></html>
