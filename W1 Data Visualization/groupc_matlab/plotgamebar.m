@@ -1,7 +1,10 @@
 function[] = plotgamebar(resolution, T, plotID)
 
+%Initialising values for plotting
 err = double.empty(6,0);
 y = double.empty(6,0);
+
+%get every single bitrate/fps pair
 
 for i = 1:12 
     switch i
@@ -42,9 +45,13 @@ for i = 1:12
             current_bitrate = '50000';
             current_fps = '60';
     end
+    
+    %get the corresponding bitpair/fps from the table
     T_bit_fps = T(contains(T.Condition_params, current_bitrate),:);
     T_bit_fps = T_bit_fps(contains(T_bit_fps.Condition_params, current_fps),:);
 
+%initialise new table for calculating mean values/standard error of the
+%mean and the 95% confindence interval
 new_T = table([1:6]', zeros(6,1), zeros(6,1),zeros(6,1));
 new_T.Properties.VariableNames{'Var1'} = 'Game';
 new_T.Properties.VariableNames{'Var2'} = 'Mean_VQ';
@@ -58,17 +65,17 @@ VQ_Game3 = T_res(contains(T_res.Game, 'Game3'), 2);
 VQ_Game4 = T_res(contains(T_res.Game, 'Game4'), 2);
 VQ_Game5 = T_res(contains(T_res.Game, 'Game5'), 2);
 VQ_Game6 = T_res(contains(T_res.Game, 'Game6'), 2);
-
-N = size(VQ_Game1,1);                           % Number of ?Experiments? In Data Set
-
-Game1_SEM = std(table2array(VQ_Game1))/sqrt(N); % Compute ?Standard Error Of The Mean?
+% Number of Experiments In Data Set
+N = size(VQ_Game1,1);                           
+% Compute Standard Error Of The Mean
+Game1_SEM = std(table2array(VQ_Game1))/sqrt(N);
 Game2_SEM = std(table2array(VQ_Game2))/sqrt(N);
 Game3_SEM = std(table2array(VQ_Game3))/sqrt(N);
 Game4_SEM = std(table2array(VQ_Game4))/sqrt(N);
 Game5_SEM = std(table2array(VQ_Game5))/sqrt(N);
 Game6_SEM = std(table2array(VQ_Game6))/sqrt(N);
 
-
+% Compute Mean value
 Game1_mean = mean(table2array(VQ_Game1));
 Game2_mean = mean(table2array(VQ_Game2));
 Game3_mean = mean(table2array(VQ_Game3));
@@ -76,7 +83,7 @@ Game4_mean = mean(table2array(VQ_Game4));
 Game5_mean = mean(table2array(VQ_Game5));
 Game6_mean = mean(table2array(VQ_Game6));
 
-
+%Put calculated values in the new table
 new_T{1,3} = Game1_SEM;
 new_T{2,3} = Game2_SEM;
 new_T{3,3} = Game3_SEM;
@@ -91,17 +98,21 @@ new_T{4,2} = Game4_mean;
 new_T{5,2} = Game5_mean;
 new_T{6,2} = Game6_mean;
 
-t_score = tinv([0.025 0.975], N-1);                    % Calculate 95% Probability Intervals Of t-Distribution
-new_T.CI95 = new_T.Mean_VQ + t_score.*new_T.SEM_VQ;           % Calculate 95% Confidence Intervals Of All Experiments At Each Value Of ?x?
+% Calculate 95% Probability Intervals Of t-Distribution
+% Calculate 95% Confidence Intervals Of All Experiments At Each Value Of x
+t_score = tinv([0.025 0.975], N-1);
+new_T.CI95 = new_T.Mean_VQ + t_score.*new_T.SEM_VQ;
 new_T.CI95 = diff(new_T.CI95')';
 
+% put calculated values into the array
 err = [err new_T.CI95];
 y = [y new_T.Mean_VQ];
 
+%plot stuff
 end
 y = y';
 err = err';
-set(gcf, 'Units', 'Normalized', 'OuterPosition', [0, 0.04, 0.5, 0.8]);
+set(gcf, 'Units', 'Normalized', 'OuterPosition', [0, 0.04, 0.5, 0.9]);
 subplot(3,1,plotID)
 
 h1 = bar(y);

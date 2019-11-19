@@ -6,7 +6,7 @@
    <!--
 This HTML was auto-generated from MATLAB code.
 To make changes, update the MATLAB code and republish this document.
-      --><title>Aufgabe1_1</title><meta name="generator" content="MATLAB 9.4"><link rel="schema.DC" href="http://purl.org/dc/elements/1.1/"><meta name="DC.date" content="2019-11-14"><meta name="DC.source" content="Aufgabe1_1.m"><style type="text/css">
+      --><title>Aufgabe1_1</title><meta name="generator" content="MATLAB 9.4"><link rel="schema.DC" href="http://purl.org/dc/elements/1.1/"><meta name="DC.date" content="2019-11-19"><meta name="DC.source" content="Aufgabe1_1.m"><style type="text/css">
 html,body,div,span,applet,object,iframe,h1,h2,h3,h4,h5,h6,p,blockquote,pre,a,abbr,acronym,address,big,cite,code,del,dfn,em,font,img,ins,kbd,q,s,samp,small,strike,strong,sub,sup,tt,var,b,u,i,center,dl,dt,dd,ol,ul,li,fieldset,form,label,legend,table,caption,tbody,tfoot,thead,tr,th,td{margin:0;padding:0;border:0;outline:0;font-size:100%;vertical-align:baseline;background:transparent}body{line-height:1}ol,ul{list-style:none}blockquote,q{quotes:none}blockquote:before,blockquote:after,q:before,q:after{content:'';content:none}:focus{outine:0}ins{text-decoration:none}del{text-decoration:line-through}table{border-collapse:collapse;border-spacing:0}
 
 html { min-height:100%; margin-bottom:1px; }
@@ -74,8 +74,11 @@ table td { padding:7px 5px; text-align:left; vertical-align:top; border:1px soli
 </pre><img vspace="5" hspace="5" src="Aufgabe1_1_01.png" alt=""> <p>Below is the content of the function plotgamebar used to plot the bars.</p><pre class="language-matlab">
 <span class="keyword">function</span>[] = plotgamebar(resolution, T, plotID)
 
+<span class="comment">%Initialising values for plotting</span>
 err = double.empty(6,0);
 y = double.empty(6,0);
+
+<span class="comment">%get every single bitrate/fps pair</span>
 
 <span class="keyword">for</span> i = 1:12 
     <span class="keyword">switch</span> i
@@ -116,9 +119,13 @@ y = double.empty(6,0);
             current_bitrate = <span class="string">'50000'</span>;
             current_fps = <span class="string">'60'</span>;
     <span class="keyword">end</span>
+    
+    <span class="comment">%get the corresponding bitpair/fps from the table</span>
     T_bit_fps = T(contains(T.Condition_params, current_bitrate),:);
     T_bit_fps = T_bit_fps(contains(T_bit_fps.Condition_params, current_fps),:);
 
+<span class="comment">%initialise new table for calculating mean values/standard error of the</span>
+<span class="comment">%mean and the 95% confindence interval</span>
 new_T = table([1:6]', zeros(6,1), zeros(6,1),zeros(6,1));
 new_T.Properties.VariableNames{<span class="string">'Var1'</span>} = <span class="string">'Game'</span>;
 new_T.Properties.VariableNames{<span class="string">'Var2'</span>} = <span class="string">'Mean_VQ'</span>;
@@ -132,17 +139,17 @@ VQ_Game3 = T_res(contains(T_res.Game, <span class="string">'Game3'</span>), 2);
 VQ_Game4 = T_res(contains(T_res.Game, <span class="string">'Game4'</span>), 2);
 VQ_Game5 = T_res(contains(T_res.Game, <span class="string">'Game5'</span>), 2);
 VQ_Game6 = T_res(contains(T_res.Game, <span class="string">'Game6'</span>), 2);
-
-N = size(VQ_Game1,1);                           <span class="comment">% Number of ?Experiments? In Data Set</span>
-
-Game1_SEM = std(table2array(VQ_Game1))/sqrt(N); <span class="comment">% Compute ?Standard Error Of The Mean?</span>
+<span class="comment">% Number of Experiments In Data Set</span>
+N = size(VQ_Game1,1);                           
+<span class="comment">% Compute Standard Error Of The Mean</span>
+Game1_SEM = std(table2array(VQ_Game1))/sqrt(N);
 Game2_SEM = std(table2array(VQ_Game2))/sqrt(N);
 Game3_SEM = std(table2array(VQ_Game3))/sqrt(N);
 Game4_SEM = std(table2array(VQ_Game4))/sqrt(N);
 Game5_SEM = std(table2array(VQ_Game5))/sqrt(N);
 Game6_SEM = std(table2array(VQ_Game6))/sqrt(N);
 
-
+<span class="comment">% Compute Mean value</span>
 Game1_mean = mean(table2array(VQ_Game1));
 Game2_mean = mean(table2array(VQ_Game2));
 Game3_mean = mean(table2array(VQ_Game3));
@@ -150,7 +157,7 @@ Game4_mean = mean(table2array(VQ_Game4));
 Game5_mean = mean(table2array(VQ_Game5));
 Game6_mean = mean(table2array(VQ_Game6));
 
-
+<span class="comment">%Put calculated values in the new table</span>
 new_T{1,3} = Game1_SEM;
 new_T{2,3} = Game2_SEM;
 new_T{3,3} = Game3_SEM;
@@ -165,17 +172,21 @@ new_T{4,2} = Game4_mean;
 new_T{5,2} = Game5_mean;
 new_T{6,2} = Game6_mean;
 
-t_score = tinv([0.025 0.975], N-1);                    <span class="comment">% Calculate 95% Probability Intervals Of t-Distribution</span>
-new_T.CI95 = new_T.Mean_VQ + t_score.*new_T.SEM_VQ;           <span class="comment">% Calculate 95% Confidence Intervals Of All Experiments At Each Value Of ?x?</span>
+<span class="comment">% Calculate 95% Probability Intervals Of t-Distribution</span>
+<span class="comment">% Calculate 95% Confidence Intervals Of All Experiments At Each Value Of x</span>
+t_score = tinv([0.025 0.975], N-1);
+new_T.CI95 = new_T.Mean_VQ + t_score.*new_T.SEM_VQ;
 new_T.CI95 = diff(new_T.CI95')';
 
+<span class="comment">% put calculated values into the array</span>
 err = [err new_T.CI95];
 y = [y new_T.Mean_VQ];
 
+<span class="comment">%plot stuff</span>
 <span class="keyword">end</span>
 y = y';
 err = err';
-set(gcf, <span class="string">'Units'</span>, <span class="string">'Normalized'</span>, <span class="string">'OuterPosition'</span>, [0, 0.04, 0.5, 0.8]);
+set(gcf, <span class="string">'Units'</span>, <span class="string">'Normalized'</span>, <span class="string">'OuterPosition'</span>, [0, 0.04, 0.5, 0.9]);
 subplot(3,1,plotID)
 
 h1 = bar(y);
