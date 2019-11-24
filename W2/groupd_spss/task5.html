@@ -1,0 +1,111 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <title>W2-Task-5</title>
+
+	<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
+	<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+	<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+	<meta content="text/html;charset=utf-8" http-equiv="Content-Type">
+	<meta content="utf-8" http-equiv="encoding">
+</head>
+
+<body>
+<style type="text/css">
+	body{font-family:Tahoma,"Times New Roman", Times, serif;}
+	p{	margin:20px; }
+	.center {
+    display: block;
+    margin-left: auto;
+    margin-right: auto;
+    width: 40%;
+}
+fieldset { padding: 10px; background:#fbfbfb; border-radius:5px; margin-bottom:5px; }
+</style>
+
+
+<section class="container" >
+	<div class="panel panel-primary">
+		<div class="panel-heading">
+			<h3 class="panel-title">
+				<a data-target="#instruction" data-toggle="collapse" >Example</a>
+			</h3>
+		</div>
+		<div  class="panel-collapse collapse in" id="instruction">
+			<div class="panel-body" >
+			  <p>Transform all VQ data from a 7-point scale to a 5-point scale and normalize it to [1 , 4.5].</p>
+			  <p>Dataset: Gaming_Video_Quality_dataset.xlsx</p>
+			</div>
+		</div>
+
+	</div>
+</section>
+
+<section class="container" >
+	<div class="panel panel-primary">
+		<div class="panel-heading">
+			<h3 class="panel-title">
+				<a data-target="#setup" data-toggle="collapse" >Setup and transfering data format</a>
+			</h3>
+		</div>
+		<div  class="panel-collapse collapse in" id="setup">
+			<div class="panel-body" >
+			  	<p>Simply import the data from the Excel file.</p>
+			</div>
+		</div>
+
+	</div>
+</section> 
+
+<section class="container" >
+	<div class="panel panel-primary">
+		<div class="panel-heading">
+			<h3 class="panel-title">
+				<a data-target="#process" data-toggle="collapse" >Performing the test</a>
+			</h3>
+		</div>
+		<div  class="panel-collapse collapse in" id="process">
+			<div class="panel-body" >
+			   	<fieldset><label>Step 1: Transform all VQ data of 7-point scale to 5-point scale</label>
+					<ol>
+						<li>Click "Transform" -> "Compute Variable"</li>
+						<li>In the “Target Variable” field write “VQ”</li>
+						<li>In the “Numeric Expression” field write the expression for converting a 7-point scale to a 5-point scale according to the Köster et. Al research paper
+							<p style="color:#FF0000;">The formula assumes that the 7-point scale spans between 0 and 6. We adapt the formula for a 7-point scale from 1 to 7.</p>
+				  			<fieldset><img src="./imgs/t5/t5_formula.png" alt="MOS_ACR = (-0.0262*(VQ-1)^3 + 0.2368*(VQ-1)^2 + 0.1907*(VQ-1)+ 1)" style="width:auto;height:150px;"></li>
+				  			<p>The intermediate result looks like this:</p>
+							<fieldset><img src="./imgs/t5/t5_intermediate_table.png" alt="table1" style="width:auto;height:150px;"></fieldset>
+					</ol>
+				</fieldset>
+				<fieldset><label>Step 2: Normalize the values of VQ to [1, 4.5].</label>
+					<ol>
+						<li>Click "Transform" -> Compute Variable</li>
+						<li>In the “Target Variable” field write “VQ”</li>
+						<li>In the “Numeric Expression” field write the expression for linear scaling to a given interval (MOSnorm = (mos-minMOS)/(maxMOS-minMOS) * 3.5 + 1)</li>
+					</ol>
+				</fieldset>
+			</div>
+		</div>
+
+	</div>
+</section> 
+
+<section class="container" >
+	<div class="panel panel-primary">
+		<div class="panel-heading">
+			<h3 class="panel-title">
+				<a data-target="#output" data-toggle="collapse" >Output of XXXX</a>
+			</h3>
+		</div>
+		<div  class="panel-collapse collapse in" id="output">
+			<div class="panel-body" >
+				<fieldset><label>The final result looks like this:</label>
+					<fieldset><img src="./imgs/t5/t5_final_table.png" alt="table1" style="width:auto;height:150px;"></fieldset>
+				</fieldset>
+			</div>
+		</div>
+
+	</div>
+</section>
+</body>
+</html>

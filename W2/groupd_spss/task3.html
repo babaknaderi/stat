@@ -1,0 +1,114 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <title>W2-Task-3</title>
+
+	<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
+	<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+	<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+	<meta content="text/html;charset=utf-8" http-equiv="Content-Type">
+	<meta content="utf-8" http-equiv="encoding">
+</head>
+
+<body>
+<style type="text/css">
+	body{font-family:Tahoma,"Times New Roman", Times, serif;}
+	p{	margin:20px; }
+	.center {
+    display: block;
+    margin-left: auto;
+    margin-right: auto;
+    width: 40%;
+}
+fieldset { padding: 10px; background:#fbfbfb; border-radius:5px; margin-bottom:5px; }
+</style>
+
+
+<section class="container" >
+	<div class="panel panel-primary">
+		<div class="panel-heading">
+			<h3 class="panel-title">
+				<a data-target="#instruction" data-toggle="collapse" >Example</a>
+			</h3>
+		</div>
+		<div  class="panel-collapse collapse in" id="instruction">
+			<div class="panel-body" >
+			  <p>Put the age values in bins of: 18-25, 26-35, 36-50, 50+.</p>
+			  <p>Dataset: Speech_quality_crowdsourcing_dataset.xlsx</p>
+			</div>
+		</div>
+
+	</div>
+</section>
+
+<section class="container" >
+	<div class="panel panel-primary">
+		<div class="panel-heading">
+			<h3 class="panel-title">
+				<a data-target="#setup" data-toggle="collapse" >Setup and transfering data format</a>
+			</h3>
+		</div>
+		<div  class="panel-collapse collapse in" id="setup">
+			<div class="panel-body" >
+			  <p>Import data from the “CS participants” tab of the excel file and make sure to check the option “Read variables names from first row of data”.</p>
+			</div>
+		</div>
+
+	</div>
+</section> 
+
+<section class="container" >
+	<div class="panel panel-primary">
+		<div class="panel-heading">
+			<h3 class="panel-title">
+				<a data-target="#process" data-toggle="collapse" >Performing the test</a>
+			</h3>
+		</div>
+		<div  class="panel-collapse collapse in" id="process">
+			<div class="panel-body" >
+			  	<fieldset><label>Step 1: Calculate the age of the participants in a new variable based on their birthyear.</label>
+					<ol>
+						<li>Transform -> Compute Variable</li>
+						<li>Give the new variable the label “Age”</li>
+						<li>In the “Numeric Expression” field write the expression for calculating the participants age (current year minus “Birthyear” variable)</li>
+					</ol>
+				</fieldset>
+				<fieldset><label>Step2: Recode the “Age” variable in 4 categories: 18-25, 26-35, 36-50, 50+</label>
+					<ol>
+						<li>Transform -> Recode into Different Variables</li>
+						<li>Add the “Age” variable to the list of variables to be recoded and enter in the “Name” field the name of the new variable (e.g. “Age_Category”)</li>
+						<li>Click on “Old and New Values” to define the new categories -> In the “Old Value” section choose the values you want to bind in a specific category and in the “New Value” section choose the value you want to recode to. - 35</li>
+					</ol>
+					<p style="color:#FF0000;">Note that each of the for categories gets a number from 1 to 4 assigned, so that for e.g. the values from 18 to 25 will be replace by 1, the values from 26 to 35 by 2 and so on</p>
+				</fieldset>
+				<fieldset><label>Step 3: Assign the values of the “Age_Category” value meaningful labels</label>
+					<ol>
+						<li>Navigate to the “Variable View” -> Click in the “Value” column of the “Age_Category” variable</li>
+						<li>Create a label for each of the values (1,2,3,4)</li>
+					</ol>
+					<p style="color:#FF0000;">Make sure that the value of the “Decimals” column for the “Age_Category” value is null</p>
+				</fieldset>
+			</div>
+		</div>
+
+	</div>
+</section> 
+
+<section class="container" >
+	<div class="panel panel-primary">
+		<div class="panel-heading">
+			<h3 class="panel-title">
+				<a data-target="#output" data-toggle="collapse" >Output of XXXX</a>
+			</h3>
+		</div>
+		<div  class="panel-collapse collapse in" id="output">
+			<div class="panel-body" >
+			  <p> Explain the output with sceenshots</p>
+			  	
+			</div>
+		</div>
+
+	</div>
+</section>
+</body>
+</html>
