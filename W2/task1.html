@@ -33,8 +33,8 @@ fieldset { padding: 10px; background:#fbfbfb; border-radius:5px; margin-bottom:5
 		</div>
 		<div  class="panel-collapse collapse in" id="instruction">
 			<div class="panel-body" >
-			  <p>Provide a script and html file which generates/shows for each of the 3 resolutions a separated chart, visualizing the mean values of the video quality ratings and the 95% confidence interval in form of a bar plot. Use all available framerate-bitrate pairs on the x-axis and the game as grouping variable (number of plots: 3, dataset: Gaming_Video_Quality_dataset.xlsx)
-			  </p>
+			  <p>Calculate (mean, std, 95%CI) per condition.</p>
+			  <p>Dataset: Speech_quality_crowdsourcing_dataset.xlsx</p>>
 			</div>
 		</div>
 
@@ -50,7 +50,13 @@ fieldset { padding: 10px; background:#fbfbfb; border-radius:5px; margin-bottom:5
 		</div>
 		<div  class="panel-collapse collapse in" id="setup">
 			<div class="panel-body" >
-			  <p> Import the dataset in SPSS. The type of the "resolution" row is recognized as metric data, but the "resolution" variable is actually representing 3 categories. Change measure of the “resolution” variable from “Scale” to “Nominal”</p>
+			  <p>First, you need to prepare and load the data
+			  	<ol>
+			  		<li>In the Excel-file compute the values of the “condition” column based on the “files” column. You can use the MID()/TEIL() function which returns the substring of the filename corresponding to the condition value, e.g. MID(A2;7;1)</li>
+			  		<li>Open the “CS-per file” worksheet in SPSS and make sure to check the option “Read variables names from first row of data”.</li>
+		  			<img src="./imgs/t1/t1p1.png" alt="Load file" style="width:auto;height:550px;">		  			
+			  	</ol>
+			  </p>
 			</div>
 		</div>
 
@@ -66,22 +72,31 @@ fieldset { padding: 10px; background:#fbfbfb; border-radius:5px; margin-bottom:5
 		</div>
 		<div  class="panel-collapse collapse in" id="process">
 			<div class="panel-body" >
-			  	<fieldset><label>Step 1: Split the data with regard to the “Resolution” variable.</label>
-					<p>Split File > Check option “Organize output by groups” and add “Resolution” to be the variable groups are based on</p>
-					<img src="./imgs/t1/t1p1.png" alt="Split File" style="width:auto;height:550px;">
+			  	<fieldset><label>Step 1: Rearrange ratings into one column</label>
+					<p>In the "Data View" tab, you can see that the ratings are spread over multiple columns. In order to calculate the descriptive statistics, you need to create a new variable that holds all ratings from P1-P18 in one column. To achieve that, perform the following steps:
+					<ol>
+						<li>Data -> Restructure -> Select “Restructure selected variables into cases” -> Select “One” for the number of variable groups</li>
+						<li>Add all the ratings P1 to P18 in the “Variables to be Transposed” section and give the new variable a significant name (e.g. “reviews”)</li>
+						<li>Add the “condition” and “files” variables to the “Fixed Variable(s)” section in order to keep them when restructuring the data</li>
+						<li>Select “One” for the nr. of index variables</li>
+						<li>In the next step select “Variable names” for the index values and rename the index (e.g. “ratings_no”)</li>
+						<li>In the “Handling of Variables not Selected” section check the “Drop variable(s) from the new data file” as we already specified that we want to keep the “files” and “condition” columns</li>
+						<img src="./imgs/t1/t1p2.png" alt="Rearrange ratings" style="width:auto;height:550px;">
+					</ol></p>
 				</fieldset>
-				<fieldset><label>Step 2: Create bar plot</label>
-					<p><ol>
-						<li>Click Graphs > Chart Builder > Choose “Clustered Bar”-Plot</li>
-						<img src="./imgs/t1/t1p2.png" alt="Open Graph Builder" style="width:auto;height:100px;">
-						<li>Define graph
-							<ul><li>Add “VQ” variable on the y-axis</li>
-							<li>Add “Condition_params” variable on the x-axis</li>
-							<li>Add the “Game” variable to the “Cluster on X”-section</li>
-							<li>Give the x- and y-axis meaningful names</li></ul></li>
-							
-						<li>Show the 95% CI:  Click on the chart bars > Check option “Display error bars” > In the “Error Bars Represent”-section check the “Confidence intervals”-option and give it a “Level”-value of 95</li>
-						<img src="./imgs/t1/t1p3.png" alt="Define Graph" style="width:auto;height:550px;">
+				<fieldset><label>Step 2: Split the data</label>
+					<p>You want to split the data regarding the “condition” variable in order to create an output per condition.
+					<ol>
+						<li>Split File > Check option “Organize output by groups”</li>
+						<li>Add “condition” to be the variable groups are based on</li>
+					</ol></p>
+				</fieldset>
+				<fieldset><label>Compute mean, std and the 95%CI</label>
+					<p>To perform the actual task, follow these steps:
+					<ol>
+						<li>Analyse -> Compare Means -> One-Sample T Test</li>
+						<li>Add the “ratings” variable to the list of “Test Variable(s)”</li>
+						<li>Click on the “Options…” button -> Enter 95 for the value of the “Confidence Interval Percentage”</li>
 					</ol></p>
 				</fieldset>
 			</div>
@@ -99,10 +114,8 @@ fieldset { padding: 10px; background:#fbfbfb; border-radius:5px; margin-bottom:5
 		</div>
 		<div  class="panel-collapse collapse in" id="output">
 			<div class="panel-body" >
-			  	<FIELDSET><label>The output consists of three graphs, one for each resolution</label>
-				<FIELDSET><img src="./imgs/t1/Bar_Plot_480ndp.jpg" alt="Output-480" style="width:auto;height:550px;"></FIELDSET>
-				<fieldset><img src="./imgs/t1/Bar_Plot_720ndp.jpg" alt="Output-720" style="width:auto;height:550px;"></fieldset>
-				<fieldset></fieldset><img src="./imgs/t1/Bar_Plot_1080ndp.jpg" alt="Output-1080" style="width:auto;height:550px;"></fieldset>
+			  	<FIELDSET><label>Output</label>
+				
 				</FIELDSET>	  	
 			</div>
 		</div>
