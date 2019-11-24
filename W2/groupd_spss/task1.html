@@ -1,7 +1,7 @@
 ﻿<!DOCTYPE html>
 <html lang="en">
 <head>
-    <title>Template</title>
+    <title>W2-Task-1</title>
 
 	<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
 	<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
@@ -34,7 +34,7 @@ fieldset { padding: 10px; background:#fbfbfb; border-radius:5px; margin-bottom:5
 		<div  class="panel-collapse collapse in" id="instruction">
 			<div class="panel-body" >
 			  <p>Calculate (mean, std, 95%CI) per condition.</p>
-			  <p>Dataset: Speech_quality_crowdsourcing_dataset.xlsx</p>>
+			  <p>Dataset: Speech_quality_crowdsourcing_dataset.xlsx</p>
 			</div>
 		</div>
 
@@ -50,13 +50,11 @@ fieldset { padding: 10px; background:#fbfbfb; border-radius:5px; margin-bottom:5
 		</div>
 		<div  class="panel-collapse collapse in" id="setup">
 			<div class="panel-body" >
-			  <p>First, you need to prepare and load the data
 			  	<ol>
 			  		<li>In the Excel-file compute the values of the “condition” column based on the “files” column. You can use the MID()/TEIL() function which returns the substring of the filename corresponding to the condition value, e.g. MID(A2;7;1)</li>
 			  		<li>Open the “CS-per file” worksheet in SPSS and make sure to check the option “Read variables names from first row of data”.</li>
 		  			<img src="./imgs/t1/t1p1.png" alt="Load file" style="width:auto;height:550px;">		  			
 			  	</ol>
-			  </p>
 			</div>
 		</div>
 
@@ -91,7 +89,7 @@ fieldset { padding: 10px; background:#fbfbfb; border-radius:5px; margin-bottom:5
 						<li>Add “condition” to be the variable groups are based on</li>
 					</ol></p>
 				</fieldset>
-				<fieldset><label>Compute mean, std and the 95%CI</label>
+				<fieldset><label>Step 3: Compute mean, std and the 95%CI</label>
 					<p>To perform the actual task, follow these steps:
 					<ol>
 						<li>Analyse -> Compare Means -> One-Sample T Test</li>

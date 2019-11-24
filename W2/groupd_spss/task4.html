@@ -1,0 +1,107 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <title>W2-Task-4</title>
+
+	<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
+	<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+	<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+	<meta content="text/html;charset=utf-8" http-equiv="Content-Type">
+	<meta content="utf-8" http-equiv="encoding">
+</head>
+
+<body>
+<style type="text/css">
+	body{font-family:Tahoma,"Times New Roman", Times, serif;}
+	p{	margin:20px; }
+	.center {
+    display: block;
+    margin-left: auto;
+    margin-right: auto;
+    width: 40%;
+}
+fieldset { padding: 10px; background:#fbfbfb; border-radius:5px; margin-bottom:5px; }
+</style>
+
+
+<section class="container" >
+	<div class="panel panel-primary">
+		<div class="panel-heading">
+			<h3 class="panel-title">
+				<a data-target="#instruction" data-toggle="collapse" >Example</a>
+			</h3>
+		</div>
+		<div  class="panel-collapse collapse in" id="instruction">
+			<div class="panel-body" >
+			  <p>Check the normality of the video quality (VQ) ratings for condition 26 for game4 (using both Statistical Tests and Q-Q plot).</p>
+			  <p>Dataset: Gaming_Video_Quality_dataset.xlsx</p>
+			</div>
+		</div>
+
+	</div>
+</section>
+
+<section class="container" >
+	<div class="panel panel-primary">
+		<div class="panel-heading">
+			<h3 class="panel-title">
+				<a data-target="#setup" data-toggle="collapse" >Setup and transfering data format</a>
+			</h3>
+		</div>
+		<div  class="panel-collapse collapse in" id="setup">
+			<div class="panel-body" >
+			  <p>Simply import the data from the Excel file.</p>
+			</div>
+		</div>
+
+	</div>
+</section> 
+
+<section class="container" >
+	<div class="panel panel-primary">
+		<div class="panel-heading">
+			<h3 class="panel-title">
+				<a data-target="#process" data-toggle="collapse" >Performing the test</a>
+			</h3>
+		</div>
+		<div  class="panel-collapse collapse in" id="process">
+			<div class="panel-body" >
+			   	<fieldset><label>Step 1: Select the data for condition 26 and game 4</label>
+					<ol>
+						<li>Select Cases -> Check “If condition is satisfied” in the “Select” section</li>
+						<li>Click on “If…”-button -> Define condition “Condition = 26 AND Game = "Game4"</li>
+					</ol>
+				</fieldset>
+				<fieldset><label>Step 2: Conduct normality tests: Kolmogorov-Smirnov and Shapiro-Wilk</label>
+					<ol>
+						<li>Analyze -> Descriptive Statstics -> Explore…</li>
+						<li>Add the “VQ” variable in the “Dependent List”</li>
+						<li>Make sure the “Both”-option is checked in the “Display” section</li>
+						<li>Click on “Plots” -> Check the “Normality plots with tests” option</li>
+					</ol>
+				</fieldset>
+			</div>
+		</div>
+
+	</div>
+</section> 
+
+<section class="container" >
+	<div class="panel panel-primary">
+		<div class="panel-heading">
+			<h3 class="panel-title">
+				<a data-target="#output" data-toggle="collapse" >Output</a>
+			</h3>
+		</div>
+		<div  class="panel-collapse collapse in" id="output">
+			<div class="panel-body" >
+				<fieldset><label>The final result looks like this:</label>
+					<fieldset><img src="./imgs/t4/t4_final_table.png" alt="table1" style="width:auto;height:150px;"></fieldset>	
+				</fieldset>	
+			</div>
+		</div>
+
+	</div>
+</section>
+</body>
+</html>
