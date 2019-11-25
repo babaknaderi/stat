@@ -50,7 +50,31 @@ fieldset { padding: 10px; background:#fbfbfb; border-radius:5px; margin-bottom:5
 		</div>
 		<div  class="panel-collapse collapse in" id="setup">
 			<div class="panel-body" >
-			  <p> Explain the data structure that you need , and how to get the data structure in a way you need from input data.</p>
+			  <fieldset><label>Step 1: Modify Excel file.</label>
+		  		<p>In the Excel-file add two new columns, one for “condition” and one for “file”, and compute their values based on the “files” column using the MID()/TEIL() function, which returns the substring corresponding to the condition value or file value respectively.</p>
+			  </fieldset>
+			  <fieldset><label>Step 2: Open file in SPSS</label>
+			  	<p>Open the “CS-full” worksheet in SPSS and make sure to check the option “Read variables names from first row of data”.</p>
+			  </fieldset>
+			  <fieldset><label>Step 3: Rearrange ratings into one column</label>
+					<p>In the "Data View" tab, we can see that the ratings are spread over multiple columns. In order to calculate the descriptive statistics, we need to create a new variable that holds all ratings from all participants in one column. To achieve that, perform the following steps:
+					<ol>
+						<li>Data -> Restructure -> Select “Restructure selected variables into cases” -> Select “One” for the number of variable groups</li>
+						<li>Add all the columns for the ratings in the “Variables to be Transposed” section and give the new variable a significant name (e.g. “reviews”)</li>
+						<li>Add the “condition” and “files” variables to the “Fixed Variable(s)” section in order to keep them when restructuring the data</li>
+						<li>Select “One” for the nr. of index variables</li>
+						<li>In the next step select “Variable names” for the index values and rename the index (e.g. “reviewer_id”)</li>
+						<li>In the “Handling of Variables not Selected” section check the “Drop variable(s) from the new data file” as we already specified that we want to keep the “files” and “condition” columns</li>
+						<img src="./imgs/t1/t1p2.png" alt="Rearrange ratings" style="width:auto;height:550px;">
+					</ol></p>
+				</fieldset>
+				<fieldset><label>Step 4: Split the data</label>
+					<p>You want to split the data regarding the “condition” variable in order to create an output/ calculate outliers per condition.
+					<ol>
+						<li>Split File -> Check option “Organize output by groups”</li>
+						<li>Add “condition” to be the variable groups are based on</li>
+					</ol></p>
+				</fieldset>
 			</div>
 		</div>
 
@@ -66,13 +90,43 @@ fieldset { padding: 10px; background:#fbfbfb; border-radius:5px; margin-bottom:5
 		</div>
 		<div  class="panel-collapse collapse in" id="process">
 			<div class="panel-body" >
-			  <p> Explain how to perform the test</p>
-			  	<fieldset><label>click XXX > YYY > ZZZ and select ababababa</label>
-					<p>screenshot ..</p>
-				</fieldset>
-				<fieldset><label>click XXX > YYY > ZZZ and select ababababa</label>
-					<p>screenshot ..</p>
-				</fieldset>
+			  	<fieldset><label>Option 1: Z-score</label>
+				  	<fieldset><label>Step 1: Compute for each review-value a z-score.</label>
+				  		<p>Values with an absolute z-score bigger than 3.29 should be considered outliers.
+				  			<ol>
+				  				<li>Analyse -> Descriptive Statistics -> Descriptives…</li>
+				  				<li>Add the “review” variable to the “Valiable(s)” section and check the option “Save standardized values as variables”</li>
+				  			</ol>
+				  		</p>
+				  		<p>Output: SPSS adds a new variable to your dataset that stores the z-score for each “review” value.</p>
+				  	</fieldset>
+				  	<fieldset><label>Step 2: Calculate the absolute z-score in a new variable.</label>
+				  		<ol>
+				  			<li>Transform -> Compute Variable…</li>
+				  			<li>Give the new variable the label “abs_z_score” and in the “Numeric Expression” field write the expression for calculating the absolute z-score (e.g. ABS(z-score))</li>
+				  		</ol>
+					</fieldset>
+					<fieldset><label>Step 3: Remove outliers</label>
+					  	<p>Remove participants who cause more than 2 outliers from your dataset. Identify the rows that have an absolute z-score bigger than 3.29 and check if the same reviewer is responsible for more than 2 outliers. Then remove them from your dataset.</p>
+						<p>The reviewers with the following id cause two or more outliers:
+							<ul>
+								<li>A31FD3QCYZ28Q2</li>
+								<li>A2NGMLBFZ3YQP5</li>
+								<li>A2FYQIZWV2UJHS</li>
+								<li>A27PBC5O3Z5ZED</li>
+								<li>A1X1IRFYQZ40LD</li>
+							</ul>	
+						</p>
+					  </fieldset>
+			  	</fieldset>
+			  	<fieldset><label>Option 2: Boxplots</label>
+	  			<p>Compute a boxplot for each condition to show outliers graphically.
+  					<ol>
+  						<li>Analyse -> Descriptive Statistics -> Explore…</li>
+  						<li>Add the “review” variable to the list of dependent variables and in the “Display” section check the “Plots” option.</li>
+  					</ol>
+	  			</p>
+			  </fieldset>
 			</div>
 		</div>
 
