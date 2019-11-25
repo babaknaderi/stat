@@ -6,7 +6,7 @@
    <!--
 This HTML was auto-generated from MATLAB code.
 To make changes, update the MATLAB code and republish this document.
-      --><title>Task_04</title><meta name="generator" content="MATLAB 9.4"><link rel="schema.DC" href="http://purl.org/dc/elements/1.1/"><meta name="DC.date" content="2019-11-25"><meta name="DC.source" content="Task_04.m"><style type="text/css">
+      --><title>Task_04</title><meta name="generator" content="MATLAB 9.7"><link rel="schema.DC" href="http://purl.org/dc/elements/1.1/"><meta name="DC.date" content="2019-11-25"><meta name="DC.source" content="Task_04.m"><style type="text/css">
 html,body,div,span,applet,object,iframe,h1,h2,h3,h4,h5,h6,p,blockquote,pre,a,abbr,acronym,address,big,cite,code,del,dfn,em,font,img,ins,kbd,q,s,samp,small,strike,strong,sub,sup,tt,var,b,u,i,center,dl,dt,dd,ol,ul,li,fieldset,form,label,legend,table,caption,tbody,tfoot,thead,tr,th,td{margin:0;padding:0;border:0;outline:0;font-size:100%;vertical-align:baseline;background:transparent}body{line-height:1}ol,ul{list-style:none}blockquote,q{quotes:none}blockquote:before,blockquote:after,q:before,q:after{content:'';content:none}:focus{outine:0}ins{text-decoration:none}del{text-decoration:line-through}table{border-collapse:collapse;border-spacing:0}
 
 html { min-height:100%; margin-bottom:1px; }
@@ -66,122 +66,114 @@ table td { padding:7px 5px; text-align:left; vertical-align:top; border:1px soli
 
 
 
-  </style></head><body><div class="content"><pre class="codeinput">T = readtable(<span class="string">"Gaming_Video_Quality_dataset.xlsx"</span>);
+  </style></head><body><div class="content"><pre class="codeinput">T = readtable(<span class="string">"..\..\Gaming_Video_Quality_dataset.xlsx"</span>);
 t_game4_condition26 = T(T.Condition == 26 &amp; T.Game == <span class="string">"Game4"</span> ,:);
 
-<span class="comment">%QQ-Plot</span>
-figure
-qqplot(t_game4_condition26.VQ');
-title(<span class="string">'QQ Plot of Video Quality versus Standard Normal'</span>);
-ylabel(<span class="string">'VQ'</span>);
-
-<span class="comment">%Kolmogorov-Smirnov</span>
-ks_std = std(t_game4_condition26.VQ)
-ks_mean = mean(t_game4_condition26.VQ)
-z_values = (t_game4_condition26.VQ-ks_mean )/ks_std
-<span class="comment">%if 1 = no normal distribution, if 0 = normal distribution</span>
-h = kstest(z_values)
-<span class="comment">%plot for Kolmogorov-Smirnov</span>
+<span class="comment">%ND</span>
+ks_std = std(t_game4_condition26.VQ);
+ks_mean = mean(t_game4_condition26.VQ);
+z_values = (t_game4_condition26.VQ-ks_mean )/ks_std;
+<span class="comment">%plot for cumulate distribution</span>
+subplot(2,1,1);
 cdfplot(z_values)
 hold <span class="string">on</span>
 x_values = linspace(min(z_values),max(z_values));
 <span class="comment">%values and color of nd line</span>
 plot(x_values,normcdf(x_values,0,1),<span class="string">'r-'</span>)
-title(<span class="string">'Cumulative Distribution Functions'</span>)
-legend(<span class="string">'Empirical CDF'</span>,<span class="string">'Standard Normal CDF'</span>,<span class="string">'Location'</span>,<span class="string">'best'</span>)
+title(<span class="string">'Cumulative Distribution Functions'</span>);
+legend(<span class="string">'Empirical CDF'</span>,<span class="string">'Standard Normal CDF'</span>,<span class="string">'Location'</span>,<span class="string">'best'</span>);
 
+<span class="comment">%Kolmogorov-Smirnov</span>
+<span class="comment">%if 1 = no normal distribution, if 0 = normal distribution</span>
+<span class="comment">%significance &lt; 0,05,               significance &gt;= 0,05:</span>
+[h_ks,p_ks_value] = kstest(z_values);
+<span class="keyword">if</span>(h_ks==1)
+    fprintf(<span class="string">"Video Quality is not normal distributed(Kolmogrov-Smirnov-Test) with significant level:%d\n"</span>, p_ks_value)
+<span class="keyword">else</span>
+    fprintf(<span class="string">"Video Quality is normal distributed(Kolmogrov-Smirnov-Test) with significant level:%d\n"</span>,p_ks_value)
+<span class="keyword">end</span>
 
 <span class="comment">%Shapiro-Wilk</span>
-[H, pValue, SWstatistic] = swtest(t_game4_condition26.VQ, 0.05)
-</pre><pre class="codeoutput">
-ks_std =
+<span class="comment">% performs the Shapiro-Wilk test to determine if the null hypothesis of composite</span>
+<span class="comment">% normality is a reasonable assumption of a given distribution.</span>
+<span class="comment">%   The Shapiro-Wilk and Shapiro-Francia null hypothesis is:</span>
+<span class="comment">%   "X is normal with unspecified mean and variance."</span>
+<span class="comment">% - pVAlueis the p-value, or the probability of observing the given</span>
+<span class="comment">%   result by chance given that the null hypothesis is true</span>
+<span class="comment">% - H</span>
+<span class="comment">%     H = 0 =&gt; Do not reject the null hypothesis at significance level ALPHA.</span>
+<span class="comment">%     H = 1 =&gt; Reject the null hypothesis at significance level ALPHA.</span>
+<span class="comment">%  if 1 = no normal distribution, if 0 = normal distribution</span>
+<span class="comment">%  significance &lt; 0,05,               significance &gt;= 0,05:</span>
+[h_sw, p_sw_value, SWstatistic] = swtest(t_game4_condition26.VQ, 0.05);
 
-    0.9026
-
-
-ks_mean =
-
-    4.4318
-
-
-z_values =
-
-    0.4079
-    0.8511
-    1.7374
-   -1.5864
-    0.1863
-    0.6295
-   -1.2540
-    1.1835
-   -0.7000
-   -0.0353
-    0.8511
-   -1.9187
-    1.0727
-    0.0755
-   -0.4784
-   -0.8108
-   -0.4784
-    0.6295
-   -0.9216
-   -0.4784
-    1.5159
-   -0.4784
+<span class="keyword">if</span>(h_sw==1)
+    fprintf(<span class="string">"Video Quality is not normal distributed(Shapiro-Wilk) with significant level: %d\n"</span>, p_sw_value)
+<span class="keyword">else</span>
+    fprintf(<span class="string">"Video Quality is normal distributed(Shapiro-Wilk) with significant level:%d\n"</span>,p_sw_value)
+<span class="keyword">end</span>
 
 
-h =
-
-  logical
-
-   0
-
-
-H =
-
-  logical
-
-   0
-
-
-pValue =
-
-    0.8709
-
-
-SWstatistic =
-
-    0.9774
-
-</pre><img vspace="5" hspace="5" src="Task_04_01.png" alt=""> <p class="footer"><br><a href="https://www.mathworks.com/products/matlab/">Published with MATLAB&reg; R2018a</a><br></p></div><!--
+<span class="comment">%QQ-Plot</span>
+subplot(2,1,2);
+qqplot(t_game4_condition26.VQ');
+title(<span class="string">'QQ Plotof Video Quality versus Standard Normal'</span>);
+</pre><pre class="codeoutput">Video Quality is normal distributed(Kolmogrov-Smirnov-Test) with significant level:7.431306e-01
+Video Quality is normal distributed(Shapiro-Wilk) with significant level:8.708964e-01
+</pre><img vspace="5" hspace="5" src="Task_04_01.png" alt=""> <p class="footer"><br><a href="https://www.mathworks.com/products/matlab/">Published with MATLAB&reg; R2019b</a><br></p></div><!--
 ##### SOURCE BEGIN #####
-T = readtable("Gaming_Video_Quality_dataset.xlsx");
+T = readtable("..\..\Gaming_Video_Quality_dataset.xlsx");
 t_game4_condition26 = T(T.Condition == 26 & T.Game == "Game4" ,:);
 
-%QQ-Plot
-figure
-qqplot(t_game4_condition26.VQ');
-title('QQ Plot of Video Quality versus Standard Normal');
-ylabel('VQ');
-
-%Kolmogorov-Smirnov
-ks_std = std(t_game4_condition26.VQ)
-ks_mean = mean(t_game4_condition26.VQ)
-z_values = (t_game4_condition26.VQ-ks_mean )/ks_std
-%if 1 = no normal distribution, if 0 = normal distribution
-h = kstest(z_values)
-%plot for Kolmogorov-Smirnov
+%ND
+ks_std = std(t_game4_condition26.VQ);
+ks_mean = mean(t_game4_condition26.VQ);
+z_values = (t_game4_condition26.VQ-ks_mean )/ks_std;
+%plot for cumulate distribution
+subplot(2,1,1);
 cdfplot(z_values)
 hold on
 x_values = linspace(min(z_values),max(z_values));
 %values and color of nd line
 plot(x_values,normcdf(x_values,0,1),'r-')
-title('Cumulative Distribution Functions')
-legend('Empirical CDF','Standard Normal CDF','Location','best')
+title('Cumulative Distribution Functions');
+legend('Empirical CDF','Standard Normal CDF','Location','best');
 
+%Kolmogorov-Smirnov
+%if 1 = no normal distribution, if 0 = normal distribution
+%significance < 0,05,               significance >= 0,05: 
+[h_ks,p_ks_value] = kstest(z_values);
+if(h_ks==1)
+    fprintf("Video Quality is not normal distributed(Kolmogrov-Smirnov-Test) with significant level:%d\n", p_ks_value)
+else
+    fprintf("Video Quality is normal distributed(Kolmogrov-Smirnov-Test) with significant level:%d\n",p_ks_value)
+end
 
 %Shapiro-Wilk 
-[H, pValue, SWstatistic] = swtest(t_game4_condition26.VQ, 0.05)
+% performs the Shapiro-Wilk test to determine if the null hypothesis of composite
+% normality is a reasonable assumption of a given distribution. 
+%   The Shapiro-Wilk and Shapiro-Francia null hypothesis is: 
+%   "X is normal with unspecified mean and variance."
+% - pVAlueis the p-value, or the probability of observing the given
+%   result by chance given that the null hypothesis is true
+% - H
+%     H = 0 => Do not reject the null hypothesis at significance level ALPHA.
+%     H = 1 => Reject the null hypothesis at significance level ALPHA.
+%  if 1 = no normal distribution, if 0 = normal distribution
+%  significance < 0,05,               significance >= 0,05: 
+[h_sw, p_sw_value, SWstatistic] = swtest(t_game4_condition26.VQ, 0.05);
+
+if(h_sw==1)
+    fprintf("Video Quality is not normal distributed(Shapiro-Wilk) with significant level: %d\n", p_sw_value)
+else
+    fprintf("Video Quality is normal distributed(Shapiro-Wilk) with significant level:%d\n",p_sw_value)
+end
+
+
+%QQ-Plot
+subplot(2,1,2);
+qqplot(t_game4_condition26.VQ');
+title('QQ Plotof Video Quality versus Standard Normal');
 
 ##### SOURCE END #####
 --></body></html>
