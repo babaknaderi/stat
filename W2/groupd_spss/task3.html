@@ -50,7 +50,8 @@ fieldset { padding: 10px; background:#fbfbfb; border-radius:5px; margin-bottom:5
 		</div>
 		<div  class="panel-collapse collapse in" id="setup">
 			<div class="panel-body" >
-			  <p>Import data from the “CS participants” tab of the excel file and make sure to check the option “Read variables names from first row of data”.</p>
+			  <p>Import data from the “CS participants” tab of the excel file and make sure to check the option “Read variables names from first row of data”.
+			  <img src="./imgs/t3/1.jpg" alt="Load file" style="width:auto;height:450px;"></p>
 			</div>
 		</div>
 
@@ -69,15 +70,20 @@ fieldset { padding: 10px; background:#fbfbfb; border-radius:5px; margin-bottom:5
 			  	<fieldset><label>Step 1: Calculate the age of the participants in a new variable based on their birthyear.</label>
 					<ol>
 						<li>Transform -> Compute Variable</li>
+						<img src="./imgs/t3/task_3_img_1.png" alt="Compute Variable" style="width:auto;height:350px;">
 						<li>Give the new variable the label “Age”</li>
 						<li>In the “Numeric Expression” field write the expression for calculating the participants age (current year minus “Birthyear” variable)</li>
+						<img src="./imgs/t3/task_3_img_2.png" alt="birthyear" style="width:auto;height:450px;">
 					</ol>
 				</fieldset>
 				<fieldset><label>Step2: Recode the “Age” variable in 4 categories: 18-25, 26-35, 36-50, 50+</label>
 					<ol>
 						<li>Transform -> Recode into Different Variables</li>
+						<img src="./imgs/t3/task_3_img_3.png" alt="Recode" style="width:auto;height:300px;">
 						<li>Add the “Age” variable to the list of variables to be recoded and enter in the “Name” field the name of the new variable (e.g. “Age_Category”)</li>
-						<li>Click on “Old and New Values” to define the new categories -> In the “Old Value” section choose the values you want to bind in a specific category and in the “New Value” section choose the value you want to recode to. - 35</li>
+						<img src="./imgs/t3/task_3_img_4.png" alt="Restructure" style="width:auto;height:350px;">
+						<li>Click on “Old and New Values” to define the new categories -> In the “Old Value” section choose the values you want to bind in a specific category and in the “New Value” section choose the value you want to recode to.</li>
+						<img src="./imgs/t3/task_3_img_5.png" alt="Restructure" style="width:auto;height:350px;">
 					</ol>
 					<p style="color:#FF0000;">Note that each of the for categories gets a number from 1 to 4 assigned, so that for e.g. the values from 18 to 25 will be replace by 1, the values from 26 to 35 by 2 and so on</p>
 				</fieldset>
@@ -86,7 +92,9 @@ fieldset { padding: 10px; background:#fbfbfb; border-radius:5px; margin-bottom:5
 						<li>Navigate to the “Variable View” -> Click in the “Value” column of the “Age_Category” variable</li>
 						<li>Create a label for each of the values (1,2,3,4)</li>
 					</ol>
-					<p style="color:#FF0000;">Make sure that the value of the “Decimals” column for the “Age_Category” value is null</p>
+					<p style="color:#FF0000;">Make sure that the value of the “Decimals” column for the “Age_Category” value is null
+						<img src="./imgs/t3/4.jpg" alt="Obacht!" style="width:auto;height:45px;">
+					</p>
 				</fieldset>
 			</div>
 		</div>
@@ -98,13 +106,12 @@ fieldset { padding: 10px; background:#fbfbfb; border-radius:5px; margin-bottom:5
 	<div class="panel panel-primary">
 		<div class="panel-heading">
 			<h3 class="panel-title">
-				<a data-target="#output" data-toggle="collapse" >Output of XXXX</a>
+				<a data-target="#output" data-toggle="collapse" >Output</a>
 			</h3>
 		</div>
 		<div  class="panel-collapse collapse in" id="output">
 			<div class="panel-body" >
-			  <p> Explain the output with sceenshots</p>
-			  	
+				<img src="./imgs/t3/task_3_img_6.png" alt="Restructure" style="width:auto;height:300px;">
 			</div>
 		</div>
 

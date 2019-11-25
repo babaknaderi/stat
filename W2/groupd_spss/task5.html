@@ -1,7 +1,7 @@
-<!DOCTYPE html>
+﻿<!DOCTYPE html>
 <html lang="en">
 <head>
-    <title>W2-Task-5</title>
+    <title>Template</title>
 
 	<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
 	<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
@@ -33,8 +33,8 @@ fieldset { padding: 10px; background:#fbfbfb; border-radius:5px; margin-bottom:5
 		</div>
 		<div  class="panel-collapse collapse in" id="instruction">
 			<div class="panel-body" >
-			  <p>Transform all VQ data from a 7-point scale to a 5-point scale and normalize it to [1 , 4.5].</p>
-			  <p>Dataset: Gaming_Video_Quality_dataset.xlsx</p>
+			  <p>Task 5 : Transform all VQ data of 7-point scale to 5-point scale and normalize it to [1, 4.5]
+			  </p>
 			</div>
 		</div>
 
@@ -50,7 +50,10 @@ fieldset { padding: 10px; background:#fbfbfb; border-radius:5px; margin-bottom:5
 		</div>
 		<div  class="panel-collapse collapse in" id="setup">
 			<div class="panel-body" >
-			  	<p>Simply import the data from the Excel file.</p>
+			  
+                <p>Import all VQ data from Excel file</p>
+                 
+			  
 			</div>
 		</div>
 
@@ -66,24 +69,40 @@ fieldset { padding: 10px; background:#fbfbfb; border-radius:5px; margin-bottom:5
 		</div>
 		<div  class="panel-collapse collapse in" id="process">
 			<div class="panel-body" >
-			   	<fieldset><label>Step 1: Transform all VQ data of 7-point scale to 5-point scale</label>
-					<ol>
-						<li>Click "Transform" -> "Compute Variable"</li>
-						<li>In the “Target Variable” field write “VQ”</li>
-						<li>In the “Numeric Expression” field write the expression for converting a 7-point scale to a 5-point scale according to the Köster et. Al research paper
-							<p style="color:#FF0000;">The formula assumes that the 7-point scale spans between 0 and 6. We adapt the formula for a 7-point scale from 1 to 7.</p>
-				  			<fieldset><img src="./imgs/t5/t5_formula.png" alt="MOS_ACR = (-0.0262*(VQ-1)^3 + 0.2368*(VQ-1)^2 + 0.1907*(VQ-1)+ 1)" style="width:auto;height:150px;"></li>
-				  			<p>The intermediate result looks like this:</p>
-							<fieldset><img src="./imgs/t5/t5_intermediate_table.png" alt="table1" style="width:auto;height:150px;"></fieldset>
-					</ol>
+			
+				<fieldset><label>Step 1: Transform all VQ data of 7-point scale to 5-point scale</label>
+					<p><ol>
+						<li> Click on Transform and choose Compute Variable</li>
+						     <div>
+							<img src="./imgs/t5/task_5_img_1.png" alt="Split File" style="width:auto;height:150px;">
+                             </div>
+						
+						<li> In the “Target Variable” field write “VQ” and in the “Numeric Expression” field write the expression for converting a 7-point scale to a 5-point scale according to Köster et. Al research paper.</li>
+						 <div>						 <p style=" color: red"> (-0.0262*(VQ-1)**3 + 0.2368*(VQ-1)**2 + 0.1907*(VQ-1)+ 1)</p> </div>
+
+						<p> The formula assumes that the 7-point scale spans between 0 and 6. We adapt the formula for a 7-point scale from 1 to 7 </p>
+						<img src="./imgs/t5/task_5_img_2.png"Open Graph Builder" style="width:auto;height:500px;">
+						
+					</ol></p>
 				</fieldset>
-				<fieldset><label>Step 2: Normalize the values of VQ to [1, 4.5].</label>
-					<ol>
-						<li>Click "Transform" -> Compute Variable</li>
-						<li>In the “Target Variable” field write “VQ”</li>
-						<li>In the “Numeric Expression” field write the expression for linear scaling to a given interval (MOSnorm = (mos-minMOS)/(maxMOS-minMOS) * 3.5 + 1)</li>
-					</ol>
+
+                <fieldset><label>Step  2: Normalize the values of VQ to [1, 4.5]</label>
+					<p><ol>
+						<li> Click on Transform and choose Compute Variable</li>
+						     <div>
+							<img src="./imgs/t5/task_5_img_1.png" alt="Split File" style="width:auto;height:150px;">
+                             </div>
+						
+						<li>In the “Target Variable” field write “VQ” and in the “Numeric Expression” field write the expression for linear scaling to a given interval (MOSnorm = (mos-minMOS)/(maxMOS-minMOS) * 3.5 + 1)</li>
+						
+						<img src="./imgs/t5/task_5_img_4.png"Open Graph Builder" style="width:auto;height:500px;">
+						
+					</ol></p>
 				</fieldset>
+
+
+
+
 			</div>
 		</div>
 
@@ -94,14 +113,16 @@ fieldset { padding: 10px; background:#fbfbfb; border-radius:5px; margin-bottom:5
 	<div class="panel panel-primary">
 		<div class="panel-heading">
 			<h3 class="panel-title">
-				<a data-target="#output" data-toggle="collapse" >Output of XXXX</a>
+				<a data-target="#output" data-toggle="collapse" >Output</a>
 			</h3>
 		</div>
 		<div  class="panel-collapse collapse in" id="output">
 			<div class="panel-body" >
-				<fieldset><label>The final result looks like this:</label>
-					<fieldset><img src="./imgs/t5/t5_final_table.png" alt="table1" style="width:auto;height:150px;"></fieldset>
-				</fieldset>
+			  	<FIELDSET><label>Output1:</label>
+				<FIELDSET><img src="./imgs/t5/task_5_img_3.png" alt="Output-480" style="width:auto;height:150px;"></FIELDSET>
+				<label> Output2 </label>
+				<FIELDSET><img src="./imgs/t5/task_5_img_5.png" alt="Output-480" style="width:auto;height:150px;"></FIELDSET>
+				</FIELDSET>	  	
 			</div>
 		</div>
 
