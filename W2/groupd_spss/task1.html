@@ -53,26 +53,36 @@ fieldset { padding: 10px; background:#fbfbfb; border-radius:5px; margin-bottom:5
 			  	<fieldset><label>Step 1: Modify Excel file.</label></fieldset>
 				  	<ol>
 				  		<li>In the Excel-file compute the values of the “condition” column based on the “files” column. You can use the MID()/TEIL() function which returns the substring of the filename corresponding to the condition value, e.g. MID(A2;7;1)</li>
+			  			<img src="./imgs/t1/1.jpg" alt="Manipulate Excel" style="width:auto;height:90px;">
 				  		<li>Open the “CS-per file” worksheet in SPSS and make sure to check the option “Read variables names from first row of data”.</li>
-			  			<img src="./imgs/t1/t1p1.png" alt="Load file" style="width:auto;height:550px;">		  			
+			  			<img src="./imgs/t1/2.jpg" alt="Load file" style="width:auto;height:500px;">		  			
 				  	</ol>
 			  	<fieldset><label>Step 2: Rearrange ratings into one column</label>
 					<p>In the "Data View" tab, you can see that the ratings are spread over multiple columns. In order to calculate the descriptive statistics, you need to create a new variable that holds all ratings from P1-P18 in one column. To achieve that, perform the following steps:
 					<ol>
 						<li>Data -> Restructure -> Select “Restructure selected variables into cases” -> Select “One” for the number of variable groups</li>
-						<li>Add all the ratings P1 to P18 in the “Variables to be Transposed” section and give the new variable a significant name (e.g. “reviews”)</li>
+						<img src="./imgs/t1/3a.jpg" alt="Restructure" style="width:auto;height:450px;">		 			
+						<img src="./imgs/t1/3b.jpg" alt="Restructure" style="width:auto;height:450px;">
+						<img src="./imgs/t1/3c.jpg" alt="Restructure" style="width:auto;height:450px;">
+						<li>Add all the ratings P1 to P18 in the “Variables to be Transposed” section and give the new variable a significant name (e.g. “reviews”)</li>						
 						<li>Add the “condition” and “files” variables to the “Fixed Variable(s)” section in order to keep them when restructuring the data</li>
+						<img src="./imgs/t1/3d.jpg" alt="Restructure" style="width:auto;height:450px;">
 						<li>Select “One” for the nr. of index variables</li>
+						<img src="./imgs/t1/3e.jpg" alt="Restructure" style="width:auto;height:450px;">
 						<li>In the next step select “Variable names” for the index values and rename the index (e.g. “ratings_no”)</li>
+						<img src="./imgs/t1/3f.jpg" alt="Restructure" style="width:auto;height:450px;">
 						<li>In the “Handling of Variables not Selected” section check the “Drop variable(s) from the new data file” as we already specified that we want to keep the “files” and “condition” columns</li>
-						<img src="./imgs/t1/t1p2.png" alt="Rearrange ratings" style="width:auto;height:550px;">
+						<img src="./imgs/t1/3g.jpg" alt="Restructure" style="width:auto;height:450px;">
+						<img src="./imgs/t1/3h.jpg" alt="Restructure" style="width:auto;height:450px;">
 					</ol></p>
 				</fieldset>
 				<fieldset><label>Step 3: Split the data</label>
 					<p>You want to split the data regarding the “condition” variable in order to create an output per condition.
 					<ol>
 						<li>Split File > Check option “Organize output by groups”</li>
+						<img src="./imgs/t1/4a.jpg" alt="Split" style="width:auto;height:450px;">
 						<li>Add “condition” to be the variable groups are based on</li>
+						<img src="./imgs/t1/4b.jpg" alt="Restructure" style="width:auto;height:350px;">
 					</ol></p>
 				</fieldset>
 			</div>
@@ -94,8 +104,11 @@ fieldset { padding: 10px; background:#fbfbfb; border-radius:5px; margin-bottom:5
 					<p>To perform the actual task, follow these steps:
 					<ol>
 						<li>Analyse -> Compare Means -> One-Sample T Test</li>
-						<li>Add the “ratings” variable to the list of “Test Variable(s)”</li>
+						<img src="./imgs/t1/5a.jpg" alt="Restructure" style="width:auto;height:450px;">
+						<li>Add the “Reviews” variable to the list of “Test Variable(s)”</li>
+						<img src="./imgs/t1/5b.jpg" alt="Restructure" style="width:auto;height:200px;">
 						<li>Click on the “Options…” button -> Enter 95 for the value of the “Confidence Interval Percentage”</li>
+						<img src="./imgs/t1/5c.jpg" alt="Restructure" style="width:auto;height:200px;">
 					</ol></p>
 				</fieldset>
 			</div>
@@ -114,7 +127,10 @@ fieldset { padding: 10px; background:#fbfbfb; border-radius:5px; margin-bottom:5
 		<div  class="panel-collapse collapse in" id="output">
 			<div class="panel-body" >
 			  	<FIELDSET><label>Output</label>
-				
+				<p>
+					<img src="./imgs/t1/output.jpg" alt="Restructure" style="width:auto;height:375px;">
+					<img src="./imgs/t1/output2.jpg" alt="Restructure" style="width:auto;height:450px;">
+				</p>
 				</FIELDSET>	  	
 			</div>
 		</div>
