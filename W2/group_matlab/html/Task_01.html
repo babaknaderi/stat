@@ -1,0 +1,174 @@
+
+<!DOCTYPE html
+  PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+<html><head>
+      <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+   <!--
+This HTML was auto-generated from MATLAB code.
+To make changes, update the MATLAB code and republish this document.
+      --><title>Task_01</title><meta name="generator" content="MATLAB 9.4"><link rel="schema.DC" href="http://purl.org/dc/elements/1.1/"><meta name="DC.date" content="2019-11-25"><meta name="DC.source" content="Task_01.m"><style type="text/css">
+html,body,div,span,applet,object,iframe,h1,h2,h3,h4,h5,h6,p,blockquote,pre,a,abbr,acronym,address,big,cite,code,del,dfn,em,font,img,ins,kbd,q,s,samp,small,strike,strong,sub,sup,tt,var,b,u,i,center,dl,dt,dd,ol,ul,li,fieldset,form,label,legend,table,caption,tbody,tfoot,thead,tr,th,td{margin:0;padding:0;border:0;outline:0;font-size:100%;vertical-align:baseline;background:transparent}body{line-height:1}ol,ul{list-style:none}blockquote,q{quotes:none}blockquote:before,blockquote:after,q:before,q:after{content:'';content:none}:focus{outine:0}ins{text-decoration:none}del{text-decoration:line-through}table{border-collapse:collapse;border-spacing:0}
+
+html { min-height:100%; margin-bottom:1px; }
+html body { height:100%; margin:0px; font-family:Arial, Helvetica, sans-serif; font-size:10px; color:#000; line-height:140%; background:#fff none; overflow-y:scroll; }
+html body td { vertical-align:top; text-align:left; }
+
+h1 { padding:0px; margin:0px 0px 25px; font-family:Arial, Helvetica, sans-serif; font-size:1.5em; color:#d55000; line-height:100%; font-weight:normal; }
+h2 { padding:0px; margin:0px 0px 8px; font-family:Arial, Helvetica, sans-serif; font-size:1.2em; color:#000; font-weight:bold; line-height:140%; border-bottom:1px solid #d6d4d4; display:block; }
+h3 { padding:0px; margin:0px 0px 5px; font-family:Arial, Helvetica, sans-serif; font-size:1.1em; color:#000; font-weight:bold; line-height:140%; }
+
+a { color:#005fce; text-decoration:none; }
+a:hover { color:#005fce; text-decoration:underline; }
+a:visited { color:#004aa0; text-decoration:none; }
+
+p { padding:0px; margin:0px 0px 20px; }
+img { padding:0px; margin:0px 0px 20px; border:none; }
+p img, pre img, tt img, li img, h1 img, h2 img { margin-bottom:0px; } 
+
+ul { padding:0px; margin:0px 0px 20px 23px; list-style:square; }
+ul li { padding:0px; margin:0px 0px 7px 0px; }
+ul li ul { padding:5px 0px 0px; margin:0px 0px 7px 23px; }
+ul li ol li { list-style:decimal; }
+ol { padding:0px; margin:0px 0px 20px 0px; list-style:decimal; }
+ol li { padding:0px; margin:0px 0px 7px 23px; list-style-type:decimal; }
+ol li ol { padding:5px 0px 0px; margin:0px 0px 7px 0px; }
+ol li ol li { list-style-type:lower-alpha; }
+ol li ul { padding-top:7px; }
+ol li ul li { list-style:square; }
+
+.content { font-size:1.2em; line-height:140%; padding: 20px; }
+
+pre, code { font-size:12px; }
+tt { font-size: 1.2em; }
+pre { margin:0px 0px 20px; }
+pre.codeinput { padding:10px; border:1px solid #d3d3d3; background:#f7f7f7; }
+pre.codeoutput { padding:10px 11px; margin:0px 0px 20px; color:#4c4c4c; }
+pre.error { color:red; }
+
+@media print { pre.codeinput, pre.codeoutput { word-wrap:break-word; width:100%; } }
+
+span.keyword { color:#0000FF }
+span.comment { color:#228B22 }
+span.string { color:#A020F0 }
+span.untermstring { color:#B20000 }
+span.syscmd { color:#B28C00 }
+
+.footer { width:auto; padding:10px 0px; margin:25px 0px 0px; border-top:1px dotted #878787; font-size:0.8em; line-height:140%; font-style:italic; color:#878787; text-align:left; float:none; }
+.footer p { margin:0px; }
+.footer a { color:#878787; }
+.footer a:hover { color:#878787; text-decoration:underline; }
+.footer a:visited { color:#878787; }
+
+table th { padding:7px 5px; text-align:left; vertical-align:middle; border: 1px solid #d6d4d4; font-weight:bold; }
+table td { padding:7px 5px; text-align:left; vertical-align:top; border:1px solid #d6d4d4; }
+
+
+
+
+
+  </style></head><body><div class="content"><pre class="codeinput">T_Cond = readtable(<span class="string">"Speech_quality_crowdsourcing_dataset.xlsx"</span>,<span class="string">"Sheet"</span>,<span class="string">"CS-per condition"</span>);
+T_Csfile = readtable(<span class="string">"Speech_quality_crowdsourcing_dataset.xlsx"</span>,<span class="string">"Sheet"</span>,<span class="string">"CS-per file"</span>);
+
+<span class="keyword">for</span> i = 1:48
+    <span class="keyword">if</span> 10 &gt; i
+        cond = strcat(<span class="string">"c0"</span>, num2str(i));
+    <span class="keyword">else</span>
+        cond = strcat(<span class="string">"c"</span>, num2str(i));
+    <span class="keyword">end</span>
+
+    A = table2array(T_Csfile(contains(T_Csfile.files, cond),4:21));
+    N = length(A(~isnan(A)));
+    T_Cond.n{i} = N;
+    T_Cond.MOS{i} = nanmean(A(:));
+    T_Cond.STD{i} = nanstd(A(:));
+
+    t_score = tinv([0.025 0.975], N-1);
+    B =  nanmean(A(:)) + t_score*(nanstd(A(:))/sqrt(N));
+    T_Cond.CI95{i} = diff(B')'/2;
+<span class="keyword">end</span>
+
+T_Cond
+</pre><pre class="codeoutput">
+T_Cond =
+
+  48&times;5 table
+
+    condition      MOS         STD         CI95        n  
+    _________    ________    ________    ________    _____
+
+      'c01'      [4.8364]    [0.4294]    [0.0579]    [214]
+      'c02'      [1.5413]    [0.5845]    [0.0780]    [218]
+      'c03'      [4.3519]    [0.8048]    [0.1079]    [216]
+      'c04'      [2.7834]    [0.9149]    [0.1224]    [217]
+      'c05'      [3.5370]    [0.7336]    [0.0984]    [216]
+      'c06'      [4.6233]    [0.5489]    [0.0738]    [215]
+      'c07'      [3.6651]    [1.0377]    [0.1405]    [212]
+      'c08'      [3.9340]    [0.7256]    [0.0982]    [212]
+      'c09'      [3.1174]    [0.8580]    [0.1159]    [213]
+      'c10'      [4.5182]    [0.6444]    [0.0856]    [220]
+      'c11'      [4.2466]    [0.7811]    [0.1031]    [223]
+      'c12'      [1.5047]    [0.7121]    [0.0964]    [212]
+      'c13'      [4.4645]    [0.6267]    [0.0851]    [211]
+      'c14'      [2.7793]    [0.9079]    [0.1201]    [222]
+      'c15'      [3.5409]    [1.0740]    [0.1427]    [220]
+      'c16'      [3.6804]    [0.7946]    [0.1058]    [219]
+      'c17'      [4.2297]    [0.9532]    [0.1300]    [209]
+      'c18'      [3.0780]    [1.0288]    [0.1373]    [218]
+      'c19'      [4.5095]    [0.6205]    [0.0844]    [210]
+      'c20'      [2.7876]    [0.8584]    [0.1125]    [226]
+      'c21'      [3.0275]    [0.8365]    [0.1117]    [218]
+      'c22'      [2.8679]    [0.8212]    [0.1112]    [212]
+      'c23'      [3.7324]    [1.0041]    [0.1356]    [213]
+      'c24'      [1.4977]    [0.6917]    [0.0917]    [221]
+      'c25'      [4.2995]    [0.8686]    [0.1190]    [207]
+      'c26'      [1.5069]    [0.6392]    [0.0855]    [217]
+      'c27'      [2.7308]    [0.9803]    [0.1340]    [208]
+      'c28'      [2.3274]    [0.8195]    [0.1082]    [223]
+      'c29'      [2.9539]    [0.9466]    [0.1267]    [217]
+      'c30'      [1.9548]    [0.7433]    [0.0985]    [221]
+      'c31'      [3.1284]    [0.8965]    [0.1197]    [218]
+      'c32'      [2.8148]    [0.8589]    [0.1152]    [216]
+      'c33'      [3.3620]    [1.0069]    [0.1335]    [221]
+      'c34'      [3.3194]    [0.8544]    [0.1146]    [216]
+      'c35'      [2.7150]    [0.8381]    [0.1129]    [214]
+      'c36'      [2.4429]    [1.0092]    [0.1344]    [219]
+      'c37'      [3.3077]    [0.8287]    [0.1099]    [221]
+      'c38'      [2.0776]    [0.9028]    [0.1202]    [219]
+      'c39'      [3.0741]    [0.6915]    [0.0927]    [216]
+      'c40'      [3.2928]    [0.7490]    [0.0991]    [222]
+      'c41'      [2.1469]    [0.9166]    [0.1244]    [211]
+      'c42'      [2.5166]    [0.8068]    [0.1095]    [211]
+      'c43'      [4.5315]    [0.6635]    [0.0878]    [222]
+      'c44'      [4.6758]    [0.5666]    [0.0755]    [219]
+      'c45'      [3.8597]    [0.9598]    [0.1272]    [221]
+      'c46'      [3.7342]    [1.0052]    [0.1330]    [222]
+      'c47'      [4.5833]    [0.6206]    [0.0810]    [228]
+      'c48'      [3.6652]    [0.8361]    [0.1101]    [224]
+
+</pre><p class="footer"><br><a href="https://www.mathworks.com/products/matlab/">Published with MATLAB&reg; R2018a</a><br></p></div><!--
+##### SOURCE BEGIN #####
+T_Cond = readtable("Speech_quality_crowdsourcing_dataset.xlsx","Sheet","CS-per condition");
+T_Csfile = readtable("Speech_quality_crowdsourcing_dataset.xlsx","Sheet","CS-per file");
+
+for i = 1:48
+    if 10 > i
+        cond = strcat("c0", num2str(i));
+    else
+        cond = strcat("c", num2str(i));
+    end
+    
+    A = table2array(T_Csfile(contains(T_Csfile.files, cond),4:21));
+    N = length(A(~isnan(A)));
+    T_Cond.n{i} = N;
+    T_Cond.MOS{i} = nanmean(A(:));
+    T_Cond.STD{i} = nanstd(A(:));
+    
+    t_score = tinv([0.025 0.975], N-1);
+    B =  nanmean(A(:)) + t_score*(nanstd(A(:))/sqrt(N));
+    T_Cond.CI95{i} = diff(B')'/2;
+end
+
+T_Cond
+
+##### SOURCE END #####
+--></body></html>

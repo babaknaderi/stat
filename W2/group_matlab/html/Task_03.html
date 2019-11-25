@@ -1,0 +1,224 @@
+
+<!DOCTYPE html
+  PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+<html><head>
+      <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+   <!--
+This HTML was auto-generated from MATLAB code.
+To make changes, update the MATLAB code and republish this document.
+      --><title>Task_03</title><meta name="generator" content="MATLAB 9.4"><link rel="schema.DC" href="http://purl.org/dc/elements/1.1/"><meta name="DC.date" content="2019-11-25"><meta name="DC.source" content="Task_03.m"><style type="text/css">
+html,body,div,span,applet,object,iframe,h1,h2,h3,h4,h5,h6,p,blockquote,pre,a,abbr,acronym,address,big,cite,code,del,dfn,em,font,img,ins,kbd,q,s,samp,small,strike,strong,sub,sup,tt,var,b,u,i,center,dl,dt,dd,ol,ul,li,fieldset,form,label,legend,table,caption,tbody,tfoot,thead,tr,th,td{margin:0;padding:0;border:0;outline:0;font-size:100%;vertical-align:baseline;background:transparent}body{line-height:1}ol,ul{list-style:none}blockquote,q{quotes:none}blockquote:before,blockquote:after,q:before,q:after{content:'';content:none}:focus{outine:0}ins{text-decoration:none}del{text-decoration:line-through}table{border-collapse:collapse;border-spacing:0}
+
+html { min-height:100%; margin-bottom:1px; }
+html body { height:100%; margin:0px; font-family:Arial, Helvetica, sans-serif; font-size:10px; color:#000; line-height:140%; background:#fff none; overflow-y:scroll; }
+html body td { vertical-align:top; text-align:left; }
+
+h1 { padding:0px; margin:0px 0px 25px; font-family:Arial, Helvetica, sans-serif; font-size:1.5em; color:#d55000; line-height:100%; font-weight:normal; }
+h2 { padding:0px; margin:0px 0px 8px; font-family:Arial, Helvetica, sans-serif; font-size:1.2em; color:#000; font-weight:bold; line-height:140%; border-bottom:1px solid #d6d4d4; display:block; }
+h3 { padding:0px; margin:0px 0px 5px; font-family:Arial, Helvetica, sans-serif; font-size:1.1em; color:#000; font-weight:bold; line-height:140%; }
+
+a { color:#005fce; text-decoration:none; }
+a:hover { color:#005fce; text-decoration:underline; }
+a:visited { color:#004aa0; text-decoration:none; }
+
+p { padding:0px; margin:0px 0px 20px; }
+img { padding:0px; margin:0px 0px 20px; border:none; }
+p img, pre img, tt img, li img, h1 img, h2 img { margin-bottom:0px; } 
+
+ul { padding:0px; margin:0px 0px 20px 23px; list-style:square; }
+ul li { padding:0px; margin:0px 0px 7px 0px; }
+ul li ul { padding:5px 0px 0px; margin:0px 0px 7px 23px; }
+ul li ol li { list-style:decimal; }
+ol { padding:0px; margin:0px 0px 20px 0px; list-style:decimal; }
+ol li { padding:0px; margin:0px 0px 7px 23px; list-style-type:decimal; }
+ol li ol { padding:5px 0px 0px; margin:0px 0px 7px 0px; }
+ol li ol li { list-style-type:lower-alpha; }
+ol li ul { padding-top:7px; }
+ol li ul li { list-style:square; }
+
+.content { font-size:1.2em; line-height:140%; padding: 20px; }
+
+pre, code { font-size:12px; }
+tt { font-size: 1.2em; }
+pre { margin:0px 0px 20px; }
+pre.codeinput { padding:10px; border:1px solid #d3d3d3; background:#f7f7f7; }
+pre.codeoutput { padding:10px 11px; margin:0px 0px 20px; color:#4c4c4c; }
+pre.error { color:red; }
+
+@media print { pre.codeinput, pre.codeoutput { word-wrap:break-word; width:100%; } }
+
+span.keyword { color:#0000FF }
+span.comment { color:#228B22 }
+span.string { color:#A020F0 }
+span.untermstring { color:#B20000 }
+span.syscmd { color:#B28C00 }
+
+.footer { width:auto; padding:10px 0px; margin:25px 0px 0px; border-top:1px dotted #878787; font-size:0.8em; line-height:140%; font-style:italic; color:#878787; text-align:left; float:none; }
+.footer p { margin:0px; }
+.footer a { color:#878787; }
+.footer a:hover { color:#878787; text-decoration:underline; }
+.footer a:visited { color:#878787; }
+
+table th { padding:7px 5px; text-align:left; vertical-align:middle; border: 1px solid #d6d4d4; font-weight:bold; }
+table td { padding:7px 5px; text-align:left; vertical-align:top; border:1px solid #d6d4d4; }
+
+
+
+
+
+  </style></head><body><div class="content"><pre class="codeinput">T = readtable(<span class="string">"Speech_quality_crowdsourcing_dataset.xlsx"</span>,<span class="string">"Sheet"</span>,<span class="string">"CS participants"</span>);
+this_year = year(datetime(<span class="string">'now'</span>));
+years = T.BirthYear';
+age = [];
+
+<span class="keyword">for</span> i=1 : length(years)
+ years(i)= this_year-years(i);
+<span class="keyword">end</span>
+
+ages = years;
+<span class="comment">%x-axsis range</span>
+           <span class="comment">% bis 18,  18-25,26-36,36-50</span>
+ranges = [    18,     26,   36,    51 inf];
+            <span class="comment">% 0     1       2     3      4</span>
+[bincounts,ind] = histcounts(ages,ranges)
+figure(1)
+
+<span class="comment">%label names</span>
+binranges_names = []
+<span class="keyword">for</span> i=1: length(ranges)-1
+    <span class="comment">%define lower and upper ranges [18-25], [25-35] ...</span>
+    str=ranges(i)+<span class="string">"-"</span>+num2str(ranges(i+1)-1)
+    binranges_names{i} = str
+<span class="keyword">end</span>
+
+<span class="comment">%last lable should not be [50 - inf] but 50&gt;</span>
+binranges_names{end}=sprintf(<span class="string">'&gt;%d'</span>,ranges(end-1));
+<span class="comment">%problem: histgram only takes concrete values for x-axis, not ranges (if ranges, than the bar</span>
+<span class="comment">%will be very wide (depends on the range). To have same bar width we only set the middle value)</span>
+centers=ranges(1:(end-1))+diff(ranges(1:2));
+centers=[1,2,3,4]
+<span class="comment">%plote</span>
+bar(centers,bincounts)
+<span class="comment">%set x axis to center values</span>
+xticks(centers)
+
+<span class="comment">%overwrite the x-axis values to range names</span>
+set(gca,<span class="string">'XTickLabels'</span>,binranges_names)
+<span class="comment">%rotate label for nicer view</span>
+set(gca,<span class="string">'XTickLabelRotation'</span>,60)
+</pre><pre class="codeoutput">Warning: Variable names were modified to make them valid MATLAB identifiers. The
+original names are saved in the VariableDescriptions property. 
+
+bincounts =
+
+     4    27    22    18
+
+
+ind =
+
+    18    26    36    51   Inf
+
+
+binranges_names =
+
+     []
+
+
+str = 
+
+    "18-25"
+
+
+binranges_names =
+
+  1&times;1 cell array
+
+    {["18-25"]}
+
+
+str = 
+
+    "26-35"
+
+
+binranges_names =
+
+  1&times;2 cell array
+
+    {["18-25"]}    {["26-35"]}
+
+
+str = 
+
+    "36-50"
+
+
+binranges_names =
+
+  1&times;3 cell array
+
+    {["18-25"]}    {["26-35"]}    {["36-50"]}
+
+
+str = 
+
+    "51-Inf"
+
+
+binranges_names =
+
+  1&times;4 cell array
+
+    {["18-25"]}    {["26-35"]}    {["36-50"]}    {["51-Inf"]}
+
+
+centers =
+
+     1     2     3     4
+
+</pre><img vspace="5" hspace="5" src="Task_03_01.png" alt=""> <p class="footer"><br><a href="https://www.mathworks.com/products/matlab/">Published with MATLAB&reg; R2018a</a><br></p></div><!--
+##### SOURCE BEGIN #####
+T = readtable("Speech_quality_crowdsourcing_dataset.xlsx","Sheet","CS participants");
+this_year = year(datetime('now'));
+years = T.BirthYear';
+age = [];
+ 
+for i=1 : length(years)
+ years(i)= this_year-years(i);
+end
+
+ages = years;
+%x-axsis range
+           % bis 18,  18-25,26-36,36-50  
+ranges = [    18,     26,   36,    51 inf];
+            % 0     1       2     3      4
+[bincounts,ind] = histcounts(ages,ranges)
+figure(1)
+
+%label names
+binranges_names = []
+for i=1: length(ranges)-1
+    %define lower and upper ranges [18-25], [25-35] ... 
+    str=ranges(i)+"-"+num2str(ranges(i+1)-1)
+    binranges_names{i} = str
+end
+
+%last lable should not be [50 - inf] but 50>
+binranges_names{end}=sprintf('>%d',ranges(end-1));
+%problem: histgram only takes concrete values for x-axis, not ranges (if ranges, than the bar
+%will be very wide (depends on the range). To have same bar width we only set the middle value) 
+centers=ranges(1:(end-1))+diff(ranges(1:2));
+centers=[1,2,3,4]
+%plote
+bar(centers,bincounts)
+%set x axis to center values
+xticks(centers)
+
+%overwrite the x-axis values to range names
+set(gca,'XTickLabels',binranges_names)
+%rotate label for nicer view
+set(gca,'XTickLabelRotation',60)
+
+
+##### SOURCE END #####
+--></body></html>
