@@ -1,3 +1,4 @@
+
 T_Full = readtable("datasets/DB04_speech_quality_crowdsourcing_dataset.xlsx","Sheet","CS -Full");
 
 T_Full.cond = extractBetween(T_Full.files, 6,8);
@@ -18,21 +19,22 @@ for i = 1 : size(uniq_conds,1)
     q3 = quantiles(2);
     IQRleft = q1 -(1.5*IQR);
     IQRright = q3 + (1.5*IQR);
+    T_cond_Z = T_cond;
+    T_zscore = table(T_cond_array, zscore(T_cond_array));
 
     
-    for x = 1: length(Z)
-        if(Z(x)>=3.29 || Z(x) < -3.29)
+    for x = 1: size(T_zscore,1)
+        if(table2array(T_zscore(x,2))>3.29 || table2array(T_zscore(x,2)) < -3.29)
             %"outlier"
-            %T_cond(:,21).Properties.VariableNames
-            or = find(table2array(T_cond) == T_cond_array(x));
-            for y = 1:length(or)
-                t1 = mod(or(y),size(T_cond,1));
-                t2 = floor(or(y)/size(T_cond,1));
-                t2 = t2 +1;
-                %"berk"
-                participants_Z(counter) = convertCharsToStrings(T_cond(t1,t2).Properties.VariableNames);
-                counter = counter +1;
-            end
+            [t1,t2] = find(table2array(T_cond_Z) == table2array(T_zscore(x,1)));
+         
+                for p = 1:length(t1)
+                    participants_Z(counter) = convertCharsToStrings(T_cond_Z(t1(p),t2(p)).Properties.VariableNames);
+                    T_cond_Z = removevars(T_cond_Z, participants_Z(counter));
+                    counter = counter + 1;
+                    
+                end
+
         end
     end
 
@@ -50,23 +52,32 @@ for i = 1 : size(uniq_conds,1)
     
 end
 
-%T_cond = T_Full(T_Full.cond ==uniq_conds(3),:);
-%T_cond_array = table2array(T_cond(:,2:end-1));
-%T_cond_array = (T_cond_array(~isnan(T_cond_array)));
+table(participants_Z')
 
-%Z = zscore(T_cond_array)
-
-%length(Z)
-
-participants_Z
-
-participants_IQR
+table(participants_IQR')
 
 [a,b]=hist(categorical(participants_Z),unique(categorical(participants_Z)));
+t_z = table(b', a');
+t_z.Properties.VariableNames = {'Worker' , 'Count'}
 
 [c,d]=hist(categorical(participants_IQR),unique(categorical(participants_IQR)));
+t_iqr = table(d',c');
+t_iqr.Properties.VariableNames = {'Worker' , 'Count'}
 
-T_Full2 = removevars(T_Full,[string(b(a>1)) string(d(c>1))]);
+t_z2 = table((b(a>1))',(a(a>1))');
+t_z2.Properties.VariableNames = {'Worker' , 'Count'}
+
+t_iqr2 = table((d(c>1))',(c(c>1))');
+t_iqr2.Properties.VariableNames = {'Worker' , 'Count'}
+
+all_in = [t_z2;t_iqr2]
+
+deleted = unique(all_in.Worker)
+
+T_Full2 = removevars(T_Full,deleted);
+size(T_Full2)
+
+size(T_Full)
 
 % Mean,STD, 95% CI
 
@@ -80,13 +91,30 @@ for i = 1 : size(uniq_conds,1)
     SEM = std(T_cond_array)/sqrt(length(T_cond_array));              
     ts = tinv([0.025  0.975],length(T_cond_array)-1);
     CI = mean(T_cond_array) + ts*SEM; 
-    CI_array(i) = diff(CI);
+    CI_array(i) = diff(CI) /2;
 end
 
-mean_array
+old_table = table(uniq_conds,mean_array');
+old_table.Std = std_array';
+old_table.CI = CI_array';
+old_table.Properties.VariableNames = {'Condition', 'Mean', 'Std', ' CI 95%'}
 
-std_array
+for i = 1 : size(uniq_conds,1)
+    T_cond = T_Full2(T_Full2.cond ==uniq_conds(i),:);
+    T_cond = T_cond(:,2:end-1);
+    T_cond_array = table2array(T_cond);
+    T_cond_array = (T_cond_array(~isnan(T_cond_array)));
+    mean_array(i) = mean(T_cond_array);
+    std_array(i) = std(T_cond_array);
+    SEM = std(T_cond_array)/sqrt(length(T_cond_array));              
+    ts = tinv([0.025  0.975],length(T_cond_array)-1);
+    CI = mean(T_cond_array) + ts*SEM; 
+    CI_array(i) = diff(CI) /2;
+end
 
-CI_array
+final_table = table(uniq_conds,mean_array');
+final_table.Std = std_array';
+final_table.CI = CI_array';
+final_table.Properties.VariableNames = {'Condition', 'Mean', 'Std', ' CI 95%'}
 
 
