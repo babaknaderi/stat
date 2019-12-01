@@ -1,0 +1,175 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <title>Week 3 Task 3</title>
+
+	<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
+	<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+	<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+	<meta content="text/html;charset=utf-8" http-equiv="Content-Type">
+	<meta content="utf-8" http-equiv="encoding">
+</head>
+
+<body>
+<style type="text/css">
+	body{font-family:Tahoma,"Times New Roman", Times, serif;}
+	p{	margin:20px; }
+	.center {
+    display: block;
+    margin-left: auto;
+    margin-right: auto;
+    width: 40%;
+}
+fieldset { padding: 10px; background:#fbfbfb; border-radius:5px; margin-bottom:5px; }
+</style>
+
+
+<section class="container" >
+	<div class="panel panel-primary">
+		<div class="panel-heading">
+			<h3 class="panel-title">
+				<a data-target="#instruction" data-toggle="collapse" >Example</a>
+			</h3>
+		</div>
+		<div  class="panel-collapse collapse in" id="instruction">
+			<div class="panel-body" >
+			  	<p>
+		  			Calculate the suitable correlation coefficients to compare the ratings from the crowd (CS-per condition) with those from the lab (Lab-per condition). Show the data distribution in a scatter plot.
+				</p>
+				<p>
+					Dataset: Speech_quality_crowdsourcing_dataset.xlsx
+				</p>
+			</div>
+		</div>
+
+	</div>
+</section>
+
+<section class="container" >
+	<div class="panel panel-primary">
+		<div class="panel-heading">
+			<h3 class="panel-title">
+				<a data-target="#setup" data-toggle="collapse" >Setup and transfering data format</a>
+			</h3>
+		</div>
+		<div  class="panel-collapse collapse in" id="setup">
+			<div class="panel-body" >
+				<fieldset>
+					<label>
+						Merge the two worksheets “CS-per condition” and “Lab-per condition” in order 
+						to have the rating values for each one in one dataset. Open both worksheets in SPSS. 
+						For merging the “Lab-per condition” data in the “CS-per condition” make sure to have
+					</label>
+					<p>
+						<b>Data</b> > <b>Merge Files</b> > <b>Add Variables</b> (we want to add the MOS variable from “Lab-per condtion” to “CS-per condition”) 	
+					</p>
+					<img src="imgs/t3/task_3_merge_files.png" alt="Merge Option Path" style="width:auto;height:300px;margin-left: 20px;">
+					<p>
+						In the “<b>Merge Method</b>” tab, select “<b>One-to-one merge based on key values</b>” and the key variable should be the “condition” variable, 
+						as this one is the one column both files have in common. 
+					</p>
+					<img src="imgs/t3/task_3_merge_files_1.png" alt="Merge Method Modal" style="width:auto;height:300px;margin-left: 20px;">
+					<p>
+						In the “<b>Variables</b>” tab, add “<b>MOS_per_lab</b>” and “<b>MOS_per_condition</b>” to the “<b>Included Variables</b>” section. The key for both variables, 
+						should be the unique variable “<b>condition</b>”. All the other datasets variables are excluded from the merging process.	
+					</p>
+					<img src="imgs/t3/task_3_merge_files_2.png" alt="Merge Method Modal" style="width:auto;height:300px;margin-left: 20px;">
+					<p>
+						<b>Result of merge</b>: dataset with 3 variables
+					</p>
+					<img src="imgs/t3/task_3_merge_files_output.png" alt="Merge Output" style="width:auto;height:200px;margin-left: 20px;">
+				</fieldset>
+			</div>
+		</div>
+
+	</div>
+</section> 
+
+<section class="container" >
+	<div class="panel panel-primary">
+		<div class="panel-heading">
+			<h3 class="panel-title">
+				<a data-target="#process" data-toggle="collapse" >Performing the test</a>
+			</h3>
+		</div>
+		<div  class="panel-collapse collapse in" id="process">
+			<div class="panel-body" >
+		  	<fieldset><label>Choose the suitable correlation coefficient and calculate it.</label>
+				<p>
+					The variables “MOS_per_condition” and “MOS_per_lab” are both metric variables. 
+					To calculate the correlation coefficient between the two of the we chose to compute 
+					the Pearson’s Linear Correlation Coefficient, which is suited for continuous variables.
+					Before calculating it, we want to investigate if there are outliers in the data for 
+					“MOS_per_condition” and “MOS_per_lab”. We do this by illustrating the two variables into boxplots.	
+				</p>
+				<div style="display: inline-flex;">
+					<img src="imgs/t3/task_3_outlier_per_condition.png" alt="Outlier condition" style="width:auto;height:200px;margin-left: 20px;">
+					<img src="imgs/t3/task_3_outlier_per_lab.png" alt="Outlier lab" style="width:auto;height:200px;margin-left: 60px;">
+				</div>
+				<p>
+					From the boxplots we can notice that, in both cases, the data does not incluede any outliers.
+				</p>
+				<label>Calclate the Pearson's Linear Correlation Coefficient.</label>
+				<p>
+					<b>Analyze</b> > <b>Correlate</b> > <b>Bivariate</b> > Add both “MOS_per_condition” and “MOS_per_lab” to the “Variables” list and check in the “<b>Correlation Coefficients</b>” section the option “<b>Pearson</b>”.
+				</p>
+				<div style="display: inline-flex;">
+						<img src="imgs/t3/task_3_correlation_test.png" alt="Correlation Test Path" style="width:auto;height:200px;margin-left: 20px;">
+						<img src="imgs/t3/task_3_correlation_test_1.png" alt="Correlation Test Path" style="width:auto;height:200px;margin-left: 60px;">
+				</div>
+				
+			</fieldset>
+			</div>
+		</div>
+	</div>
+</section> 
+
+<section class="container" >
+	<div class="panel panel-primary">
+		<div class="panel-heading">
+			<h3 class="panel-title">
+				<a data-target="#output" data-toggle="collapse" >Output</a>
+			</h3>
+		</div>
+		<div  class="panel-collapse collapse in" id="output">
+			<div class="panel-body" >
+			  	<fieldset><p>
+					  We can see that both Pearson Correlation coefficients for the combinations “MOS_per_condition” – “MOS_per_lab” and vice versa are significant at the level 0.01. 
+					  This suggests that both variables are correlated.</p>
+					<fieldset><img src="imgs/t3/task_3_correlation_test_output.png" alt="Correlation Test Output" style="width:auto;height:200px;margin-left: 20px;"></fieldset>					
+				</fieldset>	 
+			</div>
+		</div>
+
+	</div>
+</section>
+
+<section class="container" >
+		<div class="panel panel-primary">
+			<div class="panel-heading">
+				<h3 class="panel-title">
+					<a data-target="#output" data-toggle="collapse" >Graphical Visualization</a>
+				</h3>
+			</div>
+			<div  class="panel-collapse collapse in" id="output">
+				<div class="panel-body" >
+					<fieldset><label>The correlation between two variables can be visualized in a scatter plot.</label>
+						<p>
+							Choose in the “<b>Chart Builder</b>” modal the “<b>Scatter/Dot</b>” plot type and pick the “<b>Simple Scatter with Fit Line</b>” 
+							to illustrate the correlation. On the X- and Y-axis the variables can be placed arbitrary. In the e.g. the 
+							“MOS_per_lab” variable is illustrated on the x-axis and “MOS_per_condition” on the y-axis. 	
+						</p>
+						<img src="imgs/t3/task_3_scatter_plot.png" alt="Correlation Test Output" style="width:auto;height:300px;margin-left: 20px;"></fieldset>					
+						<p>
+							From the plot, it is notable that a correlation between the variables exists, suggested by the line like distribution of the points.
+						</p>
+						<img src="imgs/t3/task_3_scatter_plot_output.png" alt="Correlation Test Output" style="width:auto;height:300px;margin-left: 20px;"></fieldset>					
+					</fieldset>	 
+				</div>
+			</div>
+	
+		</div>
+	</section>
+
+</body>
+</html>
