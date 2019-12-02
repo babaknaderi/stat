@@ -1,0 +1,279 @@
+﻿<!DOCTYPE html>
+<html lang="en">
+<head>
+    <title>Week 3 Task 2</title>
+
+	<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
+	<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+	<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+	<meta content="text/html;charset=utf-8" http-equiv="Content-Type">
+	<meta content="utf-8" http-equiv="encoding">
+</head>
+
+<body>
+<style type="text/css">
+	body{font-family:Tahoma,"Times New Roman", Times, serif;}
+	p{	margin:20px; }
+	.center {
+    display: block;
+    margin-left: auto;
+    margin-right: auto;
+    width: 40%;
+}
+fieldset { padding: 10px; background:#fbfbfb; border-radius:5px; margin-bottom:5px; }
+</style>
+
+
+<section class="container" >
+	<div class="panel panel-primary">
+		<div class="panel-heading">
+			<h3 class="panel-title">
+				<a data-target="#instruction" data-toggle="collapse" >Example</a>
+			</h3>
+		</div>
+		<div  class="panel-collapse collapse in" id="instruction">
+			<div class="panel-body" >
+              
+			<p> 
+				Calculate the suitable correlation coefficients for the difference between speeker and listener age with the characteristic “attraktiv”
+			</p>
+			<p>
+				Dataset: likeability_dimension_ratings.csv
+			</p>
+			</div>
+		</div>
+
+	</div>
+</section>
+
+<section class="container" >
+	<div class="panel panel-primary">
+		<div class="panel-heading">
+			<h3 class="panel-title">
+				<a data-target="#setup" data-toggle="collapse" >Setup and transfering data format</a>
+			</h3>
+		</div>
+		
+			  
+				<div  class="panel-collapse collapse in" id="process">
+					<div class="panel-body" >
+					  <fieldset><label>  Loading the dataset </label>
+						<p>
+							Load the dataset into SPSS. Make sure to select the delimiter as <b>“comma”</b>>, decimal symbol as <b>“period”</b> and text qualifier as <b>“none”</b> and check <b>“First line contains variable names”</b>
+						</p>
+						<div style="display: inline-flex;">
+							<img src="imgs/t2/1.JPG" alt="Outlier condition" style="width:auto;height:300px;margin-left: 20px;">
+						</div>
+						
+					</fieldset>
+					</div>
+				</div>
+			  
+			
+		
+
+	</div>
+</section> 
+
+<section class="container" >
+	<div class="panel panel-primary">
+		<div class="panel-heading">
+			<h3 class="panel-title">
+				<a data-target="#process" data-toggle="collapse" >Performing the test</a>
+			</h3>
+		</div>
+		<div  class="panel-collapse collapse in" id="process">
+			<div class="panel-body" >
+			  
+			<fieldset>	
+				<div  class="panel-collapse collapse in" id="process">
+					<div class="panel-body" >
+					  <fieldset><label> Computing the age difference variable</label>
+						<p>
+						Click on <b>Transform</b> →  <b>Compute variable</b>
+						</p>
+						<div style="display: inline-flex;">
+							<img src="imgs/t2/2a.jpg" alt="Outlier condition" style="width:auto;height:50px;margin-left: 20px;">
+						</div>
+						
+						<p>
+							Write <b>“Age_Difference”</b> as Target Variable and <b>“speaker_age - listener_age”</b>as Numeric Expression to get the difference between the listener’s age and the speaker’s age.	
+						</p>
+						<div style="display: inline-flex;">
+							<img src="imgs/t2/2b.JPG" alt="Outlier condition" style="width:auto;height:350px;margin-left: 20px;">
+						</div>
+
+
+					</fieldset>
+					</div>
+				</div>
+			</fieldset>
+			
+
+			
+			
+			<fieldset>	
+				<div  class="panel-collapse collapse in" id="process">
+					<div class="panel-body">
+					  <fieldset><label>Detecting the outliers</label>
+						<p>Make the boxplots for detecting the outliers. <b>Analyze</b> → <b>Descriptive Statistics</b> → <b>Explore</b>
+						</p>
+						<div style="display: inline-flex;">
+							<img src="imgs/t2/3a.jpg" alt="Outlier condition" style="width:auto;height:450px;margin-left: 20px;">
+						</div>
+						
+						<p>Add <b>“Age_Difference”</b> and <b>“Attraktiv”</b> to <b>„Dependent List“</b>-Field. Check <b>„Plots“</b> in the </b>„Display“</b>-area. Click <b>„Plots...“</b>, unselect <b>„Stem and leaf“</b> and close the window. Click „Ok“
+						</p>
+						<div style="display: inline-flex;">
+							<img src="imgs/t2/3b.JPG" alt="Outlier condition" style="width:auto;height:350px;margin-left: 20px;">
+						</div>
+
+						<p>The boxplots show no outliers for <b>“attrackiv”</b> but many for <b>“Age_Difference”</b>. 
+						</p>
+						<div style="display: inline-flex;">
+							<img src="imgs/t2/3c.jpg" alt="Outlier condition" style="width:auto;height:250px;margin-left: 20px;">
+							<img src="imgs/t2/3d.jpg" alt="Outlier condition" style="width:auto;height:250px;margin-left: 20px;">
+
+						</div>
+
+						<p>To find the upper and lower limit in the boxplot, double-click the boxplot → Click on <b>“Y”</b>  → Change the <b>“Major Increment”</b> to 1 in the <b>“Scale”</b> tab and select <b>“Major Ticks Only”</b> in the <b>“Grid Lines”</b> tab.
+						</p>
+						<div style="display: inline-flex;">
+							<img src="imgs/t2/3e.JPG" alt="Outlier condition" style="width:auto;height:350px;margin-left: 20px;">
+						</div>
+
+						<p>From the output the upper limit is 15 and the lower limit is -12 excluding the outliers
+						</p>
+						<div style="display: inline-flex;">
+							<img src="imgs/t2/4.jpg" alt="Outlier condition" style="width:auto;height:350px;margin-left: 20px;">
+						</div>
+
+					</fieldset>
+					</div>
+				</div>
+			</fieldset>
+
+
+
+			<fieldset>	
+				<div  class="panel-collapse collapse in" id="process">
+					<div class="panel-body" >
+					  <fieldset><label>Removing the outliers from the data
+					  </label>
+						<p>
+						To remove the outliers from the data, <b>“Data”</b>  →  <b>”Select Cases”</b>						</p>
+						<div style="display: inline-flex;">
+							<img src="imgs/t2/5a.jpg" alt="Outlier condition" style="width:auto;height:450px;margin-left: 20px;">
+						</div>
+						
+						<p>Select <b>“If Condition is Satisfied”</b> and <b>“Delete Unselected Cases”</b> and then, click on <b>“If…”</b>. 
+						</p>
+						<div style="display: inline-flex;">
+							<img src="imgs/t2/5b.JPG" alt="Outlier condition" style="width:auto;height:350px;margin-left: 20px;">
+						</div>
+
+						<p>Write <b>“((Age_Difference <=15) AND (Age_Difference >= -12))”</b> expression and click continue and “OK”.
+						</p>
+						<div style="display: inline-flex;">
+							<img src="imgs/t2/5c.JPG" alt="Outlier condition" style="width:auto;height:350px;margin-left: 20px;">
+						</div>
+
+
+					</fieldset>
+					</div>
+				</div>
+			</fieldset>
+
+
+
+			<fieldset>	
+				<div  class="panel-collapse collapse in" id="process">
+					<div class="panel-body" >
+					  <fieldset><label>Calculating the correlation
+					  </label>
+						<p> The scatter plot doesn’t show a linear relationship between <b>“Age_Difference”</b> and <b>“Attrakiv”</b>. So, Spearmen correlation is suitable for this task.
+												</p>
+						<div style="display: inline-flex;">
+							<img src="imgs/t2/6.jpg" alt="Outlier condition" style="width:auto;height:350px;margin-left: 20px;">
+						</div>
+						
+						<p>To calculate correlation choose <b>Analyze</b> → <b>Correlate</b> → <b>Bivariate</b>  
+						</p>
+						<div style="display: inline-flex;">
+							<img src="imgs/t2/7a.jpg" alt="Outlier condition" style="width:auto;height:350px;margin-left: 20px;">
+						</div>
+
+
+						<p>Add <b>“Age_Difference”</b> and <b>“Attraktiv”</b> in Variables and check <b>“Spearman”</b> and click <b>“OK”</b>
+						</p>
+						<div style="display: inline-flex;">
+							<img src="imgs/t2/7b.JPG" alt="Outlier condition" style="width:auto;height:350px;margin-left: 20px;">
+						</div>
+
+					
+
+
+
+
+
+
+					</fieldset>
+					</div>
+				</div>
+			</fieldset>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+                
+
+			
+
+
+
+			</div>
+		</div>
+
+	</div>
+</section> 
+
+<section class="container" >
+	<div class="panel panel-primary">
+		<div class="panel-heading">
+			<h3 class="panel-title">
+				<a data-target="#instruction" data-toggle="collapse" >Output</a>
+			</h3>
+		</div>
+		<div  class="panel-collapse collapse in" id="instruction">
+			<div class="panel-body" >
+				<img src="imgs/t2/output.JPG" alt="Outlier condition" style="width:auto;height:250px;margin-left: 20px;">
+
+
+
+
+			</div>
+		</div>
+
+	</div>
+</section>
+
+</body>
+</html>
