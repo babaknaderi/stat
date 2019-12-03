@@ -85,7 +85,6 @@ significant_kendall = [0];
 <span class="comment">%cell2Number for NA entries</span>
 t_characteristica.herzlich = str2double(t_characteristica.herzlich);
 
-
 <span class="keyword">for</span> i=1:width(t_characteristica)-1
     <span class="keyword">for</span> y=i+1:width(t_characteristica)
         X = (t_characteristica(:,i));
@@ -159,6 +158,40 @@ coef.Properties.VariableNames{<span class="string">'Var10'</span>} = <span class
 coef.Properties.VariableNames{<span class="string">'Var11'</span>} = <span class="string">'significant kendall'</span>;
 
 disp(coef)
+
+
+<span class="comment">%check if ND, so pearson can be applied</span>
+h_ks_values = [0];
+column_names = [<span class="string">""</span>];
+
+<span class="keyword">for</span> i=1:width(t_characteristica)
+    z_values = table2array(t_characteristica(:,i));
+    h_ks = kstest(z_values);
+    <span class="comment">%disp(h_ks);</span>
+
+    <span class="comment">%x-axsis range</span>
+    binrng = min(z_values):max(z_values);
+    <span class="comment">%histogramm data for males</span>
+    counts1 = histc(z_values,binrng);
+    subplot(12,3,i);
+    bar(binrng, counts1, <span class="string">'r'</span>)
+
+    hold <span class="string">on</span>
+    hold <span class="string">off</span>
+
+    h_ks_values(length(h_ks_values)+1) = h_ks;
+    column_names(length(column_names)+1) = string(t_characteristica(:,i).Properties.VariableNames);
+<span class="keyword">end</span>
+t_nd = table(column_names(2:end)', h_ks_values(2:end)');
+t_nd.Properties.VariableNames{<span class="string">'Var1'</span>} = <span class="string">'characteristic'</span>;
+t_nd.Properties.VariableNames{<span class="string">'Var2'</span>} = <span class="string">'H KS-Test Value'</span>;
+disp(t_nd);
+
+hold <span class="string">on</span>
+disp(<span class="string">"Because its not normal distributed -&gt; no pearson"</span>)
+disp(<span class="string">"Because its no ordinal scale -&gt; no spearman"</span>)
+disp(<span class="string">"=&gt; kendal"</span>)
+hold <span class="string">off</span>
 </pre><pre class="codeoutput">Warning: Column headers from the file were modified to make them valid MATLAB
 identifiers before creating variable names for the table. The original column
 headers are saved in the VariableDescriptions property.
@@ -729,7 +762,48 @@ variable names.
     "intelligent"        "bescheiden"                0.11472            1.0321e-14               1                     0.10614            8.4658e-13                1                    0.077276             1.781e-14               1         
     "kindlich"           "bescheiden"              -0.022228               0.13517               0                   -0.023643               0.11202                0                    -0.01536               0.12722               0         
 
-</pre><p class="footer"><br><a href="https://www.mathworks.com/products/matlab/">Published with MATLAB&reg; R2019b</a><br></p></div><!--
+     characteristic      H KS-Test Value
+    _________________    _______________
+
+    "unsympatisch"              1       
+    "sicher"                    1       
+    "attraktiv"                 1       
+    "verstaendnislos"           1       
+    "unentschieden"             1       
+    "unaufdringlich"            1       
+    "distanziert"               1       
+    "gelangweilt"               1       
+    "emotional"                 1       
+    "nicht_genervt"             1       
+    "aktiv"                     1       
+    "angenehm"                  1       
+    "charakterlos"              1       
+    "gesellig"                  1       
+    "entspannt"                 1       
+    "mitfuehlend"               1       
+    "dominant"                  1       
+    "unaffektiert"              1       
+    "herzlich"                  1       
+    "alt"                       1       
+    "unsachlich"                1       
+    "ruhig"                     1       
+    "inkompetent"               1       
+    "haesslich"                 1       
+    "freundlich"                1       
+    "maennlich"                 1       
+    "gehorsam"                  1       
+    "gleichgueltig"             1       
+    "interessant"               1       
+    "zynisch"                   1       
+    "aufgesetzt"                1       
+    "intelligent"               1       
+    "kindlich"                  1       
+    "bescheiden"                1       
+
+Because its not normal distributed -&gt; no pearson
+Because its no ordinal scale -&gt; no spearman
+=&gt; kendal
+</pre><img vspace="5" hspace="5" src="Task_01_01.png" alt=""> <p class="footer"><br><a href="https://www.mathworks.com/products/matlab/">Published with MATLAB&reg; R2019b</a><br></p></div><!--
 ##### SOURCE BEGIN #####
 T = readtable("..\..\likeability_dimension_ratings.csv");
 
@@ -749,7 +823,6 @@ significant_kendall = [0];
 
 %cell2Number for NA entries
 t_characteristica.herzlich = str2double(t_characteristica.herzlich);
-
 
 for i=1:width(t_characteristica)-1
     for y=i+1:width(t_characteristica)
@@ -824,5 +897,39 @@ coef.Properties.VariableNames{'Var10'} = 'p_value kendall';
 coef.Properties.VariableNames{'Var11'} = 'significant kendall';
 
 disp(coef)
+
+
+%check if ND, so pearson can be applied
+h_ks_values = [0];
+column_names = [""];
+
+for i=1:width(t_characteristica)
+    z_values = table2array(t_characteristica(:,i));
+    h_ks = kstest(z_values);
+    %disp(h_ks);
+    
+    %x-axsis range
+    binrng = min(z_values):max(z_values);
+    %histogramm data for males
+    counts1 = histc(z_values,binrng);
+    subplot(12,3,i);
+    bar(binrng, counts1, 'r')
+    
+    hold on
+    hold off
+    
+    h_ks_values(length(h_ks_values)+1) = h_ks;
+    column_names(length(column_names)+1) = string(t_characteristica(:,i).Properties.VariableNames);
+end
+t_nd = table(column_names(2:end)', h_ks_values(2:end)');
+t_nd.Properties.VariableNames{'Var1'} = 'characteristic';
+t_nd.Properties.VariableNames{'Var2'} = 'H KS-Test Value';
+disp(t_nd);
+
+hold on
+disp("Because its not normal distributed -> no pearson")
+disp("Because its no ordinal scale -> no spearman")
+disp("=> kendal")
+hold off
 ##### SOURCE END #####
 --></body></html>

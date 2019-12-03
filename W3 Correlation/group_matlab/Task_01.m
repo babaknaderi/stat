@@ -17,7 +17,6 @@ significant_kendall = [0];
 %cell2Number for NA entries
 t_characteristica.herzlich = str2double(t_characteristica.herzlich);
 
-
 for i=1:width(t_characteristica)-1
     for y=i+1:width(t_characteristica)
         X = (t_characteristica(:,i));
@@ -91,3 +90,37 @@ coef.Properties.VariableNames{'Var10'} = 'p_value kendall';
 coef.Properties.VariableNames{'Var11'} = 'significant kendall';
 
 disp(coef)
+
+
+%check if ND, so pearson can be applied
+h_ks_values = [0];
+column_names = [""];
+
+for i=1:width(t_characteristica)
+    z_values = table2array(t_characteristica(:,i));
+    h_ks = kstest(z_values);
+    %disp(h_ks);
+    
+    %x-axsis range
+    binrng = min(z_values):max(z_values);
+    %histogramm data for males
+    counts1 = histc(z_values,binrng);
+    subplot(12,3,i);
+    bar(binrng, counts1, 'r')
+    
+    hold on
+    hold off
+    
+    h_ks_values(length(h_ks_values)+1) = h_ks;
+    column_names(length(column_names)+1) = string(t_characteristica(:,i).Properties.VariableNames);
+end
+t_nd = table(column_names(2:end)', h_ks_values(2:end)');
+t_nd.Properties.VariableNames{'Var1'} = 'characteristic';
+t_nd.Properties.VariableNames{'Var2'} = 'H KS-Test Value';
+disp(t_nd);
+
+hold on
+disp("Because its not normal distributed -> no pearson")
+disp("Because its no ordinal scale -> no spearman")
+disp("=> kendal")
+hold off
