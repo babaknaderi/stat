@@ -1,0 +1,828 @@
+
+<!DOCTYPE html
+  PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+<html><head>
+      <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+   <!--
+This HTML was auto-generated from MATLAB code.
+To make changes, update the MATLAB code and republish this document.
+      --><title>Task_01</title><meta name="generator" content="MATLAB 9.7"><link rel="schema.DC" href="http://purl.org/dc/elements/1.1/"><meta name="DC.date" content="2019-12-03"><meta name="DC.source" content="Task_01.m"><style type="text/css">
+html,body,div,span,applet,object,iframe,h1,h2,h3,h4,h5,h6,p,blockquote,pre,a,abbr,acronym,address,big,cite,code,del,dfn,em,font,img,ins,kbd,q,s,samp,small,strike,strong,sub,sup,tt,var,b,u,i,center,dl,dt,dd,ol,ul,li,fieldset,form,label,legend,table,caption,tbody,tfoot,thead,tr,th,td{margin:0;padding:0;border:0;outline:0;font-size:100%;vertical-align:baseline;background:transparent}body{line-height:1}ol,ul{list-style:none}blockquote,q{quotes:none}blockquote:before,blockquote:after,q:before,q:after{content:'';content:none}:focus{outine:0}ins{text-decoration:none}del{text-decoration:line-through}table{border-collapse:collapse;border-spacing:0}
+
+html { min-height:100%; margin-bottom:1px; }
+html body { height:100%; margin:0px; font-family:Arial, Helvetica, sans-serif; font-size:10px; color:#000; line-height:140%; background:#fff none; overflow-y:scroll; }
+html body td { vertical-align:top; text-align:left; }
+
+h1 { padding:0px; margin:0px 0px 25px; font-family:Arial, Helvetica, sans-serif; font-size:1.5em; color:#d55000; line-height:100%; font-weight:normal; }
+h2 { padding:0px; margin:0px 0px 8px; font-family:Arial, Helvetica, sans-serif; font-size:1.2em; color:#000; font-weight:bold; line-height:140%; border-bottom:1px solid #d6d4d4; display:block; }
+h3 { padding:0px; margin:0px 0px 5px; font-family:Arial, Helvetica, sans-serif; font-size:1.1em; color:#000; font-weight:bold; line-height:140%; }
+
+a { color:#005fce; text-decoration:none; }
+a:hover { color:#005fce; text-decoration:underline; }
+a:visited { color:#004aa0; text-decoration:none; }
+
+p { padding:0px; margin:0px 0px 20px; }
+img { padding:0px; margin:0px 0px 20px; border:none; }
+p img, pre img, tt img, li img, h1 img, h2 img { margin-bottom:0px; } 
+
+ul { padding:0px; margin:0px 0px 20px 23px; list-style:square; }
+ul li { padding:0px; margin:0px 0px 7px 0px; }
+ul li ul { padding:5px 0px 0px; margin:0px 0px 7px 23px; }
+ul li ol li { list-style:decimal; }
+ol { padding:0px; margin:0px 0px 20px 0px; list-style:decimal; }
+ol li { padding:0px; margin:0px 0px 7px 23px; list-style-type:decimal; }
+ol li ol { padding:5px 0px 0px; margin:0px 0px 7px 0px; }
+ol li ol li { list-style-type:lower-alpha; }
+ol li ul { padding-top:7px; }
+ol li ul li { list-style:square; }
+
+.content { font-size:1.2em; line-height:140%; padding: 20px; }
+
+pre, code { font-size:12px; }
+tt { font-size: 1.2em; }
+pre { margin:0px 0px 20px; }
+pre.codeinput { padding:10px; border:1px solid #d3d3d3; background:#f7f7f7; }
+pre.codeoutput { padding:10px 11px; margin:0px 0px 20px; color:#4c4c4c; }
+pre.error { color:red; }
+
+@media print { pre.codeinput, pre.codeoutput { word-wrap:break-word; width:100%; } }
+
+span.keyword { color:#0000FF }
+span.comment { color:#228B22 }
+span.string { color:#A020F0 }
+span.untermstring { color:#B20000 }
+span.syscmd { color:#B28C00 }
+
+.footer { width:auto; padding:10px 0px; margin:25px 0px 0px; border-top:1px dotted #878787; font-size:0.8em; line-height:140%; font-style:italic; color:#878787; text-align:left; float:none; }
+.footer p { margin:0px; }
+.footer a { color:#878787; }
+.footer a:hover { color:#878787; text-decoration:underline; }
+.footer a:visited { color:#878787; }
+
+table th { padding:7px 5px; text-align:left; vertical-align:middle; border: 1px solid #d6d4d4; font-weight:bold; }
+table td { padding:7px 5px; text-align:left; vertical-align:top; border:1px solid #d6d4d4; }
+
+
+
+
+
+  </style></head><body><div class="content"><pre class="codeinput">T = readtable(<span class="string">"..\..\likeability_dimension_ratings.csv"</span>);
+
+t_characteristica = T(:,10:end);
+
+emotion1 = [<span class="string">""</span>];
+emotion2 = [<span class="string">""</span>];
+correlation_pearson = [0];
+p_value_pearson = [0];
+significant_pearson = [0];
+correlation_spearman = [0];
+p_value_spearman = [0];
+significant_spearman = [0];
+correlation_kendall = [0];
+p_value_kendall = [0];
+significant_kendall = [0];
+
+<span class="comment">%cell2Number for NA entries</span>
+t_characteristica.herzlich = str2double(t_characteristica.herzlich);
+
+
+<span class="keyword">for</span> i=1:width(t_characteristica)-1
+    <span class="keyword">for</span> y=i+1:width(t_characteristica)
+        X = (t_characteristica(:,i));
+        Y = (t_characteristica(:,y));
+        <span class="comment">%disp("Comparing '"+X.Properties.VariableNames +"' and '"+Y.Properties.VariableNames+"'");</span>
+        [R_pearson,P_pearson] = corr(table2array(X),table2array(Y),<span class="string">'Type'</span>,<span class="string">'Pearson'</span>,<span class="string">'Rows'</span>,<span class="string">'complete'</span>);
+        [R_spearman,P_spearman] = corr(table2array(X),table2array(Y),<span class="string">'Type'</span>,<span class="string">'Spearman'</span>,<span class="string">'Rows'</span>,<span class="string">'complete'</span>);
+        [R_kendall,P_kendall] = corr(table2array(X),table2array(Y),<span class="string">'Type'</span>,<span class="string">'Kendall'</span>,<span class="string">'Rows'</span>,<span class="string">'complete'</span>);
+        <span class="comment">%[RR,PP] = corrcoef(table2array(X),table2array(Y))</span>
+
+         emotion1(length(emotion1)+1) = string(X.Properties.VariableNames);
+         emotion2(length(emotion2)+1) = string(Y.Properties.VariableNames);
+
+         <span class="comment">%pearson</span>
+         correlation_pearson(length(correlation_pearson)+1) = R_pearson;
+         p_value_pearson(length(p_value_pearson)+1)= P_pearson;
+         <span class="keyword">if</span>(P_pearson &lt;= 0.05)
+            significant_pearson(length(significant_pearson)+1) = 1;
+         <span class="keyword">else</span>
+             significant_pearson(length(significant_pearson)+1) = 0;
+         <span class="keyword">end</span>
+
+         <span class="comment">%spearman</span>
+         correlation_spearman(length(correlation_spearman)+1) = R_spearman;
+         p_value_spearman(length(p_value_spearman)+1)= P_spearman;
+         <span class="keyword">if</span>(P_spearman &lt;= 0.05)
+            significant_spearman(length(significant_spearman)+1) = 1;
+         <span class="keyword">else</span>
+             significant_spearman(length(significant_spearman)+1) = 0;
+         <span class="keyword">end</span>
+
+         <span class="comment">%kendall</span>
+         correlation_kendall(length(correlation_kendall)+1) = R_kendall;
+         p_value_kendall(length(p_value_kendall)+1)= P_kendall;
+         <span class="keyword">if</span>(P_kendall &lt;= 0.05)
+            significant_kendall(length(significant_kendall)+1) = 1;
+         <span class="keyword">else</span>
+             significant_kendall(length(significant_kendall)+1) = 0;
+         <span class="keyword">end</span>
+    <span class="keyword">end</span>
+<span class="keyword">end</span>
+emotion1 = emotion1(2:end);
+emotion2 = emotion2(2:end);
+
+correlation_pearson = correlation_pearson(2:end);
+p_value_pearson = p_value_pearson(2:end);
+significant_pearson = significant_pearson(2:end);
+
+correlation_spearman = correlation_spearman(2:end);
+p_value_spearman = p_value_spearman(2:end);
+significant_spearman = significant_spearman(2:end);
+
+correlation_kendall = correlation_kendall(2:end);
+p_value_kendall = p_value_kendall(2:end);
+significant_kendall = significant_kendall(2:end);
+
+coef = table(emotion1',emotion2',correlation_pearson',p_value_pearson',significant_pearson',correlation_spearman',p_value_spearman',significant_spearman',correlation_kendall',p_value_kendall',significant_kendall');
+coef.Properties.VariableNames{<span class="string">'Var1'</span>} = <span class="string">'characteristic_1'</span>;
+coef.Properties.VariableNames{<span class="string">'Var2'</span>} = <span class="string">'characteristic_2'</span>;
+
+coef.Properties.VariableNames{<span class="string">'Var3'</span>} = <span class="string">'correlation pearson'</span>;
+coef.Properties.VariableNames{<span class="string">'Var4'</span>} = <span class="string">'p_value pearson'</span>;
+coef.Properties.VariableNames{<span class="string">'Var5'</span>} = <span class="string">'significant pearson'</span>;
+
+coef.Properties.VariableNames{<span class="string">'Var6'</span>} = <span class="string">'correlation spearman'</span>;
+coef.Properties.VariableNames{<span class="string">'Var7'</span>} = <span class="string">'p_value spearman'</span>;
+coef.Properties.VariableNames{<span class="string">'Var8'</span>} = <span class="string">'significant spearman'</span>;
+
+coef.Properties.VariableNames{<span class="string">'Var9'</span>} = <span class="string">'correlation kendall'</span>;
+coef.Properties.VariableNames{<span class="string">'Var10'</span>} = <span class="string">'p_value kendall'</span>;
+coef.Properties.VariableNames{<span class="string">'Var11'</span>} = <span class="string">'significant kendall'</span>;
+
+disp(coef)
+</pre><pre class="codeoutput">Warning: Column headers from the file were modified to make them valid MATLAB
+identifiers before creating variable names for the table. The original column
+headers are saved in the VariableDescriptions property.
+Set 'PreserveVariableNames' to true to use the original column headers as table
+variable names. 
+    characteristic_1     characteristic_2     correlation pearson    p_value pearson    significant pearson    correlation spearman    p_value spearman    significant spearman    correlation kendall    p_value kendall    significant kendall
+    _________________    _________________    ___________________    _______________    ___________________    ____________________    ________________    ____________________    ___________________    _______________    ___________________
+
+    "unsympatisch"       "sicher"                   -0.14416            2.0551e-22               1                    -0.15957            3.7167e-27                1                    -0.11665            4.4295e-31               1         
+    "unsympatisch"       "attraktiv"                 -0.5575                     0               1                    -0.54634                     0                1                    -0.41626                     0               1         
+    "unsympatisch"       "verstaendnislos"            0.5232           4.2778e-316               1                     0.51582           8.8965e-306                1                     0.40385                     0               1         
+    "unsympatisch"       "unentschieden"            0.096802             6.989e-11               1                     0.11812            1.6329e-15                1                    0.087679            2.9496e-18               1         
+    "unsympatisch"       "unaufdringlich"           -0.22992            2.7357e-55               1                    -0.22389            1.9174e-52                1                    -0.16647            1.9201e-61               1         
+    "unsympatisch"       "distanziert"               0.54019                     0               1                     0.53073                     0                1                     0.40849                     0               1         
+    "unsympatisch"       "gelangweilt"               0.38113           3.4722e-156               1                     0.38713           1.6794e-161                1                     0.29083           1.3984e-183               1         
+    "unsympatisch"       "emotional"                -0.34124           1.2891e-123               1                    -0.33272           2.9707e-117                1                    -0.24667           1.0704e-132               1         
+    "unsympatisch"       "nicht_genervt"            -0.41911            9.617e-192               1                    -0.41452           3.3897e-187                1                    -0.31244           1.0504e-211               1         
+    "unsympatisch"       "aktiv"                    -0.24627             2.053e-63               1                    -0.24931            5.4209e-65                1                    -0.18459            3.4529e-75               1         
+    "unsympatisch"       "angenehm"                 -0.59163                     0               1                    -0.58802                     0                1                    -0.44917                     0               1         
+    "unsympatisch"       "charakterlos"              0.38796           3.0401e-162               1                     0.38637           8.0471e-161                1                     0.29221           2.2614e-185               1         
+    "unsympatisch"       "gesellig"                 -0.40258            1.075e-175               1                    -0.39653           4.8471e-170                1                    -0.29514           3.8797e-189               1         
+    "unsympatisch"       "entspannt"                -0.21599            7.5423e-49               1                    -0.23091            9.2165e-56                1                    -0.16875            3.7592e-63               1         
+    "unsympatisch"       "mitfuehlend"              -0.49418           5.4719e-277               1                    -0.48992            1.478e-271                1                    -0.37157            1.577e-298               1         
+    "unsympatisch"       "dominant"                0.0087192               0.55789               0                   0.0052206                0.7257                0                   0.0031172                0.7568               0         
+    "unsympatisch"       "unaffektiert"             -0.10914            1.8839e-13               1                    -0.11643            4.1232e-15                1                   -0.085945            1.3027e-17               1         
+    "unsympatisch"       "herzlich"                 -0.54033                     0               1                    -0.54225                     0                1                    -0.41316                     0               1         
+    "unsympatisch"       "alt"                       0.12801            5.6948e-18               1                     0.13119            8.3908e-19                1                    0.094256            7.3459e-21               1         
+    "unsympatisch"       "unsachlich"               0.026329              0.076765               0                      0.0444             0.0028325                1                    0.033953            0.00074772               1         
+    "unsympatisch"       "ruhig"                    -0.13662            2.8457e-20               1                    -0.15251            6.3725e-25                1                    -0.10968            1.1273e-27               1         
+    "unsympatisch"       "inkompetent"                0.3057            2.2487e-98               1                      0.3072            2.2878e-99                1                      0.2289           2.1555e-114               1         
+    "unsympatisch"       "haesslich"                 0.51798            8.978e-309               1                     0.51967            3.901e-311                1                     0.39428                     0               1         
+    "unsympatisch"       "freundlich"               -0.54934                     0               1                    -0.54989                     0                1                    -0.41973                     0               1         
+    "unsympatisch"       "maennlich"                0.036397              0.014411               1                    0.044588             0.0027175                1                    0.031944             0.0017185               1         
+    "unsympatisch"       "gehorsam"                 -0.15203            8.9317e-25               1                    -0.13702            2.2047e-20                1                   -0.099568            4.5998e-23               1         
+    "unsympatisch"       "gleichgueltig"             0.32318           2.3195e-110               1                     0.33067            9.406e-116                1                      0.2509           3.6688e-137               1         
+    "unsympatisch"       "interessant"              -0.47166           3.8728e-249               1                    -0.45727           2.1477e-232                1                    -0.34261           4.2481e-254               1         
+    "unsympatisch"       "zynisch"                   0.17401            4.7087e-32               1                     0.16693            1.3401e-29                1                     0.12224            6.4745e-34               1         
+    "unsympatisch"       "aufgesetzt"                0.26009            9.0466e-71               1                     0.26418            4.9216e-73                1                      0.1947            1.8633e-83               1         
+    "unsympatisch"       "intelligent"              -0.38616           1.2366e-160               1                    -0.37826           1.0932e-153                1                    -0.27858           2.2353e-168               1         
+    "unsympatisch"       "kindlich"                 0.012937               0.38458               0                    0.016647                0.2632                0                    0.010907               0.27837               0         
+    "unsympatisch"       "bescheiden"               -0.21495            2.1953e-48               1                    -0.21209             4.007e-47                1                    -0.15635            2.2155e-54               1         
+    "sicher"             "attraktiv"                 0.24128            7.2227e-61               1                     0.23613            2.6709e-58                1                     0.17613            1.4258e-68               1         
+    "sicher"             "verstaendnislos"          -0.12032             4.827e-16               1                    -0.15733            1.9467e-26                1                    -0.11128            2.3203e-28               1         
+    "sicher"             "unentschieden"            -0.63752                     0               1                    -0.65441                     0                1                    -0.52966                     0               1         
+    "sicher"             "unaufdringlich"          -0.055741            0.00017756               1                   -0.022269               0.13445                0                   -0.019035              0.058627               0         
+    "sicher"             "distanziert"              -0.12184            2.0498e-16               1                    -0.11878            1.1405e-15                1                    -0.08656            7.8637e-18               1         
+    "sicher"             "gelangweilt"              -0.21356            9.0443e-48               1                    -0.24112            8.6959e-61                1                    -0.17961            3.2782e-71               1         
+    "sicher"             "emotional"                0.097446            5.2218e-11               1                    0.082698            2.5883e-08                1                    0.059338             3.721e-09               1         
+    "sicher"             "nicht_genervt"            0.076257            2.8617e-07               1                     0.11085            7.8419e-14                1                    0.079083            3.8729e-15               1         
+    "sicher"             "aktiv"                     0.41537           4.9748e-188               1                     0.43249           2.1058e-205                1                     0.33224           4.2835e-239               1         
+    "sicher"             "angenehm"                  0.19923            1.1096e-41               1                     0.20908            8.0983e-46                1                     0.15099            6.7365e-51               1         
+    "sicher"             "charakterlos"             -0.30887            1.742e-100               1                    -0.31917             1.53e-107                1                    -0.24021           6.7666e-126               1         
+    "sicher"             "gesellig"                  0.22313            4.2705e-52               1                     0.20697            6.5213e-45                1                     0.15765            2.5446e-55               1         
+    "sicher"             "entspannt"                 0.47903           5.1027e-258               1                     0.46494           3.2378e-241                1                     0.35011           2.5327e-265               1         
+    "sicher"             "mitfuehlend"              0.084055            1.5232e-08               1                     0.07957            8.5078e-08                1                    0.056932            1.5353e-08               1         
+    "sicher"             "dominant"                  0.47517            2.433e-253               1                     0.47043           1.1327e-247                1                     0.36005           3.4701e-280               1         
+    "sicher"             "unaffektiert"             0.032007              0.031433               1                    0.056391            0.00014899                1                    0.039456            8.7908e-05               1         
+    "sicher"             "herzlich"                 0.082675            4.6298e-08               1                    0.087318             7.785e-09                1                    0.061987            1.4653e-09               1         
+    "sicher"             "alt"                       0.10871            2.3437e-13               1                     0.10694             5.708e-13                1                     0.07817            7.9157e-15               1         
+    "sicher"             "unsachlich"               -0.24706             8.081e-64               1                    -0.28626            5.6847e-86                1                    -0.21209            1.9325e-98               1         
+    "sicher"             "ruhig"                     0.35844            4.337e-137               1                     0.35589           4.8531e-135                1                      0.2663           2.3745e-154               1         
+    "sicher"             "inkompetent"              -0.44315           9.6313e-217               1                    -0.45248           5.2388e-227                1                    -0.33893           2.5799e-248               1         
+    "sicher"             "haesslich"                -0.19297             3.676e-39               1                    -0.19603             2.204e-40                1                    -0.14268            1.4738e-45               1         
+    "sicher"             "freundlich"                0.10961            1.4854e-13               1                     0.15157            1.2438e-24                1                     0.10703            2.1509e-26               1         
+    "sicher"             "maennlich"                0.048765             0.0010411               1                    0.036372              0.014478                1                    0.025058              0.013935               1         
+    "sicher"             "gehorsam"                 -0.25724            3.2522e-69               1                    -0.23975            4.2331e-60                1                    -0.18096            3.1879e-72               1         
+    "sicher"             "gleichgueltig"            -0.16156            8.3011e-28               1                    -0.17396            4.8771e-32                1                    -0.12917            1.0721e-37               1         
+    "sicher"             "interessant"               0.28084            1.1027e-82               1                     0.27365            1.9538e-78                1                     0.20636            1.9284e-93               1         
+    "sicher"             "zynisch"                   0.20201            7.9504e-43               1                     0.18189            6.4743e-35                1                     0.13754            1.8026e-42               1         
+    "sicher"             "aufgesetzt"               -0.10176            7.0385e-12               1                    -0.12821            5.0524e-18                1                   -0.091636            8.3792e-20               1         
+    "sicher"             "intelligent"               0.35067           6.7842e-131               1                      0.3713           1.0039e-147                1                      0.2726           2.7615e-161               1         
+    "sicher"             "kindlich"                 -0.30729            1.9823e-99               1                    -0.31813           8.2186e-107                1                    -0.22936           5.5433e-115               1         
+    "sicher"             "bescheiden"               -0.16182            6.8599e-28               1                    -0.13705            2.1638e-20                1                    -0.10486            2.1539e-25               1         
+    "attraktiv"          "verstaendnislos"          -0.34212           2.7779e-124               1                    -0.32595           2.4619e-112                1                    -0.24276           3.2548e-128               1         
+    "attraktiv"          "unentschieden"             -0.1238            6.7042e-17               1                     -0.1322            4.5034e-19                1                    -0.10021            2.4027e-23               1         
+    "attraktiv"          "unaufdringlich"            0.17983            3.7258e-34               1                     0.16192            6.3542e-28                1                      0.1218            1.0953e-33               1         
+    "attraktiv"          "distanziert"              -0.40268           8.7527e-176               1                    -0.38962           9.7798e-164                1                    -0.29056           3.1177e-183               1         
+    "attraktiv"          "gelangweilt"              -0.37203           2.4154e-148               1                    -0.36853           2.1645e-145                1                    -0.27878           9.7012e-169               1         
+    "attraktiv"          "emotional"                 0.38607           1.4847e-160               1                     0.37066           3.5113e-147                1                     0.27819           4.1257e-168               1         
+    "attraktiv"          "nicht_genervt"             0.31138           3.5491e-102               1                     0.30384            3.8272e-97                1                     0.22421           6.2805e-110               1         
+    "attraktiv"          "aktiv"                     0.32186           2.0027e-109               1                     0.32034           2.3375e-108                1                     0.24108           8.4011e-127               1         
+    "attraktiv"          "angenehm"                  0.62609                     0               1                     0.61755                     0                1                     0.47707                     0               1         
+    "attraktiv"          "charakterlos"             -0.38635            8.462e-161               1                    -0.37635           4.9595e-152                1                    -0.28341           2.1983e-174               1         
+    "attraktiv"          "gesellig"                  0.40438           2.1158e-177               1                     0.39587           1.9475e-169                1                     0.29733           8.5825e-192               1         
+    "attraktiv"          "entspannt"                 0.27713            1.7884e-80               1                     0.27036            1.5549e-76                1                     0.19875            8.0992e-87               1         
+    "attraktiv"          "mitfuehlend"                0.4361           3.3625e-209               1                     0.42497           1.2021e-197                1                     0.31586            3.685e-216               1         
+    "attraktiv"          "dominant"                  0.12153            2.4415e-16               1                     0.12411            5.6096e-17                1                    0.093609            1.4451e-20               1         
+    "attraktiv"          "unaffektiert"             0.071233            1.6407e-06               1                    0.078106             1.463e-07                1                    0.058071            7.8998e-09               1         
+    "attraktiv"          "herzlich"                  0.47278           1.4764e-241               1                     0.46503           9.5846e-233                1                     0.34963            6.104e-255               1         
+    "attraktiv"          "alt"                      -0.14013            2.9652e-21               1                    -0.14419            2.0173e-22                1                    -0.10422            3.9649e-25               1         
+    "attraktiv"          "unsachlich"              -0.045528             0.0022039               1                   -0.047499             0.0014033                1                   -0.037868            0.00017065               1         
+    "attraktiv"          "ruhig"                     0.14416            2.0529e-22               1                     0.13548            5.8481e-20                1                     0.09863            1.1249e-22               1         
+    "attraktiv"          "inkompetent"                -0.384           1.0238e-158               1                     -0.3747           1.2721e-150                1                    -0.28455           1.4869e-175               1         
+    "attraktiv"          "haesslich"                -0.71121                     0               1                    -0.70711                     0                1                    -0.56234                     0               1         
+    "attraktiv"          "freundlich"                0.43914            1.961e-212               1                     0.43128           3.8237e-204                1                     0.31929           1.2817e-220               1         
+    "attraktiv"          "maennlich"                -0.08899            2.0668e-09               1                   -0.093058            3.6673e-10                1                   -0.066893            5.2871e-11               1         
+    "attraktiv"          "gehorsam"                 0.058944            7.3474e-05               1                    0.040187             0.0068956                1                    0.028757             0.0042978               1         
+    "attraktiv"          "gleichgueltig"             -0.3156           4.6225e-105               1                    -0.31583           3.2035e-105                1                    -0.23767           3.3569e-123               1         
+    "attraktiv"          "interessant"               0.56822                     0               1                     0.56177                     0                1                     0.43292                     0               1         
+    "attraktiv"          "zynisch"                 -0.091601            6.8728e-10               1                   -0.076944            2.2343e-07                1                   -0.057151            1.3954e-08               1         
+    "attraktiv"          "aufgesetzt"               -0.20652            1.0103e-44               1                    -0.20062            2.9913e-42                1                    -0.14977            4.2638e-50               1         
+    "attraktiv"          "intelligent"               0.47807           7.6319e-257               1                      0.4659            2.428e-242                1                     0.35575           4.5316e-273               1         
+    "attraktiv"          "kindlich"                -0.047096             0.0015411               1                   -0.037537              0.011617                1                   -0.029641             0.0032316               1         
+    "attraktiv"          "bescheiden"               0.099118            2.4282e-11               1                    0.093917            2.5218e-10                1                    0.068915            7.8057e-12               1         
+    "verstaendnislos"    "unentschieden"             0.11503            8.7371e-15               1                     0.16096            1.3084e-27                1                     0.11607            1.0646e-30               1         
+    "verstaendnislos"    "unaufdringlich"           -0.22954            4.1872e-55               1                    -0.24467            1.3721e-62                1                    -0.18038            1.2721e-71               1         
+    "verstaendnislos"    "distanziert"               0.45401           1.0148e-228               1                      0.4501           2.3121e-224                1                     0.35406            1.744e-270               1         
+    "verstaendnislos"    "gelangweilt"               0.39849           7.2865e-172               1                     0.41434           5.1031e-187                1                     0.30829           1.8141e-205               1         
+    "verstaendnislos"    "emotional"                -0.27942             7.806e-82               1                      -0.269             9.251e-76                1                     -0.1995            3.1033e-87               1         
+    "verstaendnislos"    "nicht_genervt"            -0.43038           3.2833e-203               1                    -0.44768           1.0949e-221                1                    -0.33903           3.2857e-248               1         
+    "verstaendnislos"    "aktiv"                    -0.23031            1.7833e-55               1                     -0.2523            1.4389e-66                1                     -0.1847            4.5245e-75               1         
+    "verstaendnislos"    "angenehm"                 -0.42303           1.1142e-195               1                    -0.43089            9.674e-204                1                    -0.32428           2.8086e-227               1         
+    "verstaendnislos"    "charakterlos"              0.30619            1.0749e-98               1                     0.32573           3.5496e-112                1                     0.24649           3.9351e-132               1         
+    "verstaendnislos"    "gesellig"                 -0.30483            8.5317e-98               1                    -0.29762            4.2589e-93                1                     -0.2205           3.6273e-106               1         
+    "verstaendnislos"    "entspannt"                -0.18767             4.266e-37               1                    -0.21419             4.757e-48                1                    -0.15412            7.8366e-53               1         
+    "verstaendnislos"    "mitfuehlend"              -0.44449           3.3753e-218               1                    -0.44134            8.557e-215                1                    -0.34079           9.1225e-251               1         
+    "verstaendnislos"    "dominant"                 0.042469             0.0042985               1                    0.035827              0.016017                1                    0.027822             0.0057748               1         
+    "verstaendnislos"    "unaffektiert"             -0.11322            2.2815e-14               1                    -0.13949             4.498e-21                1                    -0.10354            8.7942e-25               1         
+    "verstaendnislos"    "herzlich"                 -0.47383           9.0465e-243               1                    -0.47252           2.8977e-241                1                     -0.3629           6.6139e-274               1         
+    "verstaendnislos"    "alt"                        0.1287            3.7659e-18               1                     0.13158            6.5834e-19                1                    0.093605            1.5283e-20               1         
+    "verstaendnislos"    "unsachlich"                0.11145            5.7742e-14               1                     0.15204            8.8698e-25                1                      0.1103            7.6524e-28               1         
+    "verstaendnislos"    "ruhig"                    -0.10953            1.5421e-13               1                    -0.15125             1.559e-24                1                    -0.10636            4.7203e-26               1         
+    "verstaendnislos"    "inkompetent"               0.28234            1.3741e-83               1                     0.29533            1.2261e-91                1                     0.21666           2.0771e-102               1         
+    "verstaendnislos"    "haesslich"                 0.34194           3.7523e-124               1                     0.34109           1.6733e-123                1                     0.25369           1.1932e-139               1         
+    "verstaendnislos"    "freundlich"               -0.52909                     0               1                     -0.5481                     0                1                    -0.41755                     0               1         
+    "verstaendnislos"    "maennlich"                0.068322            4.2873e-06               1                    0.082965            2.3336e-08                1                    0.059193            6.5868e-09               1         
+    "verstaendnislos"    "gehorsam"                 -0.17645            6.2989e-33               1                    -0.16664             1.689e-29                1                    -0.12283            3.7812e-34               1         
+    "verstaendnislos"    "gleichgueltig"             0.33141           2.7283e-116               1                      0.3419            4.072e-124                1                     0.25966           2.2778e-146               1         
+    "verstaendnislos"    "interessant"              -0.32844           3.9349e-114               1                    -0.31574           3.6619e-105                1                    -0.23375           4.7825e-119               1         
+    "verstaendnislos"    "zynisch"                   0.23227            2.0298e-56               1                      0.2282            1.8099e-54                1                     0.16754            5.2868e-62               1         
+    "verstaendnislos"    "aufgesetzt"                0.19348            2.3027e-39               1                     0.22128            3.0524e-51                1                     0.16497              2.82e-60               1         
+    "verstaendnislos"    "intelligent"              -0.31557           4.8416e-105               1                    -0.31555           4.9919e-105                1                    -0.23045           1.5223e-115               1         
+    "verstaendnislos"    "kindlich"                 0.012936               0.38461               0                    0.039856             0.0073708                1                    0.027617             0.0061277               1         
+    "verstaendnislos"    "bescheiden"               -0.25117             5.714e-66               1                    -0.25351            3.2881e-67                1                    -0.18561            1.1124e-75               1         
+    "unentschieden"      "unaufdringlich"           0.050006            0.00077175               1                    0.019008               0.20141                0                    0.016591              0.099375               0         
+    "unentschieden"      "distanziert"              0.058341            8.7042e-05               1                    0.071165            1.6785e-06                1                    0.053448            1.0936e-07               1         
+    "unentschieden"      "gelangweilt"               0.21241            2.9053e-47               1                     0.24435            1.9866e-62                1                     0.18571            5.6071e-76               1         
+    "unentschieden"      "emotional"               -0.027397              0.065542               0                   -0.028762              0.053194                0                   -0.022421              0.025911               1         
+    "unentschieden"      "nicht_genervt"           -0.072851            9.4642e-07               1                    -0.11037            1.0037e-13                1                   -0.077705            1.1552e-14               1         
+    "unentschieden"      "aktiv"                    -0.37793           2.1418e-153               1                    -0.39727           9.9525e-171                1                    -0.30694           2.5925e-204               1         
+    "unentschieden"      "angenehm"                 -0.13721            1.9555e-20               1                     -0.1502            3.2599e-24                1                    -0.10781            8.8412e-27               1         
+    "unentschieden"      "charakterlos"              0.27353            2.2744e-78               1                     0.28696            2.1297e-86                1                     0.21676           7.4134e-103               1         
+    "unentschieden"      "gesellig"                 -0.15757            1.6384e-26               1                    -0.15049            2.6594e-24                1                     -0.1144            6.0775e-30               1         
+    "unentschieden"      "entspannt"                -0.32956           6.0514e-115               1                    -0.33177           1.4899e-116                1                    -0.24615           3.7356e-132               1         
+    "unentschieden"      "mitfuehlend"             -0.032927              0.026864               1                   -0.031881              0.032103                1                   -0.022566               0.02495               1         
+    "unentschieden"      "dominant"                 -0.39286           1.1365e-166               1                    -0.39404           9.4045e-168                1                    -0.30043           1.1526e-195               1         
+    "unentschieden"      "unaffektiert"            -0.057459            0.00011122               1                   -0.074204            5.9212e-07                1                   -0.051926            2.4638e-07               1         
+    "unentschieden"      "herzlich"                -0.050398             0.0008754               1                   -0.055424            0.00025205                1                   -0.039415             0.0001204               1         
+    "unentschieden"      "alt"                     -0.065522            1.0425e-05               1                   -0.054407            0.00025307                1                   -0.039257            9.5813e-05               1         
+    "unentschieden"      "unsachlich"                0.30101            2.7266e-95               1                     0.33562             2.13e-119                1                     0.24912           4.9322e-135               1         
+    "unentschieden"      "ruhig"                    -0.25412            1.5448e-67               1                    -0.27482            4.0743e-79                1                     -0.2032            1.1466e-90               1         
+    "unentschieden"      "inkompetent"               0.40623           3.7023e-179               1                     0.42073           2.3143e-193                1                     0.31736           6.5963e-218               1         
+    "unentschieden"      "haesslich"                 0.14439            1.7554e-22               1                     0.14863             9.722e-24                1                     0.10803            7.7864e-27               1         
+    "unentschieden"      "freundlich"              -0.096747            7.1639e-11               1                    -0.13809            1.1064e-20                1                    -0.09722            4.6757e-22               1         
+    "unentschieden"      "maennlich"               0.0074254               0.61776               0                    0.020053               0.17772                0                    0.016006               0.11631               0         
+    "unentschieden"      "gehorsam"                  0.17898            7.6621e-34               1                     0.17314              9.57e-32                1                     0.13137            6.7182e-39               1         
+    "unentschieden"      "gleichgueltig"             0.17248            1.6331e-31               1                     0.18535             3.271e-36                1                     0.13893            2.5295e-43               1         
+    "unentschieden"      "interessant"              -0.19868            1.8662e-41               1                    -0.19931            1.0324e-41                1                    -0.15129            4.5534e-51               1         
+    "unentschieden"      "zynisch"                  -0.13776            1.3709e-20               1                    -0.12252            1.3945e-16                1                     -0.0942            8.5117e-21               1         
+    "unentschieden"      "aufgesetzt"               0.072474            1.0769e-06               1                     0.10403            2.3739e-12                1                    0.074323            1.5105e-13               1         
+    "unentschieden"      "intelligent"              -0.28957            5.1622e-88               1                    -0.31962           7.4724e-108                1                    -0.23372           4.6665e-119               1         
+    "unentschieden"      "kindlich"                  0.23063            1.2527e-55               1                     0.25759            2.0796e-69                1                     0.18317            5.2002e-74               1         
+    "unentschieden"      "bescheiden"               0.095994            1.0048e-10               1                    0.079487            8.7752e-08                1                    0.063559            2.7731e-10               1         
+    "unaufdringlich"     "distanziert"              -0.10857              2.51e-13               1                    -0.10334            3.3104e-12                1                   -0.076972            2.0788e-14               1         
+    "unaufdringlich"     "gelangweilt"             -0.035024              0.018547               1                   -0.057852             9.975e-05                1                   -0.043765            1.3873e-05               1         
+    "unaufdringlich"     "emotional"               -0.070179            2.3335e-06               1                   -0.063399            1.9992e-05                1                   -0.044927            8.1072e-06               1         
+    "unaufdringlich"     "nicht_genervt"             0.29181            2.0669e-89               1                      0.3085           3.0742e-100                1                     0.23043           5.8887e-116               1         
+    "unaufdringlich"     "aktiv"                    -0.10909            1.9343e-13               1                   -0.092341            5.0019e-10                1                   -0.070631            2.2724e-12               1         
+    "unaufdringlich"     "angenehm"                  0.36691           4.8756e-144               1                      0.3635           3.2444e-141                1                     0.27872           9.7109e-169               1         
+    "unaufdringlich"     "charakterlos"            -0.017127               0.24968               0                   -0.026059              0.079847                0                   -0.019097              0.057873               0         
+    "unaufdringlich"     "gesellig"                0.0049094               0.74144               0                  -0.0037427                0.8014                0                  -0.0019754               0.84443               0         
+    "unaufdringlich"     "entspannt"                   0.218            9.4585e-50               1                     0.24612            2.4646e-63                1                       0.186            3.0197e-76               1         
+    "unaufdringlich"     "mitfuehlend"               0.15819            1.0303e-26               1                     0.14474            1.3925e-22                1                     0.10981            1.0598e-27               1         
+    "unaufdringlich"     "dominant"                 -0.26399            6.2548e-73               1                    -0.25174            2.8542e-66                1                    -0.18862             2.811e-78               1         
+    "unaufdringlich"     "unaffektiert"              0.31619           1.8044e-105               1                     0.34044           5.1759e-123                1                     0.25889           6.6868e-146               1         
+    "unaufdringlich"     "herzlich"                    0.195            1.3483e-38               1                     0.18658            2.0075e-35                1                     0.13961            3.2058e-42               1         
+    "unaufdringlich"     "alt"                     -0.037222              0.012336               1                   -0.048684             0.0010614                1                    -0.03521            0.00046887               1         
+    "unaufdringlich"     "unsachlich"               -0.11564            6.2931e-15               1                     -0.1527            5.5689e-25                1                    -0.11207            9.7431e-29               1         
+    "unaufdringlich"     "ruhig"                     0.23336            6.0343e-57               1                     0.26213            6.7831e-72                1                     0.19308            5.2807e-82               1         
+    "unaufdringlich"     "inkompetent"             -0.058456            8.4275e-05               1                   -0.082543            2.7481e-08                1                   -0.060608            1.7902e-09               1         
+    "unaufdringlich"     "haesslich"                -0.22109            3.7475e-51               1                    -0.21433            4.1416e-48                1                    -0.16099            1.8029e-57               1         
+    "unaufdringlich"     "freundlich"                0.32098           8.2676e-109               1                     0.33468           1.0722e-118                1                     0.24857           1.7732e-134               1         
+    "unaufdringlich"     "maennlich"                0.075618            3.5965e-07               1                    0.062614            2.5297e-05                1                    0.045467            8.2038e-06               1         
+    "unaufdringlich"     "gehorsam"                  0.40873           1.4705e-181               1                      0.4055           1.8295e-178                1                     0.30544           5.6301e-202               1         
+    "unaufdringlich"     "gleichgueltig"            0.010181               0.49382               0                 -0.00059592               0.96805                0                  -0.0016654               0.86865               0         
+    "unaufdringlich"     "interessant"               0.08396            1.5812e-08               1                    0.069274            3.1446e-06                1                    0.053478            1.0852e-07               1         
+    "unaufdringlich"     "zynisch"                  -0.35869           2.7202e-137               1                    -0.36216           4.0927e-140                1                     -0.2693            2.012e-157               1         
+    "unaufdringlich"     "aufgesetzt"               -0.27335            2.9112e-78               1                    -0.28772            7.1841e-87                1                    -0.21483            4.404e-101               1         
+    "unaufdringlich"     "intelligent"               0.18664            1.0531e-36               1                     0.18323            2.0495e-35                1                     0.13318             7.105e-40               1         
+    "unaufdringlich"     "kindlich"                -0.037506              0.011686               1                    -0.05653            0.00014345                1                   -0.038959            0.00010893               1         
+    "unaufdringlich"     "bescheiden"                0.38572           3.0595e-160               1                     0.38661           4.9623e-161                1                     0.28841           2.8908e-180               1         
+    "distanziert"        "gelangweilt"               0.41299           1.0883e-185               1                     0.41145           3.4559e-184                1                     0.31732           4.7124e-218               1         
+    "distanziert"        "emotional"                -0.43225           3.7535e-205               1                    -0.41915           8.8636e-192                1                    -0.32049           1.6569e-222               1         
+    "distanziert"        "nicht_genervt"            -0.38895           3.9414e-163               1                    -0.38622           1.0955e-160                1                    -0.29321           1.2714e-186               1         
+    "distanziert"        "aktiv"                    -0.25377            2.3707e-67               1                     -0.2506            1.1335e-65                1                    -0.19076            3.8913e-80               1         
+    "distanziert"        "angenehm"                 -0.43609           3.4151e-209               1                    -0.42886           1.2398e-201                1                    -0.32076           6.1098e-223               1         
+    "distanziert"        "charakterlos"              0.39189           8.6088e-166               1                     0.38011           2.6792e-155                1                     0.29109            6.713e-184               1         
+    "distanziert"        "gesellig"                 -0.46304           5.1441e-239               1                    -0.44838           1.8729e-222                1                    -0.34146           2.4111e-252               1         
+    "distanziert"        "entspannt"                -0.14877            8.7939e-24               1                    -0.14347            3.2611e-22                1                    -0.10324            1.0595e-24               1         
+    "distanziert"        "mitfuehlend"              -0.62227                     0               1                    -0.61286                     0                1                    -0.49046                     0               1         
+    "distanziert"        "dominant"                 0.056192            0.00015724               1                    0.050141            0.00074675                1                    0.036094            0.00033684               1         
+    "distanziert"        "unaffektiert"            -0.027128               0.06823               0                   -0.024369               0.10144                0                   -0.016251               0.10629               0         
+    "distanziert"        "herzlich"                 -0.60426                     0               1                    -0.59682                     0                1                    -0.47131                     0               1         
+    "distanziert"        "alt"                        0.1597            3.3707e-27               1                     0.15909            5.3161e-27                1                     0.11413            8.1539e-30               1         
+    "distanziert"        "unsachlich"              -0.089547            1.6387e-09               1                   -0.078209            1.4087e-07                1                   -0.057907            8.9821e-09               1         
+    "distanziert"        "ruhig"                   -0.029828              0.044959               1                   -0.022808               0.12527                0                    -0.01299               0.19676               0         
+    "distanziert"        "inkompetent"               0.20222             6.529e-43               1                     0.19797            3.6282e-41                1                     0.14486            6.6467e-47               1         
+    "distanziert"        "haesslich"                 0.39846           7.8358e-172               1                      0.3904           1.9238e-164                1                     0.29031           1.1354e-182               1         
+    "distanziert"        "freundlich"               -0.47961           9.9526e-259               1                    -0.47387           8.8832e-252                1                    -0.35617           4.3472e-274               1         
+    "distanziert"        "maennlich"                0.042324             0.0044321               1                    0.049312            0.00091304                1                    0.034854            0.00062659               1         
+    "distanziert"        "gehorsam"                 -0.10143            8.2403e-12               1                   -0.095694            1.1492e-10                1                   -0.071843            9.7067e-13               1         
+    "distanziert"        "gleichgueltig"             0.39082           7.9995e-165               1                     0.39377           1.6801e-167                1                     0.30703           2.6929e-204               1         
+    "distanziert"        "interessant"               -0.4008           5.0751e-174               1                    -0.38141           1.9574e-156                1                    -0.28537           7.5846e-177               1         
+    "distanziert"        "zynisch"                   0.14081            1.8961e-21               1                      0.1373            1.8404e-20                1                     0.10224            3.2547e-24               1         
+    "distanziert"        "aufgesetzt"                0.21892            3.6257e-50               1                     0.21429            4.3179e-48                1                     0.15987            7.6481e-57               1         
+    "distanziert"        "intelligent"              -0.23184            3.2827e-56               1                    -0.21861            5.0008e-50                1                     -0.1604            4.5226e-57               1         
+    "distanziert"        "kindlich"                -0.077063            2.1402e-07               1                   -0.071694            1.4044e-06                1                   -0.052115            2.2401e-07               1         
+    "distanziert"        "bescheiden"               -0.12012            5.3997e-16               1                    -0.11805            1.7045e-15                1                   -0.087012            5.6246e-18               1         
+    "gelangweilt"        "emotional"                -0.45862           6.1497e-234               1                    -0.44298           1.4746e-216                1                     -0.3401           3.8028e-250               1         
+    "gelangweilt"        "nicht_genervt"            -0.37462           1.5003e-150               1                    -0.37804           1.6961e-153                1                    -0.28271           1.5445e-173               1         
+    "gelangweilt"        "aktiv"                    -0.52816           3.9525e-323               1                    -0.52974                     0                1                    -0.41604                     0               1         
+    "gelangweilt"        "angenehm"                 -0.39761           4.8228e-171               1                    -0.40336           1.9717e-176                1                    -0.30218           5.4914e-198               1         
+    "gelangweilt"        "charakterlos"              0.40425           2.8468e-177               1                     0.40678           1.1078e-179                1                     0.30964           1.0964e-207               1         
+    "gelangweilt"        "gesellig"                 -0.48057           6.6432e-260               1                    -0.46555           6.3226e-242                1                    -0.36433             8.17e-287               1         
+    "gelangweilt"        "entspannt"                -0.11844            1.3718e-15               1                     -0.1423              7.12e-22                1                    -0.10071            1.4389e-23               1         
+    "gelangweilt"        "mitfuehlend"              -0.45634           2.3942e-231               1                    -0.44843           1.6524e-222                1                    -0.34537           6.0076e-258               1         
+    "gelangweilt"        "dominant"                 -0.12139            2.6481e-16               1                    -0.12697            1.0583e-17                1                   -0.092941            2.7278e-20               1         
+    "gelangweilt"        "unaffektiert"            -0.018044               0.22522               0                   -0.036169              0.015035                1                   -0.024909               0.01333               1         
+    "gelangweilt"        "herzlich"                 -0.49518           2.2836e-268               1                    -0.49057           1.0998e-262                1                    -0.37828           5.5974e-298               1         
+    "gelangweilt"        "alt"                       0.13232            4.1893e-19               1                     0.13191             5.383e-19                1                    0.095121            3.3945e-21               1         
+    "gelangweilt"        "unsachlich"               0.077183            2.0493e-07               1                     0.10747            4.3795e-13                1                    0.079376            3.3282e-15               1         
+    "gelangweilt"        "ruhig"                  9.8573e-05               0.99471               0                   -0.035929              0.015717                1                   -0.021953              0.029192               1         
+    "gelangweilt"        "inkompetent"               0.35059            7.825e-131               1                     0.35324           6.3522e-133                1                     0.26329           1.4988e-150               1         
+    "gelangweilt"        "haesslich"                 0.36715           3.0847e-144               1                     0.36844           2.5542e-145                1                     0.27584           5.1655e-165               1         
+    "gelangweilt"        "freundlich"               -0.46442           1.2857e-240               1                    -0.48425           1.9052e-264                1                    -0.36239           1.6952e-283               1         
+    "gelangweilt"        "maennlich"                0.086558            5.6071e-09               1                    0.093686            2.7898e-10                1                    0.067609            3.3162e-11               1         
+    "gelangweilt"        "gehorsam"                -0.042084             0.0046617               1                   -0.042331             0.0044258                1                    -0.03187             0.0015564               1         
+    "gelangweilt"        "gleichgueltig"             0.57464                     0               1                     0.56559                     0                1                     0.44704                     0               1         
+    "gelangweilt"        "interessant"              -0.48233           4.5344e-262               1                    -0.46703           1.1524e-243                1                    -0.36353           1.6541e-285               1         
+    "gelangweilt"        "zynisch"                   0.13842            8.9966e-21               1                     0.13643            3.2114e-20                1                     0.10013            2.8102e-23               1         
+    "gelangweilt"        "aufgesetzt"                0.15415            1.9645e-25               1                     0.17619            7.8218e-33                1                     0.13131            6.6867e-39               1         
+    "gelangweilt"        "intelligent"              -0.33744           9.3318e-121               1                    -0.34453           3.9828e-126                1                    -0.25557           6.7722e-142               1         
+    "gelangweilt"        "kindlich"                  0.01362               0.36001               0                    0.033594              0.023926                1                    0.021595              0.031947               1         
+    "gelangweilt"        "bescheiden"              -0.070668            1.9829e-06               1                   -0.076241            2.8783e-07                1                   -0.056141            2.5052e-08               1         
+    "emotional"          "nicht_genervt"             0.26495            1.8276e-73               1                     0.25647            8.4547e-69                1                     0.18981            2.4631e-79               1         
+    "emotional"          "aktiv"                      0.3275           1.8835e-113               1                     0.31605           2.2411e-105                1                     0.24164           2.1405e-127               1         
+    "emotional"          "angenehm"                  0.36607           2.4568e-143               1                     0.35106           3.3386e-131                1                     0.26259           4.4587e-150               1         
+    "emotional"          "charakterlos"             -0.33984           1.4691e-122               1                    -0.32755           1.7411e-113                1                     -0.2445           2.5371e-130               1         
+    "emotional"          "gesellig"                  0.44646           2.4039e-220               1                     0.44033           1.0536e-213                1                     0.33922           4.7514e-249               1         
+    "emotional"          "entspannt"                 0.02849              0.055487               0                    0.030822              0.038277                1                    0.022503              0.025333               1         
+    "emotional"          "mitfuehlend"               0.48957            4.122e-271               1                     0.47878           1.0288e-257                1                     0.36778           2.3339e-292               1         
+    "emotional"          "dominant"                 0.017262               0.24597               0                    0.016834               0.25787                0                    0.013274               0.18736               0         
+    "emotional"          "unaffektiert"            -0.093656            2.8265e-10               1                   -0.089507            1.6661e-09                1                      -0.067            2.7686e-11               1         
+    "emotional"          "herzlich"                  0.50855           2.4073e-285               1                     0.49307           9.2814e-266                1                     0.37895           3.7257e-299               1         
+    "emotional"          "alt"                      -0.16889            2.8822e-30               1                    -0.16135            9.7559e-28                1                     -0.1165            5.4438e-31               1         
+    "emotional"          "unsachlich"                0.17113            4.8264e-31               1                     0.16717            1.1148e-29                1                     0.12598             6.865e-36               1         
+    "emotional"          "ruhig"                    -0.11571            6.0752e-15               1                    -0.11351            1.9655e-14                1                   -0.085375            2.1808e-17               1         
+    "emotional"          "inkompetent"              -0.15146            1.3356e-24               1                    -0.14121            1.4596e-21                1                    -0.10475            2.4908e-25               1         
+    "emotional"          "haesslich"                -0.33689           2.4208e-120               1                    -0.32709           3.7013e-113                1                    -0.24271           2.8207e-128               1         
+    "emotional"          "freundlich"                0.36548           7.5365e-143               1                     0.35898           1.5983e-137                1                     0.26578            1.591e-153               1         
+    "emotional"          "maennlich"                -0.10012            1.5271e-11               1                   -0.098943             2.632e-11                1                   -0.072032            1.5796e-12               1         
+    "emotional"          "gehorsam"                 0.040787             0.0061018               1                     0.03898             0.0087757                1                    0.031715              0.001636               1         
+    "emotional"          "gleichgueltig"            -0.42524            6.373e-198               1                     -0.4154           4.6593e-188                1                    -0.31804           4.9442e-219               1         
+    "emotional"          "interessant"               0.44373           2.2656e-217               1                     0.42194           1.4149e-194                1                     0.31931           7.2696e-221               1         
+    "emotional"          "zynisch"                 -0.076829            2.3293e-07               1                   -0.072799            9.6347e-07                1                   -0.056733            1.7717e-08               1         
+    "emotional"          "aufgesetzt"              -0.077069            2.1358e-07               1                   -0.081124            4.7372e-08                1                   -0.060953            1.3832e-09               1         
+    "emotional"          "intelligent"               0.17322            8.9365e-32               1                      0.1623            4.7653e-28                1                     0.11983            1.2797e-32               1         
+    "emotional"          "kindlich"                  0.12217            1.6999e-16               1                     0.12121            2.9396e-16                1                    0.088746            1.1712e-18               1         
+    "emotional"          "bescheiden"               0.023626               0.11228               0                    0.026415              0.075809                0                    0.020504               0.04177               1         
+    "nicht_genervt"      "aktiv"                     0.18375            1.3114e-35               1                     0.19894            1.4671e-41                1                     0.14609            9.3009e-48               1         
+    "nicht_genervt"      "angenehm"                  0.42107           1.0594e-193               1                       0.423           1.1857e-195                1                      0.3169           1.1069e-217               1         
+    "nicht_genervt"      "charakterlos"             -0.24828            1.8645e-64               1                     -0.2611            2.5267e-71                1                    -0.19552            4.7025e-84               1         
+    "nicht_genervt"      "gesellig"                  0.30781           8.9268e-100               1                     0.29499            2.0147e-91                1                     0.21928           2.8517e-105               1         
+    "nicht_genervt"      "entspannt"                 0.21504            1.9912e-48               1                     0.24538            5.9409e-63                1                     0.18117            1.7287e-72               1         
+    "nicht_genervt"      "mitfuehlend"               0.45617           3.7848e-231               1                     0.44268           3.0678e-216                1                     0.33936           2.7007e-249               1         
+    "nicht_genervt"      "dominant"                 -0.12111            3.1089e-16               1                    -0.11392            1.5774e-14                1                   -0.083303            1.2851e-16               1         
+    "nicht_genervt"      "unaffektiert"               0.1788            8.9082e-34               1                     0.20637            1.1668e-44                1                     0.14955            5.6589e-50               1         
+    "nicht_genervt"      "herzlich"                   0.4826           4.6021e-253               1                     0.47912           5.9634e-249                1                     0.36636           8.2455e-280               1         
+    "nicht_genervt"      "alt"                      -0.13433            1.2071e-19               1                    -0.14078            1.9355e-21                1                    -0.10072            1.3788e-23               1         
+    "nicht_genervt"      "unsachlich"              -0.055126            0.00020924               1                   -0.094372            2.0649e-10                1                   -0.069213            6.3447e-12               1         
+    "nicht_genervt"      "ruhig"                     0.17415            4.2097e-32               1                     0.21831              6.83e-50                1                      0.1619            3.0132e-58               1         
+    "nicht_genervt"      "inkompetent"              -0.19748            5.7308e-41               1                    -0.20579            2.0639e-44                1                    -0.14932            9.8976e-50               1         
+    "nicht_genervt"      "haesslich"                -0.33356           7.1765e-118               1                    -0.32998           2.9915e-115                1                    -0.24325           7.2753e-129               1         
+    "nicht_genervt"      "freundlich"                  0.561                     0               1                     0.57238                     0                1                     0.43751                     0               1         
+    "nicht_genervt"      "maennlich"               -0.022417               0.13189               0                   -0.036126              0.015155                1                   -0.026089              0.010469               1         
+    "nicht_genervt"      "gehorsam"                   0.2724            1.0387e-77               1                     0.26873            1.3233e-75                1                     0.19683            4.2874e-85               1         
+    "nicht_genervt"      "gleichgueltig"            -0.30268            2.2108e-96               1                     -0.3035            6.3807e-97                1                    -0.22873           2.6888e-114               1         
+    "nicht_genervt"      "interessant"               0.31191            1.542e-102               1                     0.29407            7.7932e-91                1                     0.21804           4.3743e-104               1         
+    "nicht_genervt"      "zynisch"                  -0.30354            6.0746e-97               1                    -0.29942            2.9293e-94                1                    -0.21801           6.3506e-104               1         
+    "nicht_genervt"      "aufgesetzt"                -0.2145             3.472e-48               1                    -0.24225            2.3344e-61                1                    -0.17802            4.6914e-70               1         
+    "nicht_genervt"      "intelligent"               0.25344            3.5723e-67               1                     0.25284            7.4819e-67                1                      0.1826             1.995e-73               1         
+    "nicht_genervt"      "kindlich"                 0.041391             0.0053883               1                    0.018012               0.22605                0                    0.014445               0.15118               0         
+    "nicht_genervt"      "bescheiden"                0.32316           2.4075e-110               1                     0.32468           1.9947e-111                1                     0.24041           5.7841e-126               1         
+    "aktiv"              "angenehm"                  0.27656            3.8737e-80               1                     0.27625            5.8386e-80                1                     0.20315            1.2185e-90               1         
+    "aktiv"              "charakterlos"             -0.40503           5.1773e-178               1                    -0.41007           7.4217e-183                1                    -0.31176            1.108e-210               1         
+    "aktiv"              "gesellig"                  0.48566           3.3725e-266               1                       0.477           1.5008e-255                1                      0.3823           7.5474e-316               1         
+    "aktiv"              "entspannt"                 0.21256            2.5002e-47               1                     0.22255            7.9361e-52                1                     0.16496             2.049e-60               1         
+    "aktiv"              "mitfuehlend"               0.29499            2.0108e-91               1                      0.2861             7.148e-86                1                     0.21621            2.106e-102               1         
+    "aktiv"              "dominant"                  0.41399           1.1298e-186               1                     0.41861           3.0545e-191                1                     0.32531           4.0085e-229               1         
+    "aktiv"              "unaffektiert"             0.020118               0.17632               0                    0.024664              0.097356                0                      0.0154               0.12585               0         
+    "aktiv"              "herzlich"                  0.31118            1.8723e-98               1                     0.30387            9.5154e-94                1                     0.23002           1.4969e-111               1         
+    "aktiv"              "alt"                      -0.03778              0.011089               1                   -0.041323              0.005464                1                   -0.030263             0.0026325               1         
+    "aktiv"              "unsachlich"               -0.13048            1.2906e-18               1                    -0.15478            1.2451e-25                1                    -0.11479            4.2892e-30               1         
+    "aktiv"              "ruhig"                    0.071441            1.5294e-06               1                    0.086474            5.8002e-09                1                    0.061683            8.7621e-10               1         
+    "aktiv"              "inkompetent"              -0.37877            3.984e-154               1                    -0.38813           2.1323e-162                1                    -0.29382            3.896e-187               1         
+    "aktiv"              "haesslich"                -0.27951            6.8455e-82               1                     -0.2747            4.7539e-79                1                    -0.20262            5.0992e-90               1         
+    "aktiv"              "freundlich"                0.26631            3.1414e-74               1                     0.28652            3.9749e-86                1                     0.20993            1.4762e-96               1         
+    "aktiv"              "maennlich"               -0.051604            0.00051975               1                     -0.0605            4.7095e-05                1                   -0.043138            2.3045e-05               1         
+    "aktiv"              "gehorsam"                 -0.19315            3.1107e-39               1                    -0.19278            4.3732e-39                1                     -0.1459            1.3762e-47               1         
+    "aktiv"              "gleichgueltig"            -0.41641           4.7128e-189               1                    -0.41579           1.9072e-188                1                     -0.3213           1.3724e-223               1         
+    "aktiv"              "interessant"               0.45107           1.9678e-225               1                     0.44264           3.4271e-216                1                     0.34161           1.3979e-252               1         
+    "aktiv"              "zynisch"                   0.13748            1.6398e-20               1                     0.13087            1.0176e-18                1                     0.09863             1.188e-22               1         
+    "aktiv"              "aufgesetzt"              -0.089396             1.745e-09               1                    -0.10164            7.4578e-12                1                   -0.073433             2.899e-13               1         
+    "aktiv"              "intelligent"               0.33258           3.7564e-117               1                     0.35172           9.9507e-132                1                     0.26122           2.9051e-148               1         
+    "aktiv"              "kindlich"                 -0.11666            3.6324e-15               1                    -0.13522             6.908e-20                1                   -0.096089            1.3136e-21               1         
+    "aktiv"              "bescheiden"               -0.12012            5.4201e-16               1                    -0.11258            3.2045e-14                1                   -0.086752            6.9793e-18               1         
+    "angenehm"           "charakterlos"             -0.39792           2.4722e-171               1                    -0.39496           1.3574e-168                1                    -0.29355           5.1031e-187               1         
+    "angenehm"           "gesellig"                  0.41593           1.3906e-188               1                     0.40603             5.75e-179                1                     0.30504           7.4658e-202               1         
+    "angenehm"           "entspannt"                  0.3459           3.5157e-127               1                     0.35545             1.09e-134                1                     0.26741           1.1938e-155               1         
+    "angenehm"           "mitfuehlend"               0.47763           2.5601e-256               1                     0.47389           8.5546e-252                1                      0.3569           1.6019e-275               1         
+    "angenehm"           "dominant"                 0.011928               0.42277               0                    0.015781               0.28885                0                    0.011247               0.26389               0         
+    "angenehm"           "unaffektiert"              0.20915            7.5608e-46               1                      0.2193            2.4447e-50                1                     0.16548             8.721e-61               1         
+    "angenehm"           "herzlich"                  0.52284           2.4012e-304               1                     0.51878           7.4915e-299                1                     0.39331           3.3596e-322               1         
+    "angenehm"           "alt"                     -0.076702            2.4387e-07               1                   -0.086563            5.5962e-09                1                   -0.063438            2.8859e-10               1         
+    "angenehm"           "unsachlich"              -0.090109            1.2945e-09               1                    -0.11339            2.0922e-14                1                   -0.084693            4.1365e-17               1         
+    "angenehm"           "ruhig"                     0.20853            1.3933e-45               1                     0.21836            6.5099e-50                1                     0.15837            8.0949e-56               1         
+    "angenehm"           "inkompetent"              -0.37697           1.4373e-152               1                    -0.37975           5.5814e-155                1                    -0.28509           2.7212e-176               1         
+    "angenehm"           "haesslich"                -0.63794                     0               1                    -0.63329                     0                1                    -0.49316                     0               1         
+    "angenehm"           "freundlich"                0.57559                     0               1                     0.57664                     0                1                     0.44074                     0               1         
+    "angenehm"           "maennlich"               0.0089823               0.54607               0                   0.0028321               0.84905                0                   0.0024822               0.80757               0         
+    "angenehm"           "gehorsam"                  0.21003            3.1541e-46               1                     0.20039            3.7355e-42                1                     0.15081            1.0198e-50               1         
+    "angenehm"           "gleichgueltig"            -0.32308           2.7164e-110               1                    -0.32723           2.9335e-113                1                    -0.24462            1.884e-130               1         
+    "angenehm"           "interessant"               0.53026                     0               1                     0.52128           2.1791e-313                1                     0.39323                     0               1         
+    "angenehm"           "zynisch"                    -0.219            3.3279e-50               1                    -0.21672            3.5704e-49                1                    -0.16189            3.7111e-58               1         
+    "angenehm"           "aufgesetzt"               -0.29724            7.4279e-93               1                    -0.29635            2.7587e-92                1                    -0.22054           1.6576e-106               1         
+    "angenehm"           "intelligent"                0.4821           8.7047e-262               1                     0.47786           1.3555e-256                1                     0.35899           3.7356e-278               1         
+    "angenehm"           "kindlich"                -0.082885            2.4069e-08               1                   -0.086492            5.7581e-09                1                    -0.06115            1.2275e-09               1         
+    "angenehm"           "bescheiden"                0.24584            3.4116e-63               1                      0.2448            1.1776e-62                1                     0.18279            1.2337e-73               1         
+    "charakterlos"       "gesellig"                 -0.39505           1.1118e-168               1                    -0.39086           7.4464e-165                1                    -0.29693           2.6809e-191               1         
+    "charakterlos"       "entspannt"                -0.24032            2.2055e-60               1                    -0.24948            4.4028e-65                1                    -0.18378            1.6373e-74               1         
+    "charakterlos"       "mitfuehlend"               -0.4133           5.3172e-186               1                    -0.40538           2.4022e-178                1                    -0.31103           1.1431e-209               1         
+    "charakterlos"       "dominant"                  -0.2748            4.1684e-79               1                    -0.27278            6.2593e-78                1                    -0.20439            1.2993e-91               1         
+    "charakterlos"       "unaffektiert"            -0.054521            0.00024561               1                   -0.061171            3.8742e-05                1                   -0.043134            1.8164e-05               1         
+    "charakterlos"       "herzlich"                 -0.38147           6.0973e-151               1                    -0.37717           2.4358e-147                1                    -0.28917           4.6977e-175               1         
+    "charakterlos"       "alt"                      0.016142               0.27796               0                    0.016386               0.27077                0                    0.010935               0.27725               0         
+    "charakterlos"       "unsachlich"                0.11486             9.573e-15               1                     0.12764            7.1022e-18                1                    0.094422            7.0519e-21               1         
+    "charakterlos"       "ruhig"                    -0.10594            9.3503e-13               1                    -0.11214            4.0331e-14                1                   -0.080617            1.1428e-15               1         
+    "charakterlos"       "inkompetent"                0.3769           1.6465e-152               1                     0.38096           4.8526e-156                1                     0.28728           6.5582e-179               1         
+    "charakterlos"       "haesslich"                 0.37069           3.2765e-147               1                     0.37031           6.9258e-147                1                     0.27756           4.0967e-167               1         
+    "charakterlos"       "freundlich"               -0.32484           1.5302e-111               1                    -0.33997           1.1733e-122                1                    -0.25326           1.4164e-139               1         
+    "charakterlos"       "maennlich"                0.037032               0.01279               1                    0.037257              0.012255                1                    0.026998             0.0080792               1         
+    "charakterlos"       "gehorsam"                 0.099637            1.9095e-11               1                     0.10149             8.025e-12                1                    0.075636            5.8924e-14               1         
+    "charakterlos"       "gleichgueltig"             0.42463            2.672e-197               1                     0.41533           5.4561e-188                1                     0.31743           3.5208e-218               1         
+    "charakterlos"       "interessant"               -0.4832           3.8208e-263               1                    -0.47835           3.4269e-257                1                    -0.36382           4.5702e-286               1         
+    "charakterlos"       "zynisch"                 -0.046942              0.001597               1                   -0.052249            0.00044172                1                   -0.038899            0.00011248               1         
+    "charakterlos"       "aufgesetzt"                0.20856            1.3615e-45               1                      0.2074            4.2853e-45                1                     0.15313             2.731e-52               1         
+    "charakterlos"       "intelligent"              -0.37373           8.6703e-150               1                    -0.37743           5.7076e-153                1                    -0.28206           1.8927e-172               1         
+    "charakterlos"       "kindlich"                  0.12416            5.4537e-17               1                     0.13428            1.2428e-19                1                    0.096738            7.1896e-22               1         
+    "charakterlos"       "bescheiden"               0.037298              0.012159               1                    0.035754              0.016233                1                    0.027983             0.0054651               1         
+    "gesellig"           "entspannt"                 0.19589            2.5241e-40               1                     0.18206            5.6328e-35                1                     0.13401            1.7983e-40               1         
+    "gesellig"           "mitfuehlend"               0.49803           5.8598e-282               1                     0.48515           1.4527e-265                1                     0.37328           3.5232e-301               1         
+    "gesellig"           "dominant"                  0.15081            2.1142e-24               1                     0.15084            2.0757e-24                1                     0.11703            3.0726e-31               1         
+    "gesellig"           "unaffektiert"             0.033513              0.024267               1                    0.028422              0.056074                0                    0.020523               0.04137               1         
+    "gesellig"           "herzlich"                  0.49557           7.4925e-269               1                     0.48705           2.1243e-258                1                     0.37349           9.6515e-291               1         
+    "gesellig"           "alt"                      -0.11223            3.8371e-14               1                    -0.10939            1.6608e-13                1                   -0.078575            5.7666e-15               1         
+    "gesellig"           "unsachlich"               0.058441            8.4636e-05               1                    0.063306            2.0555e-05                1                     0.04549            6.2892e-06               1         
+    "gesellig"           "ruhig"                    0.035576              0.016772               1                     0.01422               0.33923                0                   0.0076552               0.44679               0         
+    "gesellig"           "inkompetent"              -0.25782            1.5753e-69               1                    -0.23995            3.3782e-60                1                    -0.17885            1.4806e-70               1         
+    "gesellig"           "haesslich"                -0.38075           7.3932e-156               1                     -0.3736           1.1181e-149                1                    -0.27811           7.7452e-168               1         
+    "gesellig"           "freundlich"                0.43619           2.7221e-209               1                     0.42201           1.1847e-194                1                     0.31452           3.1007e-214               1         
+    "gesellig"           "maennlich"              0.00036346               0.98051               0                  -0.0057808               0.69764                0                  -0.0040684               0.68974               0         
+    "gesellig"           "gehorsam"                -0.030434              0.040776               1                   -0.039342             0.0081691                1                   -0.028262             0.0050037               1         
+    "gesellig"           "gleichgueltig"            -0.44722            3.499e-221               1                    -0.44056           5.9829e-214                1                    -0.34123           6.9575e-252               1         
+    "gesellig"           "interessant"               0.48465           6.1442e-265               1                     0.47314           6.7427e-251                1                     0.36445           3.7444e-287               1         
+    "gesellig"           "zynisch"                 -0.029195               0.04971               1                   -0.019244               0.19586                0                   -0.014747               0.14308               0         
+    "gesellig"           "aufgesetzt"               -0.16364            1.7113e-28               1                    -0.14943            5.5633e-24                1                    -0.10871            3.2665e-27               1         
+    "gesellig"           "intelligent"               0.26325            1.6126e-72               1                     0.25713            3.7267e-69                1                     0.19204            5.1144e-81               1         
+    "gesellig"           "kindlich"                  0.01758               0.23739               0                     0.02368               0.11146                0                    0.017619              0.079992               0         
+    "gesellig"           "bescheiden"              -0.014355               0.33466               0                   -0.019086               0.19956                0                   -0.015083               0.13419               0         
+    "entspannt"          "mitfuehlend"               0.13905            5.9698e-21               1                      0.1382             1.032e-20                1                     0.10069            1.4118e-23               1         
+    "entspannt"          "dominant"                  0.25602            1.4863e-68               1                     0.24283            1.1849e-61                1                     0.17975              2.48e-71               1         
+    "entspannt"          "unaffektiert"              0.18174            7.3789e-35               1                     0.21555            1.1914e-48                1                     0.16237             1.314e-58               1         
+    "entspannt"          "herzlich"                  0.13997            1.6645e-20               1                     0.14488            7.1635e-22                1                     0.10507            1.1505e-24               1         
+    "entspannt"          "alt"                      0.089987            1.3622e-09               1                    0.083085            2.2268e-08                1                    0.059227            3.9346e-09               1         
+    "entspannt"          "unsachlich"               -0.21599            7.5739e-49               1                    -0.24794            2.8167e-64                1                    -0.18168            9.2859e-73               1         
+    "entspannt"          "ruhig"                     0.56682                     0               1                      0.5532                     0                1                     0.42643                     0               1         
+    "entspannt"          "inkompetent"              -0.37377            7.995e-150               1                    -0.37011           1.0101e-146                1                    -0.27207           8.7912e-161               1         
+    "entspannt"          "haesslich"                -0.27947            7.3022e-82               1                    -0.27587            9.7916e-80                1                    -0.20427            1.7806e-91               1         
+    "entspannt"          "freundlich"                0.22044            7.3582e-51               1                     0.25365            2.7472e-67                1                     0.18501            1.9477e-75               1         
+    "entspannt"          "maennlich"                0.063857            1.7399e-05               1                    0.052288             0.0004374                1                    0.036957            0.00028669               1         
+    "entspannt"          "gehorsam"                -0.016102               0.27917               0                  -0.0016184               0.91339                0                  -0.0017645               0.86088               0         
+    "entspannt"          "gleichgueltig"           -0.073389            7.8611e-07               1                   -0.084359             1.351e-08                1                   -0.059483            3.4197e-09               1         
+    "entspannt"          "interessant"               0.25988            1.1831e-70               1                     0.24539            5.8349e-63                1                     0.18083            3.2784e-72               1         
+    "entspannt"          "zynisch"                  0.031452              0.034493               1                   0.0075595               0.61143                0                   0.0076181                0.4493               0         
+    "entspannt"          "aufgesetzt"               -0.23243            1.7115e-56               1                    -0.25429            1.2532e-67                1                    -0.18659            8.3558e-77               1         
+    "entspannt"          "intelligent"               0.33717           1.4928e-120               1                     0.33715           1.5457e-120                1                     0.24561            2.468e-131               1         
+    "entspannt"          "kindlich"                 -0.29007            2.5252e-88               1                    -0.28607            7.4457e-86                1                     -0.2038            3.2207e-91               1         
+    "entspannt"          "bescheiden"               0.051043            0.00059784               1                    0.071734            1.3856e-06                1                    0.053294            1.2031e-07               1         
+    "mitfuehlend"        "dominant"                -0.089363            1.7697e-09               1                   -0.082658            2.6283e-08                1                   -0.060365            2.0189e-09               1         
+    "mitfuehlend"        "unaffektiert"             0.059018            7.1955e-05               1                    0.056524            0.00014369                1                    0.041358            3.9483e-05               1         
+    "mitfuehlend"        "herzlich"                  0.73385                     0               1                     0.72519                     0                1                     0.59268                     0               1         
+    "mitfuehlend"        "alt"                      -0.16642            1.9956e-29               1                    -0.15769            1.4987e-26                1                     -0.1134            1.8491e-29               1         
+    "mitfuehlend"        "unsachlich"               0.077072            2.1331e-07               1                    0.079692            8.1289e-08                1                    0.058205            7.5288e-09               1         
+    "mitfuehlend"        "ruhig"                    0.050127             0.0007492               1                    0.041219             0.0055829                1                    0.029839             0.0030229               1         
+    "mitfuehlend"        "inkompetent"              -0.19684             1.039e-40               1                    -0.18512            3.9896e-36                1                    -0.13576            2.0493e-41               1         
+    "mitfuehlend"        "haesslich"                 -0.4154           4.6801e-188               1                    -0.41034           4.0819e-183                1                    -0.30518           1.1891e-201               1         
+    "mitfuehlend"        "freundlich"                0.56847                     0               1                     0.55659                     0                1                     0.42572                     0               1         
+    "mitfuehlend"        "maennlich"               -0.042355             0.0044031               1                    -0.04457              0.002728                1                   -0.031564             0.0019541               1         
+    "mitfuehlend"        "gehorsam"                  0.15681            2.8504e-26               1                      0.1511            1.7307e-24                1                     0.11534            2.2318e-30               1         
+    "mitfuehlend"        "gleichgueltig"            -0.42821           5.7103e-201               1                    -0.42422           6.8401e-197                1                    -0.33048           2.1932e-236               1         
+    "mitfuehlend"        "interessant"               0.44821           2.8681e-222               1                     0.43514           3.4713e-208                1                     0.32814           3.5419e-233               1         
+    "mitfuehlend"        "zynisch"                  -0.18564            2.5373e-36               1                    -0.17697            4.0993e-33                1                     -0.1336            3.6553e-40               1         
+    "mitfuehlend"        "aufgesetzt"               -0.20357            1.7716e-43               1                     -0.1971            8.2103e-41                1                    -0.14778            7.7185e-49               1         
+    "mitfuehlend"        "intelligent"               0.23966            4.7146e-60               1                     0.22746            4.0501e-54                1                     0.16778            2.8195e-62               1         
+    "mitfuehlend"        "kindlich"                  0.09696            6.5086e-11               1                    0.099465            2.0674e-11                1                    0.071991            8.4631e-13               1         
+    "mitfuehlend"        "bescheiden"                0.19248            5.7492e-39               1                     0.18862            1.8326e-37                1                     0.14257            1.6785e-45               1         
+    "dominant"           "unaffektiert"            -0.041619             0.0051388               1                    -0.03703              0.012795                1                   -0.026348             0.0088491               1         
+    "dominant"           "herzlich"                -0.089019            3.9587e-09               1                   -0.082742            4.5158e-08                1                   -0.060366            3.9197e-09               1         
+    "dominant"           "alt"                       0.18649            1.2066e-36               1                      0.1856            2.6354e-36                1                     0.13328            5.1344e-40               1         
+    "dominant"           "unsachlich"               -0.19476            7.1468e-40               1                    -0.19562            3.2396e-40                1                    -0.14298            1.0447e-45               1         
+    "dominant"           "ruhig"                     0.15825            9.8723e-27               1                     0.14301              4.42e-22                1                     0.10551            1.0407e-25               1         
+    "dominant"           "inkompetent"              -0.37453           1.7815e-150               1                    -0.37178           3.9552e-148                1                    -0.27985           8.1063e-170               1         
+    "dominant"           "haesslich"               -0.056645            0.00013905               1                   -0.059731            5.8738e-05                1                   -0.044814             8.677e-06               1         
+    "dominant"           "freundlich"               -0.10963            1.4695e-13               1                   -0.088777            2.2577e-09                1                    -0.06568             6.981e-11               1         
+    "dominant"           "maennlich"                0.035918              0.015751               1                    0.035185              0.018012                1                     0.02462              0.015737               1         
+    "dominant"           "gehorsam"                 -0.47693           1.8344e-255               1                    -0.47137           8.6611e-249                1                    -0.36465           5.6459e-287               1         
+    "dominant"           "gleichgueltig"            -0.13274            3.2321e-19               1                    -0.12423            5.2427e-17                1                   -0.090001            3.9743e-19               1         
+    "dominant"           "interessant"               0.23948            5.8106e-60               1                     0.24079            1.2713e-60                1                     0.18254            1.7956e-73               1         
+    "dominant"           "zynisch"                   0.39357           2.5366e-167               1                      0.3955           4.2662e-169                1                     0.30172           4.4257e-197               1         
+    "dominant"           "aufgesetzt"              0.0056406               0.70463               0                  -0.0024458               0.86944                0                  -0.0019141               0.84918               0         
+    "dominant"           "intelligent"               0.26686            1.5342e-74               1                     0.27185            2.1501e-77                1                     0.20139            7.5813e-89               1         
+    "dominant"           "kindlich"                 -0.27165            2.8114e-77               1                    -0.26338            1.3616e-72                1                    -0.18828            4.7528e-78               1         
+    "dominant"           "bescheiden"               -0.35038           1.1372e-130               1                    -0.34459           3.5742e-126                1                    -0.25969           1.5589e-146               1         
+    "unaffektiert"       "herzlich"                 0.091242            1.6043e-09               1                    0.090578            2.1058e-09                1                    0.065237            1.9403e-10               1         
+    "unaffektiert"       "alt"                      0.030986              0.037259               1                    0.019123                0.1987                0                    0.013652               0.17479               0         
+    "unaffektiert"       "unsachlich"               -0.13232            4.1946e-19               1                    -0.15264            5.8155e-25                1                    -0.11171            1.3527e-28               1         
+    "unaffektiert"       "ruhig"                      0.2039             1.288e-43               1                     0.22933             5.271e-55                1                     0.16703             6.699e-62               1         
+    "unaffektiert"       "inkompetent"             -0.067219            6.1089e-06               1                   -0.084757            1.1544e-08                1                   -0.061705            8.8997e-10               1         
+    "unaffektiert"       "haesslich"               -0.091323            7.7368e-10               1                    -0.10087            1.0728e-11                1                   -0.073752            2.4103e-13               1         
+    "unaffektiert"       "freundlich"                0.18441            7.4284e-36               1                     0.20281            3.7008e-43                1                      0.1464             6.424e-48               1         
+    "unaffektiert"       "maennlich"                 0.10181            6.8919e-12               1                    0.089969            1.3727e-09                1                    0.064735            2.1066e-10               1         
+    "unaffektiert"       "gehorsam"                  0.17784            1.9925e-33               1                     0.18422            8.7596e-36                1                     0.13508            4.7265e-41               1         
+    "unaffektiert"       "gleichgueltig"             0.03782              0.011003               1                    0.032173              0.030559                1                    0.025384              0.011665               1         
+    "unaffektiert"       "interessant"               0.05386            0.00029202               1                    0.057959            9.6822e-05                1                    0.041537            3.6591e-05               1         
+    "unaffektiert"       "zynisch"                  -0.19643            1.5282e-40               1                    -0.19817            2.9994e-41                1                    -0.14214            2.9732e-45               1         
+    "unaffektiert"       "aufgesetzt"               -0.34909           1.1682e-129               1                    -0.35684           8.5006e-136                1                    -0.27204           4.5562e-161               1         
+    "unaffektiert"       "intelligent"                0.1107            8.4978e-14               1                     0.12337             8.581e-17                1                    0.090748            2.0608e-19               1         
+    "unaffektiert"       "kindlich"                -0.082744            2.5425e-08               1                   -0.091178            8.2313e-10                1                   -0.063908            2.1321e-10               1         
+    "unaffektiert"       "bescheiden"                  0.187            7.7185e-37               1                      0.1975            5.6379e-41                1                     0.14343            4.7951e-46               1         
+    "herzlich"           "alt"                      -0.18284            4.6116e-34               1                    -0.18106            2.0037e-33                1                    -0.13094             2.229e-37               1         
+    "herzlich"           "unsachlich"               0.066328            1.1774e-05               1                    0.052516             0.0005247                1                    0.038185             0.0001976               1         
+    "herzlich"           "ruhig"                    0.038166              0.011755               1                     0.04558             0.0026185                1                    0.030551             0.0028743               1         
+    "herzlich"           "inkompetent"              -0.22839            1.1473e-52               1                    -0.22039            4.4573e-49                1                    -0.16146            7.9253e-56               1         
+    "herzlich"           "haesslich"                -0.46738           2.1315e-235               1                    -0.45611           7.2234e-223                1                    -0.34208           8.4147e-244               1         
+    "herzlich"           "freundlich"                0.65988                     0               1                     0.65358                     0                1                     0.50929                     0               1         
+    "herzlich"           "maennlich"               -0.055306            0.00025984               1                   -0.059595            8.2819e-05                1                   -0.042064            5.1245e-05               1         
+    "herzlich"           "gehorsam"                  0.19002            1.0515e-36               1                     0.18313            3.6152e-34                1                     0.13622             2.929e-40               1         
+    "herzlich"           "gleichgueltig"            -0.45822           3.5286e-225               1                    -0.45544           3.8569e-222                1                    -0.35444           6.7384e-262               1         
+    "herzlich"           "interessant"               0.45825           3.2357e-225               1                     0.44026           4.8046e-206                1                      0.3314           2.6269e-229               1         
+    "herzlich"           "zynisch"                  -0.22089            2.7072e-49               1                    -0.21472             1.297e-46                1                    -0.16038            4.1607e-55               1         
+    "herzlich"           "aufgesetzt"               -0.21504            9.4625e-47               1                    -0.21426            2.0365e-46                1                    -0.15898            2.8316e-54               1         
+    "herzlich"           "intelligent"                0.2787            1.4875e-78               1                     0.26686            6.1459e-72                1                     0.19713             2.887e-82               1         
+    "herzlich"           "kindlich"                 0.097202            1.2806e-10               1                    0.088345            5.1831e-09                1                     0.06395            4.4107e-10               1         
+    "herzlich"           "bescheiden"                0.23839            2.3705e-57               1                     0.23336            5.7353e-55                1                     0.17557            1.0928e-65               1         
+    "alt"                "unsachlich"              -0.078276            1.3744e-07               1                   -0.067985            4.7798e-06                1                   -0.050589            5.0842e-07               1         
+    "alt"                "ruhig"                     0.12474            3.8884e-17               1                     0.11147            5.6895e-14                1                    0.081248             6.737e-16               1         
+    "alt"                "inkompetent"             -0.080442            6.1322e-08               1                   -0.084553            1.2514e-08                1                   -0.061512            1.0076e-09               1         
+    "alt"                "haesslich"                 0.13801            1.1703e-20               1                     0.14529            9.5877e-23                1                     0.10512            1.6602e-25               1         
+    "alt"                "freundlich"               -0.18351             1.617e-35               1                     -0.1834            1.7748e-35                1                    -0.13111             8.989e-39               1         
+    "alt"                "maennlich"                 0.22195            1.5023e-51               1                     0.22745            4.1072e-54                1                     0.16378            3.9719e-58               1         
+    "alt"                "gehorsam"                 -0.08644            5.8828e-09               1                   -0.089212            1.8845e-09                1                   -0.063595            2.6785e-10               1         
+    "alt"                "gleichgueltig"            0.097148            5.9778e-11               1                    0.096983            6.4398e-11                1                    0.070825            1.9713e-12               1         
+    "alt"                "interessant"             -0.068365            4.2275e-06               1                   -0.063102            2.1862e-05                1                    -0.04471             8.874e-06               1         
+    "alt"                "zynisch"                   0.14049            2.3315e-21               1                     0.14652            4.1443e-23                1                     0.10548            1.1309e-25               1         
+    "alt"                "aufgesetzt"               0.010672               0.47325               0                    0.024201                0.1038                0                    0.018492              0.066046               0         
+    "alt"                "intelligent"              0.076677            2.4606e-07               1                    0.076575            2.5533e-07                1                    0.054331             6.899e-08               1         
+    "alt"                "kindlich"                 -0.48775           8.0259e-269               1                    -0.45283           2.1232e-227                1                    -0.34075           2.3846e-251               1         
+    "alt"                "bescheiden"              -0.025114              0.091405               0                   -0.041937             0.0048079                1                   -0.030363             0.0025672               1         
+    "unsachlich"         "ruhig"                    -0.26376            8.3576e-73               1                    -0.30132            1.7199e-95                1                    -0.21755           1.7581e-103               1         
+    "unsachlich"         "inkompetent"               0.33196           1.0733e-116               1                     0.35621           2.7152e-135                1                     0.26684           2.0399e-154               1         
+    "unsachlich"         "haesslich"                0.099079            2.4719e-11               1                     0.10845            2.6701e-13                1                    0.082177            3.5901e-16               1         
+    "unsachlich"         "freundlich"              -0.051755            0.00050041               1                    -0.10059            1.2246e-11                1                   -0.072273            7.4001e-13               1         
+    "unsachlich"         "maennlich"              -0.0012091               0.93524               0                    0.020882               0.16046                0                    0.015662               0.12468               0         
+    "unsachlich"         "gehorsam"               0.00086575                0.9536               0                  -0.0074148               0.61826                0                   -0.005504               0.58498               0         
+    "unsachlich"         "gleichgueltig"            0.050254             0.0007263               1                    0.060889            4.2069e-05                1                     0.04456             9.746e-06               1         
+    "unsachlich"         "interessant"             -0.074488            5.3617e-07               1                   -0.063177            2.1371e-05                1                   -0.047292             2.667e-06               1         
+    "unsachlich"         "zynisch"                  0.062128            2.9234e-05               1                     0.06914            3.2859e-06                1                    0.047962            1.9518e-06               1         
+    "unsachlich"         "aufgesetzt"               0.072886             9.352e-07               1                    0.093806            2.6467e-10                1                    0.066785            3.3143e-11               1         
+    "unsachlich"         "intelligent"              -0.30375            4.4078e-97               1                    -0.32553           4.9009e-112                1                    -0.23828           1.7788e-123               1         
+    "unsachlich"         "kindlich"                  0.28463            5.6805e-85               1                     0.31645           1.1948e-105                1                     0.22875           3.6076e-114               1         
+    "unsachlich"         "bescheiden"              -0.068938            3.5098e-06               1                   -0.082843             2.446e-08                1                    -0.05879            5.4512e-09               1         
+    "ruhig"              "inkompetent"              -0.27035            1.5765e-76               1                    -0.27402            1.1834e-78                1                    -0.20045             3.663e-88               1         
+    "ruhig"              "haesslich"                -0.18204            5.7005e-35               1                    -0.18206             5.602e-35                1                    -0.13072            1.5932e-38               1         
+    "ruhig"              "freundlich"                 0.1585            8.2321e-27               1                     0.20735            4.5001e-45                1                     0.15143            3.9447e-51               1         
+    "ruhig"              "maennlich"                0.060889            4.2065e-05               1                    0.047522             0.0013959                1                    0.034286            0.00076638               1         
+    "ruhig"              "gehorsam"                 0.038945             0.0088364               1                    0.058047            9.4474e-05                1                    0.042277            2.6809e-05               1         
+    "ruhig"              "gleichgueltig"            0.084777            1.1451e-08               1                    0.065768            9.6576e-06                1                    0.054329            6.7513e-08               1         
+    "ruhig"              "interessant"              0.097097            6.1168e-11               1                    0.076735            2.4098e-07                1                     0.05699            1.4857e-08               1         
+    "ruhig"              "zynisch"                 -0.025066              0.092017               0                   -0.060189            5.1505e-05                1                   -0.041028            4.6131e-05               1         
+    "ruhig"              "aufgesetzt"               -0.23881            1.2466e-59               1                    -0.25705            4.0958e-69                1                    -0.18886            1.2563e-78               1         
+    "ruhig"              "intelligent"               0.25718            3.5104e-69               1                     0.26227            5.6779e-72                1                      0.1902            1.5838e-79               1         
+    "ruhig"              "kindlich"                 -0.26698            1.3104e-74               1                    -0.27123            4.9013e-77                1                    -0.19409             6.749e-83               1         
+    "ruhig"              "bescheiden"                0.15464            1.3873e-25               1                     0.18321            2.0959e-35                1                     0.13664            6.0417e-42               1         
+    "inkompetent"        "haesslich"                 0.38155           1.4892e-156               1                     0.37806           1.6468e-153                1                     0.28544           2.0891e-176               1         
+    "inkompetent"        "freundlich"               -0.26803            3.3006e-75               1                     -0.2868            2.6589e-86                1                    -0.20865            2.9817e-95               1         
+    "inkompetent"        "maennlich"                0.013201               0.37498               0                    0.013569               0.36178                0                     0.01048               0.30415               0         
+    "inkompetent"        "gehorsam"                 0.095248            1.4018e-10               1                    0.094013            2.4174e-10                1                    0.069417            5.6348e-12               1         
+    "inkompetent"        "gleichgueltig"             0.28449             6.906e-85               1                      0.2872            1.5031e-86                1                     0.21466           9.5962e-101               1         
+    "inkompetent"        "interessant"              -0.42372             2.25e-196               1                    -0.40837           3.2749e-181                1                    -0.31039           1.5496e-208               1         
+    "inkompetent"        "zynisch"                 -0.047721             0.0013324               1                   -0.048346               0.00115                1                   -0.036914            0.00024963               1         
+    "inkompetent"        "aufgesetzt"                0.17608            8.5576e-33               1                      0.1899            5.8721e-38                1                     0.14077            2.0708e-44               1         
+    "inkompetent"        "intelligent"              -0.60349                     0               1                    -0.61614                     0                1                    -0.48327                     0               1         
+    "inkompetent"        "kindlich"                   0.3155           5.3557e-105               1                     0.32569           3.7534e-112                1                      0.2353           1.0204e-120               1         
+    "inkompetent"        "bescheiden"              -0.011706               0.43146               0                   -0.015958               0.28349                0                   -0.011178               0.26739               0         
+    "haesslich"          "freundlich"               -0.47343           3.0175e-251               1                    -0.47518           2.3597e-253                1                    -0.35394           2.9907e-270               1         
+    "haesslich"          "maennlich"                 0.12889            3.3643e-18               1                     0.13269            3.3397e-19                1                    0.093958            3.2132e-20               1         
+    "haesslich"          "gehorsam"                 -0.10184            6.7942e-12               1                   -0.089502            1.6696e-09                1                   -0.065678            7.1701e-11               1         
+    "haesslich"          "gleichgueltig"             0.29769            3.7917e-93               1                     0.30382            3.9613e-97                1                     0.22657           5.4669e-112               1         
+    "haesslich"          "interessant"              -0.50261           5.9566e-288               1                    -0.49826           2.9568e-282                1                    -0.37688            2.215e-306               1         
+    "haesslich"          "zynisch"                   0.15254            6.2266e-25               1                     0.14527            9.7345e-23                1                     0.11139            2.1615e-28               1         
+    "haesslich"          "aufgesetzt"                0.21367            8.0816e-48               1                     0.21133            8.5804e-47                1                     0.15691            9.7678e-55               1         
+    "haesslich"          "intelligent"              -0.47217           9.6358e-250               1                    -0.45757           9.6302e-233                1                    -0.34572            1.163e-257               1         
+    "haesslich"          "kindlich"                 0.046228             0.0018811               1                    0.045291              0.002324                1                    0.033502            0.00088075               1         
+    "haesslich"          "bescheiden"               -0.14964            4.8148e-24               1                     -0.1468            3.4202e-23                1                    -0.10897            3.0408e-27               1         
+    "freundlich"         "maennlich"               -0.069898             2.561e-06               1                   -0.088619            2.4112e-09                1                   -0.062705            7.7586e-10               1         
+    "freundlich"         "gehorsam"                  0.28556            1.5324e-85               1                     0.26974            3.5168e-76                1                     0.19857            1.7588e-86               1         
+    "freundlich"         "gleichgueltig"            -0.39398           1.0754e-167               1                    -0.40733           3.2358e-180                1                    -0.30802           2.0426e-205               1         
+    "freundlich"         "interessant"               0.39376           1.7162e-167               1                     0.38599           1.7541e-160                1                     0.28413           3.5332e-175               1         
+    "freundlich"         "zynisch"                  -0.31761           1.8789e-106               1                    -0.31432           3.5186e-104                1                    -0.22994            2.805e-115               1         
+    "freundlich"         "aufgesetzt"               -0.26004            9.5653e-71               1                    -0.28357            2.5006e-84                1                    -0.20774              1.27e-94               1         
+    "freundlich"         "intelligent"               0.34375           1.5596e-125               1                     0.35284           1.3103e-132                1                     0.25705           1.8057e-143               1         
+    "freundlich"         "kindlich"                 0.027081              0.068713               0                   -0.004435               0.76566                0                  -0.0020561                0.8382               0         
+    "freundlich"         "bescheiden"                0.35399           1.5965e-133               1                     0.35071           6.2986e-131                1                     0.26367           5.8995e-151               1         
+    "maennlich"          "gehorsam"                0.0032208               0.82863               0                  -0.0039517               0.79057                0                  -0.0022716               0.82372               0         
+    "maennlich"          "gleichgueltig"             0.09773            4.5892e-11               1                    0.099795            1.7744e-11                1                    0.071508             2.307e-12               1         
+    "maennlich"          "interessant"              0.005787               0.69734               0                   0.0012537               0.93285                0                    0.001428               0.88858               0         
+    "maennlich"          "zynisch"                  0.040717             0.0061906               1                    0.052702            0.00039362                1                     0.03758             0.0002288               1         
+    "maennlich"          "aufgesetzt"              -0.013321               0.37062               0                  0.00013564               0.99273                0                   -0.001397               0.89096               0         
+    "maennlich"          "intelligent"              0.004451               0.76484               0                 -0.00052721               0.97174                0                  -0.0011785               0.90804               0         
+    "maennlich"          "kindlich"                -0.096417            8.3119e-11               1                   -0.086073            6.8197e-09                1                   -0.062904            6.7378e-10               1         
+    "maennlich"          "bescheiden"              0.0053349               0.71995               0                   0.0061985               0.67699                0                   0.0045624               0.65461               0         
+    "gehorsam"           "gleichgueltig"            0.013305               0.37122               0                    0.014939               0.31537                0                   0.0091835               0.36189               0         
+    "gehorsam"           "interessant"             -0.039686             0.0076276               1                   -0.059924            5.5592e-05                1                   -0.045536            6.1261e-06               1         
+    "gehorsam"           "zynisch"                  -0.65854                     0               1                    -0.66878                     0                1                    -0.54233                     0               1         
+    "gehorsam"           "aufgesetzt"               -0.10502            1.4663e-12               1                    -0.10836            2.7954e-13                1                   -0.079237            3.5265e-15               1         
+    "gehorsam"           "intelligent"             0.0087517               0.55642               0                  -0.0026276               0.85983                0                  -0.0031519               0.75452               0         
+    "gehorsam"           "kindlich"                  0.11336            2.1202e-14               1                    0.099979            1.6287e-11                1                    0.073097            3.8944e-13               1         
+    "gehorsam"           "bescheiden"                0.50176           7.8381e-287               1                     0.49254           6.9337e-275                1                     0.37479           7.9524e-303               1         
+    "gleichgueltig"      "interessant"              -0.43032           3.8233e-203               1                    -0.41862           3.0053e-191                1                    -0.32176           3.7153e-224               1         
+    "gleichgueltig"      "zynisch"                  0.059375            6.5021e-05               1                    0.062338            2.7472e-05                1                    0.049831            7.5495e-07               1         
+    "gleichgueltig"      "aufgesetzt"                0.11677            3.4231e-15               1                     0.12301             1.056e-16                1                    0.091583            9.0592e-20               1         
+    "gleichgueltig"      "intelligent"              -0.27337            2.8478e-78               1                    -0.28112            7.4929e-83                1                    -0.20878            2.3473e-95               1         
+    "gleichgueltig"      "kindlich"                -0.021128               0.15559               0                  -0.0069354               0.64114                0                   -0.006297               0.53163               0         
+    "gleichgueltig"      "bescheiden"               0.017492               0.23973               0                     0.01969               0.18571                0                    0.015832               0.11603               0         
+    "interessant"        "zynisch"                 -0.012239               0.41075               0                    0.016687               0.26206                0                    0.011826                0.2403               0         
+    "interessant"        "aufgesetzt"               -0.19878            1.6967e-41               1                    -0.18662            1.0738e-36                1                    -0.13817            6.5799e-43               1         
+    "interessant"        "intelligent"               0.52862                     0               1                     0.51406            2.305e-303                1                     0.39186                     0               1         
+    "interessant"        "kindlich"                -0.075113            4.3023e-07               1                    -0.07204            1.2487e-06                1                   -0.051057            3.9162e-07               1         
+    "interessant"        "bescheiden"                0.02177                0.1434               0                   0.0098544               0.50779                0                    0.006482               0.51983               0         
+    "zynisch"            "aufgesetzt"                0.15602            5.0731e-26               1                     0.15506            1.0228e-25                1                     0.11176            1.2608e-28               1         
+    "zynisch"            "intelligent"             -0.038137              0.010349               1                   -0.021477               0.14888                0                   -0.013809               0.17074               0         
+    "zynisch"            "kindlich"                -0.090727            9.9692e-10               1                   -0.070347            2.2066e-06                1                   -0.052423            1.9368e-07               1         
+    "zynisch"            "bescheiden"                -0.4633           2.6099e-239               1                    -0.46247           2.3883e-238                1                    -0.34904           7.4554e-263               1         
+    "aufgesetzt"         "intelligent"               -0.2215            2.4143e-51               1                    -0.21942            2.1632e-50                1                    -0.15922            2.7412e-56               1         
+    "aufgesetzt"         "kindlich"                  0.10656            6.8715e-13               1                     0.12032            4.8221e-16                1                    0.084905            3.2182e-17               1         
+    "aufgesetzt"         "bescheiden"               -0.18801            3.1513e-37               1                    -0.19101            2.1712e-38                1                    -0.14202            3.5004e-45               1         
+    "intelligent"        "kindlich"                 -0.29818            1.8478e-93               1                    -0.30681            4.1553e-99                1                    -0.21909           7.3602e-105               1         
+    "intelligent"        "bescheiden"                0.11472            1.0321e-14               1                     0.10614            8.4658e-13                1                    0.077276             1.781e-14               1         
+    "kindlich"           "bescheiden"              -0.022228               0.13517               0                   -0.023643               0.11202                0                    -0.01536               0.12722               0         
+
+</pre><p class="footer"><br><a href="https://www.mathworks.com/products/matlab/">Published with MATLAB&reg; R2019b</a><br></p></div><!--
+##### SOURCE BEGIN #####
+T = readtable("..\..\likeability_dimension_ratings.csv");
+
+t_characteristica = T(:,10:end);
+
+emotion1 = [""];
+emotion2 = [""];
+correlation_pearson = [0];
+p_value_pearson = [0];
+significant_pearson = [0];
+correlation_spearman = [0];
+p_value_spearman = [0];
+significant_spearman = [0];
+correlation_kendall = [0];
+p_value_kendall = [0];
+significant_kendall = [0];
+
+%cell2Number for NA entries
+t_characteristica.herzlich = str2double(t_characteristica.herzlich);
+
+
+for i=1:width(t_characteristica)-1
+    for y=i+1:width(t_characteristica)
+        X = (t_characteristica(:,i));
+        Y = (t_characteristica(:,y));
+        %disp("Comparing '"+X.Properties.VariableNames +"' and '"+Y.Properties.VariableNames+"'");
+        [R_pearson,P_pearson] = corr(table2array(X),table2array(Y),'Type','Pearson','Rows','complete');
+        [R_spearman,P_spearman] = corr(table2array(X),table2array(Y),'Type','Spearman','Rows','complete');
+        [R_kendall,P_kendall] = corr(table2array(X),table2array(Y),'Type','Kendall','Rows','complete');
+        %[RR,PP] = corrcoef(table2array(X),table2array(Y))
+
+         emotion1(length(emotion1)+1) = string(X.Properties.VariableNames);
+         emotion2(length(emotion2)+1) = string(Y.Properties.VariableNames);
+         
+         %pearson
+         correlation_pearson(length(correlation_pearson)+1) = R_pearson;
+         p_value_pearson(length(p_value_pearson)+1)= P_pearson;
+         if(P_pearson <= 0.05)
+            significant_pearson(length(significant_pearson)+1) = 1;
+         else
+             significant_pearson(length(significant_pearson)+1) = 0;
+         end
+         
+         %spearman
+         correlation_spearman(length(correlation_spearman)+1) = R_spearman;
+         p_value_spearman(length(p_value_spearman)+1)= P_spearman;
+         if(P_spearman <= 0.05)
+            significant_spearman(length(significant_spearman)+1) = 1;
+         else
+             significant_spearman(length(significant_spearman)+1) = 0;
+         end
+         
+         %kendall
+         correlation_kendall(length(correlation_kendall)+1) = R_kendall;
+         p_value_kendall(length(p_value_kendall)+1)= P_kendall;
+         if(P_kendall <= 0.05)
+            significant_kendall(length(significant_kendall)+1) = 1;
+         else
+             significant_kendall(length(significant_kendall)+1) = 0;
+         end
+    end
+end
+emotion1 = emotion1(2:end);
+emotion2 = emotion2(2:end);
+
+correlation_pearson = correlation_pearson(2:end);
+p_value_pearson = p_value_pearson(2:end);
+significant_pearson = significant_pearson(2:end);
+
+correlation_spearman = correlation_spearman(2:end);
+p_value_spearman = p_value_spearman(2:end);
+significant_spearman = significant_spearman(2:end);
+
+correlation_kendall = correlation_kendall(2:end);
+p_value_kendall = p_value_kendall(2:end);
+significant_kendall = significant_kendall(2:end);
+
+coef = table(emotion1',emotion2',correlation_pearson',p_value_pearson',significant_pearson',correlation_spearman',p_value_spearman',significant_spearman',correlation_kendall',p_value_kendall',significant_kendall');
+coef.Properties.VariableNames{'Var1'} = 'characteristic_1';
+coef.Properties.VariableNames{'Var2'} = 'characteristic_2';
+
+coef.Properties.VariableNames{'Var3'} = 'correlation pearson';
+coef.Properties.VariableNames{'Var4'} = 'p_value pearson';
+coef.Properties.VariableNames{'Var5'} = 'significant pearson';
+
+coef.Properties.VariableNames{'Var6'} = 'correlation spearman';
+coef.Properties.VariableNames{'Var7'} = 'p_value spearman';
+coef.Properties.VariableNames{'Var8'} = 'significant spearman';
+
+coef.Properties.VariableNames{'Var9'} = 'correlation kendall';
+coef.Properties.VariableNames{'Var10'} = 'p_value kendall';
+coef.Properties.VariableNames{'Var11'} = 'significant kendall';
+
+disp(coef)
+##### SOURCE END #####
+--></body></html>
