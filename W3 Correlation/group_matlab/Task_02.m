@@ -26,12 +26,18 @@ for i = 1:max(T.Age_diff)+abs(min(T.Age_diff))+1
     end
     y(i) =  mean(tmpx);
 end
-z = corr(x',y')
 
-x_abs = [];
-y_abs = [];
+% Its a Kendall correlation
+% Assumption: We are working with 2 continous scale variables and we have a
+% monotonic relationship
+
+z = corr(x',y','type','Kendall')
+
 %% If we calculate for the difference in age regardless if older or younger
 %
+x_abs = [];
+y_abs = [];
+
 for i = 1:max(T.Age_diff_abs)+1
     tmpx2 = [];
     for j = 1:length(T.Age_diff_abs)
@@ -44,7 +50,7 @@ for i = 1:max(T.Age_diff_abs)+1
     
 end
 
-% Its a pearson correlation as we are working with 2 normally distributed
-% variab-les
-
-z_abs = corr(x_abs',y_abs','type','Pearson')
+% Its a Kendall correlation
+% Assumption: We are working with 2 continous scale variables and we have a
+% monotonic relationship
+z_abs = corr(x_abs',y_abs','type','Kendall')

@@ -92,16 +92,21 @@ original names are saved in the VariableDescriptions property.
     <span class="keyword">end</span>
     y(i) =  mean(tmpx);
 <span class="keyword">end</span>
-z = corr(x',y')
 
-x_abs = [];
-y_abs = [];
+<span class="comment">% Its a Kendall correlation</span>
+<span class="comment">% Assumption: We are working with 2 continous scale variables and we have a</span>
+<span class="comment">% monotonic relationship</span>
+
+z = corr(x',y',<span class="string">'type'</span>,<span class="string">'Kendall'</span>)
 </pre><pre class="codeoutput">
 z =
 
-   -0.5715
+   -0.4319
 
-</pre><h2 id="3">If we calculate for the difference in age regardless if older or younger</h2><pre class="codeinput"><span class="keyword">for</span> i = 1:max(T.Age_diff_abs)+1
+</pre><h2 id="3">If we calculate for the difference in age regardless if older or younger</h2><pre class="codeinput">x_abs = [];
+y_abs = [];
+
+<span class="keyword">for</span> i = 1:max(T.Age_diff_abs)+1
     tmpx2 = [];
     <span class="keyword">for</span> j = 1:length(T.Age_diff_abs)
         <span class="keyword">if</span> T.Age_diff_abs(j) == i - 1
@@ -113,14 +118,14 @@ z =
 
 <span class="keyword">end</span>
 
-<span class="comment">% Its a pearson correlation as we are working with 2 normally distributed</span>
-<span class="comment">% variables</span>
-
-z_abs = corr(x_abs',y_abs',<span class="string">'type'</span>,<span class="string">'Pearson'</span>)
+<span class="comment">% Its a Kendall correlation</span>
+<span class="comment">% Assumption: We are working with 2 continous scale variables and we have a</span>
+<span class="comment">% monotonic relationship</span>
+z_abs = corr(x_abs',y_abs',<span class="string">'type'</span>,<span class="string">'Kendall'</span>)
 </pre><pre class="codeoutput">
 z_abs =
 
-   -0.5145
+   -0.4152
 
 </pre><p class="footer"><br><a href="https://www.mathworks.com/products/matlab/">Published with MATLAB&reg; R2018a</a><br></p></div><!--
 ##### SOURCE BEGIN #####
@@ -152,12 +157,18 @@ for i = 1:max(T.Age_diff)+abs(min(T.Age_diff))+1
     end
     y(i) =  mean(tmpx);
 end
-z = corr(x',y')
 
-x_abs = [];
-y_abs = [];
+% Its a Kendall correlation
+% Assumption: We are working with 2 continous scale variables and we have a
+% monotonic relationship
+
+z = corr(x',y','type','Kendall')
+
 %% If we calculate for the difference in age regardless if older or younger
 %
+x_abs = [];
+y_abs = [];
+
 for i = 1:max(T.Age_diff_abs)+1
     tmpx2 = [];
     for j = 1:length(T.Age_diff_abs)
@@ -170,10 +181,10 @@ for i = 1:max(T.Age_diff_abs)+1
     
 end
 
-% Its a pearson correlation as we are working with 2 normally distributed
-% variables
-
-z_abs = corr(x_abs',y_abs','type','Pearson')
+% Its a Kendall correlation
+% Assumption: We are working with 2 continous scale variables and we have a
+% monotonic relationship
+z_abs = corr(x_abs',y_abs','type','Kendall')
 
 ##### SOURCE END #####
 --></body></html>
