@@ -13131,7 +13131,10 @@ div#notebook {
 <div class="prompt input_prompt">In&nbsp;[2]:</div>
 <div class="inner_cell">
     <div class="input_area">
-<div class=" highlight hl-matlab"><pre><span></span><span class="n">T_Full</span><span class="p">.</span><span class="n">cond</span> <span class="p">=</span> <span class="n">extractBetween</span><span class="p">(</span><span class="n">T_Full</span><span class="p">.</span><span class="n">files</span><span class="p">,</span> <span class="mi">6</span><span class="p">,</span><span class="mi">8</span><span class="p">);</span>
+<div class=" highlight hl-matlab"><pre><span></span><span class="c">% Creating a new column for conditions</span>
+<span class="n">T_Full</span><span class="p">.</span><span class="n">cond</span> <span class="p">=</span> <span class="n">extractBetween</span><span class="p">(</span><span class="n">T_Full</span><span class="p">.</span><span class="n">files</span><span class="p">,</span> <span class="mi">6</span><span class="p">,</span><span class="mi">8</span><span class="p">);</span>
+
+<span class="c">% Unique list of conditions</span>
 <span class="n">uniq_conds</span> <span class="p">=</span> <span class="n">convertCharsToStrings</span><span class="p">(</span><span class="n">unique</span><span class="p">(</span><span class="n">T_Full</span><span class="p">.</span><span class="n">cond</span><span class="p">));</span>
 </pre></div>
 
@@ -13145,42 +13148,66 @@ div#notebook {
 <div class="prompt input_prompt">In&nbsp;[3]:</div>
 <div class="inner_cell">
     <div class="input_area">
-<div class=" highlight hl-matlab"><pre><span></span><span class="n">counter</span> <span class="p">=</span> <span class="mi">1</span><span class="p">;</span>
+<div class=" highlight hl-matlab"><pre><span></span><span class="c">% Counter for Z-Scores</span>
+<span class="n">counter</span> <span class="p">=</span> <span class="mi">1</span><span class="p">;</span>
+
+<span class="c">% Counter for IQR-Evaluations</span>
 <span class="n">counter1</span> <span class="p">=</span> <span class="mi">1</span><span class="p">;</span>
 
+<span class="c">% Loop over all conditions</span>
 <span class="k">for</span> <span class="nb">i</span> <span class="p">=</span> <span class="mi">1</span> <span class="p">:</span> <span class="nb">size</span><span class="p">(</span><span class="n">uniq_conds</span><span class="p">,</span><span class="mi">1</span><span class="p">)</span>
+    <span class="c">% Creating a new table containing only data from condition i</span>
     <span class="n">T_cond</span> <span class="p">=</span> <span class="n">T_Full</span><span class="p">(</span><span class="n">T_Full</span><span class="p">.</span><span class="n">cond</span> <span class="o">==</span><span class="n">uniq_conds</span><span class="p">(</span><span class="nb">i</span><span class="p">),:);</span>
     <span class="n">T_cond</span> <span class="p">=</span> <span class="n">T_cond</span><span class="p">(:,</span><span class="mi">2</span><span class="p">:</span><span class="k">end</span><span class="o">-</span><span class="mi">1</span><span class="p">);</span>
+    
+    <span class="c">% Converting table into array and removing empty(NaN) values</span>
     <span class="n">T_cond_array</span> <span class="p">=</span> <span class="n">table2array</span><span class="p">(</span><span class="n">T_cond</span><span class="p">);</span>
     <span class="n">T_cond_array</span> <span class="p">=</span> <span class="p">(</span><span class="n">T_cond_array</span><span class="p">(</span><span class="o">~</span><span class="nb">isnan</span><span class="p">(</span><span class="n">T_cond_array</span><span class="p">)));</span>
+    
+    <span class="c">% Calculation of Z-Score</span>
     <span class="n">Z</span> <span class="p">=</span> <span class="n">zscore</span><span class="p">(</span><span class="n">T_cond_array</span><span class="p">);</span>
+    
+    <span class="c">% Calculating the IQR</span>
     <span class="n">IQR</span> <span class="p">=</span> <span class="n">iqr</span><span class="p">(</span><span class="n">T_cond_array</span><span class="p">);</span>
+    
+    <span class="c">% Calculating the respective quantiles and then the limits for outliers</span>
     <span class="n">quantiles</span> <span class="p">=</span> <span class="n">quantile</span><span class="p">(</span><span class="n">T_cond_array</span><span class="p">,[</span><span class="mf">0.25</span><span class="p">,</span><span class="mf">0.75</span><span class="p">]);</span>
     <span class="n">q1</span> <span class="p">=</span> <span class="n">quantiles</span><span class="p">(</span><span class="mi">1</span><span class="p">);</span>
     <span class="n">q3</span> <span class="p">=</span> <span class="n">quantiles</span><span class="p">(</span><span class="mi">2</span><span class="p">);</span>
     <span class="n">IQRleft</span> <span class="p">=</span> <span class="n">q1</span> <span class="o">-</span><span class="p">(</span><span class="mf">1.5</span><span class="o">*</span><span class="n">IQR</span><span class="p">);</span>
     <span class="n">IQRright</span> <span class="p">=</span> <span class="n">q3</span> <span class="o">+</span> <span class="p">(</span><span class="mf">1.5</span><span class="o">*</span><span class="n">IQR</span><span class="p">);</span>
+    
     <span class="n">T_cond_Z</span> <span class="p">=</span> <span class="n">T_cond</span><span class="p">;</span>
+    
+    <span class="c">% Creating a table for the MOS values and Z-Scores that belong to MOS values</span>
     <span class="n">T_zscore</span> <span class="p">=</span> <span class="n">table</span><span class="p">(</span><span class="n">T_cond_array</span><span class="p">,</span> <span class="n">zscore</span><span class="p">(</span><span class="n">T_cond_array</span><span class="p">));</span>
 
-    
+    <span class="c">% Loops over that table</span>
     <span class="k">for</span> <span class="n">x</span> <span class="p">=</span> <span class="mi">1</span><span class="p">:</span> <span class="nb">size</span><span class="p">(</span><span class="n">T_zscore</span><span class="p">,</span><span class="mi">1</span><span class="p">)</span>
+        <span class="c">% If Z-Score represents an outlier</span>
         <span class="k">if</span><span class="p">(</span><span class="n">table2array</span><span class="p">(</span><span class="n">T_zscore</span><span class="p">(</span><span class="n">x</span><span class="p">,</span><span class="mi">2</span><span class="p">))</span><span class="o">&gt;</span><span class="mf">3.29</span> <span class="o">||</span> <span class="n">table2array</span><span class="p">(</span><span class="n">T_zscore</span><span class="p">(</span><span class="n">x</span><span class="p">,</span><span class="mi">2</span><span class="p">))</span> <span class="o">&lt;</span> <span class="o">-</span><span class="mf">3.29</span><span class="p">)</span>
             <span class="c">%&quot;outlier&quot;</span>
+            <span class="c">% Find function finds all occurances of that value in the table and returns the </span>
+            <span class="c">% row postions as t1 and column positions as t2 (vectors)</span>
             <span class="p">[</span><span class="n">t1</span><span class="p">,</span><span class="n">t2</span><span class="p">]</span> <span class="p">=</span> <span class="nb">find</span><span class="p">(</span><span class="n">table2array</span><span class="p">(</span><span class="n">T_cond_Z</span><span class="p">)</span> <span class="o">==</span> <span class="n">table2array</span><span class="p">(</span><span class="n">T_zscore</span><span class="p">(</span><span class="n">x</span><span class="p">,</span><span class="mi">1</span><span class="p">)));</span>
-         
+                
+                <span class="c">% We loop over that vectors</span>
                 <span class="k">for</span> <span class="n">p</span> <span class="p">=</span> <span class="mi">1</span><span class="p">:</span><span class="nb">length</span><span class="p">(</span><span class="n">t1</span><span class="p">)</span>
+                    <span class="c">% Find the positions in the table, retrieve the column name and add it into the list of Z-Score outliers</span>
                     <span class="n">participants_Z</span><span class="p">(</span><span class="n">counter</span><span class="p">)</span> <span class="p">=</span> <span class="n">convertCharsToStrings</span><span class="p">(</span><span class="n">T_cond_Z</span><span class="p">(</span><span class="n">t1</span><span class="p">(</span><span class="n">p</span><span class="p">),</span><span class="n">t2</span><span class="p">(</span><span class="n">p</span><span class="p">)).</span><span class="n">Properties</span><span class="p">.</span><span class="n">VariableNames</span><span class="p">);</span>
-                    <span class="n">T_cond_Z</span> <span class="p">=</span> <span class="n">removevars</span><span class="p">(</span><span class="n">T_cond_Z</span><span class="p">,</span> <span class="n">participants_Z</span><span class="p">(</span><span class="n">counter</span><span class="p">));</span>
+                    <span class="c">%T_cond_Z = removevars(T_cond_Z, participants_Z(counter));</span>
                     <span class="n">counter</span> <span class="p">=</span> <span class="n">counter</span> <span class="o">+</span> <span class="mi">1</span><span class="p">;</span>
                     
                 <span class="k">end</span>
 
         <span class="k">end</span>
     <span class="k">end</span>
-
+    
+    <span class="c">% We find the values that are above the upper bound and below the lower bound for outlier detection</span>
     <span class="p">[</span><span class="n">t1</span><span class="p">,</span><span class="n">t2</span><span class="p">]</span> <span class="p">=</span> <span class="nb">find</span><span class="p">(</span><span class="n">table2array</span><span class="p">(</span><span class="n">T_cond</span><span class="p">)</span> <span class="o">&gt;</span> <span class="n">IQRright</span><span class="p">);</span>
     <span class="p">[</span><span class="n">t3</span><span class="p">,</span><span class="n">t4</span><span class="p">]</span> <span class="p">=</span> <span class="nb">find</span><span class="p">(</span><span class="n">table2array</span><span class="p">(</span><span class="n">T_cond</span><span class="p">)</span> <span class="o">&lt;</span> <span class="n">IQRleft</span><span class="p">);</span>
+    
+    <span class="c">% We add them into the list for IQR outliers</span>
     <span class="k">for</span> <span class="n">x</span> <span class="p">=</span> <span class="mi">1</span><span class="p">:</span><span class="nb">length</span><span class="p">(</span><span class="n">t1</span><span class="p">)</span>
         <span class="n">participants_IQR</span><span class="p">(</span><span class="n">counter1</span><span class="p">)</span> <span class="p">=</span> <span class="n">convertCharsToStrings</span><span class="p">(</span><span class="n">T_cond</span><span class="p">(</span><span class="n">t1</span><span class="p">(</span><span class="n">x</span><span class="p">),</span><span class="n">t2</span><span class="p">(</span><span class="n">x</span><span class="p">)).</span><span class="n">Properties</span><span class="p">.</span><span class="n">VariableNames</span><span class="p">);</span>
         <span class="n">counter1</span> <span class="p">=</span> <span class="n">counter1</span> <span class="o">+</span> <span class="mi">1</span><span class="p">;</span>
@@ -13224,50 +13251,94 @@ div#notebook {
 <pre>
 ans =
 
-  44x1 table
+  88x1 table
 
           Var1      
     ________________
 
     &#34;A1X1IRFYQZ40LD&#34;
-    &#34;A2P76QVLSGJR45&#34;
+    &#34;A2NGMLBFZ3YQP5&#34;
     &#34;A23TGEQ4CG90PA&#34;
+    &#34;A1X1IRFYQZ40LD&#34;
     &#34;A2NGMLBFZ3YQP5&#34;
     &#34;A31FD3QCYZ28Q2&#34;
     &#34;A341XKSRZ58FJK&#34;
     &#34;A2FYQIZWV2UJHS&#34;
     &#34;A3HTLXAPOBCVVO&#34;
-    &#34;A3NMQ3019X6YE0&#34;
+    &#34;A3MD34XEB4H6JF&#34;
+    &#34;A3HTLXAPOBCVVO&#34;
     &#34;A3MD34XEB4H6JF&#34;
     &#34;A1X1IRFYQZ40LD&#34;
-    &#34;A27W025UEXS1G0&#34;
+    &#34;A27PBC5O3Z5ZED&#34;
+    &#34;A2FYQIZWV2UJHS&#34;
     &#34;A2IQ0QCTQ3KWLT&#34;
-    &#34;A2P76QVLSGJR45&#34;
-    &#34;A2Y1ORULU9ITOH&#34;
-    &#34;A3B7TNVOISSZ2O&#34;
-    &#34;AQP74RCFA4CF8&#34; 
+    &#34;A2NGMLBFZ3YQP5&#34;
+    &#34;A33LYSCQQU1YDJ&#34;
+    &#34;A3U21PUMQ6NGT2&#34;
+    &#34;AFUPQ61YDVIBQ&#34; 
+    &#34;A1X1IRFYQZ40LD&#34;
+    &#34;A27PBC5O3Z5ZED&#34;
+    &#34;A2FYQIZWV2UJHS&#34;
+    &#34;A2IQ0QCTQ3KWLT&#34;
+    &#34;A2NGMLBFZ3YQP5&#34;
+    &#34;A33LYSCQQU1YDJ&#34;
+    &#34;A3U21PUMQ6NGT2&#34;
+    &#34;AFUPQ61YDVIBQ&#34; 
+    &#34;A1X1IRFYQZ40LD&#34;
+    &#34;A27PBC5O3Z5ZED&#34;
+    &#34;A2FYQIZWV2UJHS&#34;
+    &#34;A2IQ0QCTQ3KWLT&#34;
+    &#34;A2NGMLBFZ3YQP5&#34;
+    &#34;A33LYSCQQU1YDJ&#34;
+    &#34;A3U21PUMQ6NGT2&#34;
+    &#34;AFUPQ61YDVIBQ&#34; 
+    &#34;A1X1IRFYQZ40LD&#34;
+    &#34;A27PBC5O3Z5ZED&#34;
+    &#34;A2FYQIZWV2UJHS&#34;
+    &#34;A2IQ0QCTQ3KWLT&#34;
+    &#34;A2NGMLBFZ3YQP5&#34;
+    &#34;A33LYSCQQU1YDJ&#34;
+    &#34;A3U21PUMQ6NGT2&#34;
+    &#34;AFUPQ61YDVIBQ&#34; 
+    &#34;A1X1IRFYQZ40LD&#34;
+    &#34;A27PBC5O3Z5ZED&#34;
+    &#34;A2FYQIZWV2UJHS&#34;
+    &#34;A2IQ0QCTQ3KWLT&#34;
+    &#34;A2NGMLBFZ3YQP5&#34;
+    &#34;A33LYSCQQU1YDJ&#34;
+    &#34;A3U21PUMQ6NGT2&#34;
+    &#34;AFUPQ61YDVIBQ&#34; 
+    &#34;A1X1IRFYQZ40LD&#34;
+    &#34;A27PBC5O3Z5ZED&#34;
+    &#34;A2FYQIZWV2UJHS&#34;
+    &#34;A2IQ0QCTQ3KWLT&#34;
+    &#34;A2NGMLBFZ3YQP5&#34;
+    &#34;A33LYSCQQU1YDJ&#34;
+    &#34;A3U21PUMQ6NGT2&#34;
+    &#34;AFUPQ61YDVIBQ&#34; 
+    &#34;A1X1IRFYQZ40LD&#34;
+    &#34;A27PBC5O3Z5ZED&#34;
+    &#34;A2FYQIZWV2UJHS&#34;
+    &#34;A2IQ0QCTQ3KWLT&#34;
+    &#34;A2NGMLBFZ3YQP5&#34;
+    &#34;A33LYSCQQU1YDJ&#34;
+    &#34;A3U21PUMQ6NGT2&#34;
+    &#34;AFUPQ61YDVIBQ&#34; 
+    &#34;A1X1IRFYQZ40LD&#34;
+    &#34;A27PBC5O3Z5ZED&#34;
+    &#34;A2FYQIZWV2UJHS&#34;
+    &#34;A2IQ0QCTQ3KWLT&#34;
+    &#34;A2NGMLBFZ3YQP5&#34;
+    &#34;A33LYSCQQU1YDJ&#34;
+    &#34;A3U21PUMQ6NGT2&#34;
+    &#34;AFUPQ61YDVIBQ&#34; 
+    &#34;A27PBC5O3Z5ZED&#34;
     &#34;AVXEDARJC5HLU&#34; 
     &#34;A27PBC5O3Z5ZED&#34;
-    &#34;A2G0HRT8HS9HRZ&#34;
-    &#34;A2WAQLPXT615HQ&#34;
-    &#34;A39C210BKD7YNN&#34;
-    &#34;AFUPQ61YDVIBQ&#34; 
-    &#34;AVBRJBJONL47I&#34; 
-    &#34;A2FYQIZWV2UJHS&#34;
-    &#34;A2TI9CGVG147MZ&#34;
-    &#34;A3696JXTRKL2FI&#34;
-    &#34;AENJ7GDYBENYX&#34; 
-    &#34;A2NGMLBFZ3YQP5&#34;
-    &#34;A341XKSRZ58FJK&#34;
-    &#34;ACAJFF4MF5S5X&#34; 
-    &#34;A33LYSCQQU1YDJ&#34;
-    &#34;A8ZUM922CBH6S&#34; 
-    &#34;A3U21PUMQ6NGT2&#34;
-    &#34;A27PBC5O3Z5ZED&#34;
-    &#34;AZLZA0Q87TJZO&#34; 
     &#34;AVXEDARJC5HLU&#34; 
     &#34;A1X1IRFYQZ40LD&#34;
-    &#34;A2P76QVLSGJR45&#34;
+    &#34;A2NGMLBFZ3YQP5&#34;
+    &#34;A1X1IRFYQZ40LD&#34;
     &#34;A2NGMLBFZ3YQP5&#34;
     &#34;A31FD3QCYZ28Q2&#34;
     &#34;A2NGMLBFZ3YQP5&#34;
@@ -13499,7 +13570,9 @@ ans =
 <div class="prompt input_prompt">In&nbsp;[6]:</div>
 <div class="inner_cell">
     <div class="input_area">
-<div class=" highlight hl-matlab"><pre><span></span><span class="p">[</span><span class="n">a</span><span class="p">,</span><span class="n">b</span><span class="p">]=</span><span class="n">hist</span><span class="p">(</span><span class="n">categorical</span><span class="p">(</span><span class="n">participants_Z</span><span class="p">),</span><span class="n">unique</span><span class="p">(</span><span class="n">categorical</span><span class="p">(</span><span class="n">participants_Z</span><span class="p">)));</span>
+<div class=" highlight hl-matlab"><pre><span></span><span class="c">% We count the occurances of each worker in the Z-Score list</span>
+
+<span class="p">[</span><span class="n">a</span><span class="p">,</span><span class="n">b</span><span class="p">]=</span><span class="n">hist</span><span class="p">(</span><span class="n">categorical</span><span class="p">(</span><span class="n">participants_Z</span><span class="p">),</span><span class="n">unique</span><span class="p">(</span><span class="n">categorical</span><span class="p">(</span><span class="n">participants_Z</span><span class="p">)));</span>
 <span class="n">t_z</span> <span class="p">=</span> <span class="n">table</span><span class="p">(</span><span class="n">b</span><span class="o">&#39;</span><span class="p">,</span> <span class="n">a</span><span class="o">&#39;</span><span class="p">);</span>
 <span class="n">t_z</span><span class="p">.</span><span class="n">Properties</span><span class="p">.</span><span class="n">VariableNames</span> <span class="p">=</span> <span class="p">{</span><span class="s">&#39;Worker&#39;</span> <span class="p">,</span> <span class="s">&#39;Count&#39;</span><span class="p">}</span>
 </pre></div>
@@ -13521,41 +13594,26 @@ ans =
 <pre>
 t_z =
 
-  30x2 table
+  15x2 table
 
           Worker          Count
     __________________    _____
 
-    {&#39;A1X1IRFYQZ40LD&#39;}      3  
+    {&#39;A1X1IRFYQZ40LD&#39;}     12  
     {&#39;A23TGEQ4CG90PA&#39;}      1  
-    {&#39;A27PBC5O3Z5ZED&#39;}      2  
-    {&#39;A27W025UEXS1G0&#39;}      1  
-    {&#39;A2FYQIZWV2UJHS&#39;}      3  
-    {&#39;A2G0HRT8HS9HRZ&#39;}      1  
-    {&#39;A2IQ0QCTQ3KWLT&#39;}      1  
-    {&#39;A2NGMLBFZ3YQP5&#39;}      4  
-    {&#39;A2P76QVLSGJR45&#39;}      3  
-    {&#39;A2TI9CGVG147MZ&#39;}      1  
-    {&#39;A2WAQLPXT615HQ&#39;}      1  
-    {&#39;A2Y1ORULU9ITOH&#39;}      1  
+    {&#39;A27PBC5O3Z5ZED&#39;}     10  
+    {&#39;A2FYQIZWV2UJHS&#39;}     10  
+    {&#39;A2IQ0QCTQ3KWLT&#39;}      8  
+    {&#39;A2NGMLBFZ3YQP5&#39;}     13  
     {&#39;A31FD3QCYZ28Q2&#39;}      2  
-    {&#39;A33LYSCQQU1YDJ&#39;}      1  
-    {&#39;A341XKSRZ58FJK&#39;}      2  
-    {&#39;A3696JXTRKL2FI&#39;}      1  
-    {&#39;A39C210BKD7YNN&#39;}      1  
-    {&#39;A3B7TNVOISSZ2O&#39;}      1  
-    {&#39;A3HTLXAPOBCVVO&#39;}      1  
-    {&#39;A3MD34XEB4H6JF&#39;}      1  
-    {&#39;A3NMQ3019X6YE0&#39;}      1  
-    {&#39;A3U21PUMQ6NGT2&#39;}      1  
-    {&#39;A8ZUM922CBH6S&#39; }      1  
-    {&#39;ACAJFF4MF5S5X&#39; }      1  
-    {&#39;AENJ7GDYBENYX&#39; }      1  
-    {&#39;AFUPQ61YDVIBQ&#39; }      1  
-    {&#39;AQP74RCFA4CF8&#39; }      1  
-    {&#39;AVBRJBJONL47I&#39; }      1  
+    {&#39;A33LYSCQQU1YDJ&#39;}      8  
+    {&#39;A341XKSRZ58FJK&#39;}      1  
+    {&#39;A3HTLXAPOBCVVO&#39;}      2  
+    {&#39;A3MD34XEB4H6JF&#39;}      2  
+    {&#39;A3U21PUMQ6NGT2&#39;}      8  
+    {&#39;AFUPQ61YDVIBQ&#39; }      8  
     {&#39;AVXEDARJC5HLU&#39; }      2  
-    {&#39;AZLZA0Q87TJZO&#39; }      2  
+    {&#39;AZLZA0Q87TJZO&#39; }      1  
 
 </pre>
 </div>
@@ -13570,7 +13628,9 @@ t_z =
 <div class="prompt input_prompt">In&nbsp;[7]:</div>
 <div class="inner_cell">
     <div class="input_area">
-<div class=" highlight hl-matlab"><pre><span></span><span class="p">[</span><span class="n">c</span><span class="p">,</span><span class="n">d</span><span class="p">]=</span><span class="n">hist</span><span class="p">(</span><span class="n">categorical</span><span class="p">(</span><span class="n">participants_IQR</span><span class="p">),</span><span class="n">unique</span><span class="p">(</span><span class="n">categorical</span><span class="p">(</span><span class="n">participants_IQR</span><span class="p">)));</span>
+<div class=" highlight hl-matlab"><pre><span></span><span class="c">% We count the occurances of each worker in the IQR list</span>
+
+<span class="p">[</span><span class="n">c</span><span class="p">,</span><span class="n">d</span><span class="p">]=</span><span class="n">hist</span><span class="p">(</span><span class="n">categorical</span><span class="p">(</span><span class="n">participants_IQR</span><span class="p">),</span><span class="n">unique</span><span class="p">(</span><span class="n">categorical</span><span class="p">(</span><span class="n">participants_IQR</span><span class="p">)));</span>
 <span class="n">t_iqr</span> <span class="p">=</span> <span class="n">table</span><span class="p">(</span><span class="n">d</span><span class="o">&#39;</span><span class="p">,</span><span class="n">c</span><span class="o">&#39;</span><span class="p">);</span>
 <span class="n">t_iqr</span><span class="p">.</span><span class="n">Properties</span><span class="p">.</span><span class="n">VariableNames</span> <span class="p">=</span> <span class="p">{</span><span class="s">&#39;Worker&#39;</span> <span class="p">,</span> <span class="s">&#39;Count&#39;</span><span class="p">}</span>
 </pre></div>
@@ -13658,7 +13718,9 @@ t_iqr =
 <div class="prompt input_prompt">In&nbsp;[8]:</div>
 <div class="inner_cell">
     <div class="input_area">
-<div class=" highlight hl-matlab"><pre><span></span><span class="n">t_z2</span> <span class="p">=</span> <span class="n">table</span><span class="p">((</span><span class="n">b</span><span class="p">(</span><span class="n">a</span><span class="o">&gt;</span><span class="mi">1</span><span class="p">))</span><span class="o">&#39;</span><span class="p">,(</span><span class="n">a</span><span class="p">(</span><span class="n">a</span><span class="o">&gt;</span><span class="mi">1</span><span class="p">))</span><span class="o">&#39;</span><span class="p">);</span>
+<div class=" highlight hl-matlab"><pre><span></span><span class="c">% Workers are to be deleted according the Z-Score</span>
+
+<span class="n">t_z2</span> <span class="p">=</span> <span class="n">table</span><span class="p">((</span><span class="n">b</span><span class="p">(</span><span class="n">a</span><span class="o">&gt;</span><span class="mi">2</span><span class="p">))</span><span class="o">&#39;</span><span class="p">,(</span><span class="n">a</span><span class="p">(</span><span class="n">a</span><span class="o">&gt;</span><span class="mi">2</span><span class="p">))</span><span class="o">&#39;</span><span class="p">);</span>
 <span class="n">t_z2</span><span class="p">.</span><span class="n">Properties</span><span class="p">.</span><span class="n">VariableNames</span> <span class="p">=</span> <span class="p">{</span><span class="s">&#39;Worker&#39;</span> <span class="p">,</span> <span class="s">&#39;Count&#39;</span><span class="p">}</span>
 </pre></div>
 
@@ -13679,20 +13741,19 @@ t_iqr =
 <pre>
 t_z2 =
 
-  9x2 table
+  8x2 table
 
           Worker          Count
     __________________    _____
 
-    {&#39;A1X1IRFYQZ40LD&#39;}      3  
-    {&#39;A27PBC5O3Z5ZED&#39;}      2  
-    {&#39;A2FYQIZWV2UJHS&#39;}      3  
-    {&#39;A2NGMLBFZ3YQP5&#39;}      4  
-    {&#39;A2P76QVLSGJR45&#39;}      3  
-    {&#39;A31FD3QCYZ28Q2&#39;}      2  
-    {&#39;A341XKSRZ58FJK&#39;}      2  
-    {&#39;AVXEDARJC5HLU&#39; }      2  
-    {&#39;AZLZA0Q87TJZO&#39; }      2  
+    {&#39;A1X1IRFYQZ40LD&#39;}     12  
+    {&#39;A27PBC5O3Z5ZED&#39;}     10  
+    {&#39;A2FYQIZWV2UJHS&#39;}     10  
+    {&#39;A2IQ0QCTQ3KWLT&#39;}      8  
+    {&#39;A2NGMLBFZ3YQP5&#39;}     13  
+    {&#39;A33LYSCQQU1YDJ&#39;}      8  
+    {&#39;A3U21PUMQ6NGT2&#39;}      8  
+    {&#39;AFUPQ61YDVIBQ&#39; }      8  
 
 </pre>
 </div>
@@ -13707,7 +13768,9 @@ t_z2 =
 <div class="prompt input_prompt">In&nbsp;[9]:</div>
 <div class="inner_cell">
     <div class="input_area">
-<div class=" highlight hl-matlab"><pre><span></span><span class="n">t_iqr2</span> <span class="p">=</span> <span class="n">table</span><span class="p">((</span><span class="n">d</span><span class="p">(</span><span class="n">c</span><span class="o">&gt;</span><span class="mi">1</span><span class="p">))</span><span class="o">&#39;</span><span class="p">,(</span><span class="n">c</span><span class="p">(</span><span class="n">c</span><span class="o">&gt;</span><span class="mi">1</span><span class="p">))</span><span class="o">&#39;</span><span class="p">);</span>
+<div class=" highlight hl-matlab"><pre><span></span><span class="c">% Workers are to be deleted according the IQR-Evaluation</span>
+
+<span class="n">t_iqr2</span> <span class="p">=</span> <span class="n">table</span><span class="p">((</span><span class="n">d</span><span class="p">(</span><span class="n">c</span><span class="o">&gt;</span><span class="mi">2</span><span class="p">))</span><span class="o">&#39;</span><span class="p">,(</span><span class="n">c</span><span class="p">(</span><span class="n">c</span><span class="o">&gt;</span><span class="mi">2</span><span class="p">))</span><span class="o">&#39;</span><span class="p">);</span>
 <span class="n">t_iqr2</span><span class="p">.</span><span class="n">Properties</span><span class="p">.</span><span class="n">VariableNames</span> <span class="p">=</span> <span class="p">{</span><span class="s">&#39;Worker&#39;</span> <span class="p">,</span> <span class="s">&#39;Count&#39;</span><span class="p">}</span>
 </pre></div>
 
@@ -13728,27 +13791,21 @@ t_z2 =
 <pre>
 t_iqr2 =
 
-  31x2 table
+  22x2 table
 
           Worker          Count
     __________________    _____
 
-    {&#39;A1IFIK8J49WBER&#39;}      2  
-    {&#39;A1V2H0UF94ATWY&#39;}      2  
     {&#39;A1X1IRFYQZ40LD&#39;}      4  
-    {&#39;A1YSYI926BBOHW&#39;}      2  
-    {&#39;A209V2VHLLQ59W&#39;}      2  
     {&#39;A23TGEQ4CG90PA&#39;}      4  
     {&#39;A258MR1IS96JEP&#39;}      5  
     {&#39;A27PBC5O3Z5ZED&#39;}      4  
-    {&#39;A2BK45LZGGWPLX&#39;}      2  
     {&#39;A2FYQIZWV2UJHS&#39;}     13  
     {&#39;A2G0HRT8HS9HRZ&#39;}      3  
     {&#39;A2IQ0QCTQ3KWLT&#39;}     10  
     {&#39;A2NGMLBFZ3YQP5&#39;}     27  
     {&#39;A2P76QVLSGJR45&#39;}      5  
     {&#39;A2TI9CGVG147MZ&#39;}      8  
-    {&#39;A2Y1ORULU9ITOH&#39;}      2  
     {&#39;A312D4HWI6WC4N&#39;}      3  
     {&#39;A31FD3QCYZ28Q2&#39;}      8  
     {&#39;A333STM8M95GJX&#39;}      3  
@@ -13758,10 +13815,7 @@ t_iqr2 =
     {&#39;A3HT4AO5DN5J2B&#39;}      3  
     {&#39;A3HTLXAPOBCVVO&#39;}      4  
     {&#39;A3MD34XEB4H6JF&#39;}      3  
-    {&#39;A3SOJWB6AZWZV9&#39;}      2  
     {&#39;A3U21PUMQ6NGT2&#39;}      3  
-    {&#39;AQP74RCFA4CF8&#39; }      2  
-    {&#39;ATXY4CAGV87ZL&#39; }      2  
     {&#39;AVXEDARJC5HLU&#39; }      4  
     {&#39;AZLZA0Q87TJZO&#39; }      4  
 
@@ -13778,86 +13832,10 @@ t_iqr2 =
 <div class="prompt input_prompt">In&nbsp;[10]:</div>
 <div class="inner_cell">
     <div class="input_area">
-<div class=" highlight hl-matlab"><pre><span></span><span class="n">all_in</span> <span class="p">=</span> <span class="p">[</span><span class="n">t_z2</span><span class="p">;</span><span class="n">t_iqr2</span><span class="p">]</span>
-</pre></div>
+<div class=" highlight hl-matlab"><pre><span></span><span class="c">% All workers to be deleted in a table</span>
 
-    </div>
-</div>
-</div>
-
-<div class="output_wrapper">
-<div class="output">
-
-
-<div class="output_area">
-
-    <div class="prompt"></div>
-
-
-<div class="output_subarea output_stream output_stdout output_text">
-<pre>
-all_in =
-
-  40x2 table
-
-          Worker          Count
-    __________________    _____
-
-    {&#39;A1X1IRFYQZ40LD&#39;}      3  
-    {&#39;A27PBC5O3Z5ZED&#39;}      2  
-    {&#39;A2FYQIZWV2UJHS&#39;}      3  
-    {&#39;A2NGMLBFZ3YQP5&#39;}      4  
-    {&#39;A2P76QVLSGJR45&#39;}      3  
-    {&#39;A31FD3QCYZ28Q2&#39;}      2  
-    {&#39;A341XKSRZ58FJK&#39;}      2  
-    {&#39;AVXEDARJC5HLU&#39; }      2  
-    {&#39;AZLZA0Q87TJZO&#39; }      2  
-    {&#39;A1IFIK8J49WBER&#39;}      2  
-    {&#39;A1V2H0UF94ATWY&#39;}      2  
-    {&#39;A1X1IRFYQZ40LD&#39;}      4  
-    {&#39;A1YSYI926BBOHW&#39;}      2  
-    {&#39;A209V2VHLLQ59W&#39;}      2  
-    {&#39;A23TGEQ4CG90PA&#39;}      4  
-    {&#39;A258MR1IS96JEP&#39;}      5  
-    {&#39;A27PBC5O3Z5ZED&#39;}      4  
-    {&#39;A2BK45LZGGWPLX&#39;}      2  
-    {&#39;A2FYQIZWV2UJHS&#39;}     13  
-    {&#39;A2G0HRT8HS9HRZ&#39;}      3  
-    {&#39;A2IQ0QCTQ3KWLT&#39;}     10  
-    {&#39;A2NGMLBFZ3YQP5&#39;}     27  
-    {&#39;A2P76QVLSGJR45&#39;}      5  
-    {&#39;A2TI9CGVG147MZ&#39;}      8  
-    {&#39;A2Y1ORULU9ITOH&#39;}      2  
-    {&#39;A312D4HWI6WC4N&#39;}      3  
-    {&#39;A31FD3QCYZ28Q2&#39;}      8  
-    {&#39;A333STM8M95GJX&#39;}      3  
-    {&#39;A33LYSCQQU1YDJ&#39;}      8  
-    {&#39;A3AJJHOAV7WIUQ&#39;}      7  
-    {&#39;A3B7TNVOISSZ2O&#39;}      6  
-    {&#39;A3HT4AO5DN5J2B&#39;}      3  
-    {&#39;A3HTLXAPOBCVVO&#39;}      4  
-    {&#39;A3MD34XEB4H6JF&#39;}      3  
-    {&#39;A3SOJWB6AZWZV9&#39;}      2  
-    {&#39;A3U21PUMQ6NGT2&#39;}      3  
-    {&#39;AQP74RCFA4CF8&#39; }      2  
-    {&#39;ATXY4CAGV87ZL&#39; }      2  
-    {&#39;AVXEDARJC5HLU&#39; }      4  
-    {&#39;AZLZA0Q87TJZO&#39; }      4  
-
-</pre>
-</div>
-</div>
-
-</div>
-</div>
-
-</div>
-<div class="cell border-box-sizing code_cell rendered">
-<div class="input">
-<div class="prompt input_prompt">In&nbsp;[11]:</div>
-<div class="inner_cell">
-    <div class="input_area">
-<div class=" highlight hl-matlab"><pre><span></span><span class="n">deleted</span> <span class="p">=</span> <span class="n">unique</span><span class="p">(</span><span class="n">all_in</span><span class="p">.</span><span class="n">Worker</span><span class="p">)</span>
+<span class="n">all_in</span> <span class="p">=</span> <span class="p">[</span><span class="n">t_z2</span><span class="p">;</span><span class="n">t_iqr2</span><span class="p">];</span>
+<span class="n">deleted</span> <span class="p">=</span> <span class="n">unique</span><span class="p">(</span><span class="n">all_in</span><span class="p">.</span><span class="n">Worker</span><span class="p">)</span>
 </pre></div>
 
     </div>
@@ -13877,38 +13855,29 @@ all_in =
 <pre>
 deleted =
 
-  32x1 cell array
+  23x1 cell array
 
-    {&#39;A1IFIK8J49WBER&#39;}
-    {&#39;A1V2H0UF94ATWY&#39;}
     {&#39;A1X1IRFYQZ40LD&#39;}
-    {&#39;A1YSYI926BBOHW&#39;}
-    {&#39;A209V2VHLLQ59W&#39;}
     {&#39;A23TGEQ4CG90PA&#39;}
     {&#39;A258MR1IS96JEP&#39;}
     {&#39;A27PBC5O3Z5ZED&#39;}
-    {&#39;A2BK45LZGGWPLX&#39;}
     {&#39;A2FYQIZWV2UJHS&#39;}
     {&#39;A2G0HRT8HS9HRZ&#39;}
     {&#39;A2IQ0QCTQ3KWLT&#39;}
     {&#39;A2NGMLBFZ3YQP5&#39;}
     {&#39;A2P76QVLSGJR45&#39;}
     {&#39;A2TI9CGVG147MZ&#39;}
-    {&#39;A2Y1ORULU9ITOH&#39;}
     {&#39;A312D4HWI6WC4N&#39;}
     {&#39;A31FD3QCYZ28Q2&#39;}
     {&#39;A333STM8M95GJX&#39;}
     {&#39;A33LYSCQQU1YDJ&#39;}
-    {&#39;A341XKSRZ58FJK&#39;}
     {&#39;A3AJJHOAV7WIUQ&#39;}
     {&#39;A3B7TNVOISSZ2O&#39;}
     {&#39;A3HT4AO5DN5J2B&#39;}
     {&#39;A3HTLXAPOBCVVO&#39;}
     {&#39;A3MD34XEB4H6JF&#39;}
-    {&#39;A3SOJWB6AZWZV9&#39;}
     {&#39;A3U21PUMQ6NGT2&#39;}
-    {&#39;AQP74RCFA4CF8&#39; }
-    {&#39;ATXY4CAGV87ZL&#39; }
+    {&#39;AFUPQ61YDVIBQ&#39; }
     {&#39;AVXEDARJC5HLU&#39; }
     {&#39;AZLZA0Q87TJZO&#39; }
 
@@ -13922,11 +13891,14 @@ deleted =
 </div>
 <div class="cell border-box-sizing code_cell rendered">
 <div class="input">
-<div class="prompt input_prompt">In&nbsp;[12]:</div>
+<div class="prompt input_prompt">In&nbsp;[11]:</div>
 <div class="inner_cell">
     <div class="input_area">
-<div class=" highlight hl-matlab"><pre><span></span><span class="n">T_Full2</span> <span class="p">=</span> <span class="n">removevars</span><span class="p">(</span><span class="n">T_Full</span><span class="p">,</span><span class="n">deleted</span><span class="p">);</span>
+<div class=" highlight hl-matlab"><pre><span></span><span class="c">% We remove the workers</span>
+
+<span class="n">T_Full2</span> <span class="p">=</span> <span class="n">removevars</span><span class="p">(</span><span class="n">T_Full</span><span class="p">,</span><span class="n">deleted</span><span class="p">);</span>
 <span class="nb">size</span><span class="p">(</span><span class="n">T_Full2</span><span class="p">)</span>
+<span class="nb">size</span><span class="p">(</span><span class="n">T_Full</span><span class="p">)</span>
 </pre></div>
 
     </div>
@@ -13946,39 +13918,9 @@ deleted =
 <pre>
 ans =
 
-        1152          41
-
-</pre>
-</div>
-</div>
-
-</div>
-</div>
-
-</div>
-<div class="cell border-box-sizing code_cell rendered">
-<div class="input">
-<div class="prompt input_prompt">In&nbsp;[13]:</div>
-<div class="inner_cell">
-    <div class="input_area">
-<div class=" highlight hl-matlab"><pre><span></span><span class="nb">size</span><span class="p">(</span><span class="n">T_Full</span><span class="p">)</span>
-</pre></div>
-
-    </div>
-</div>
-</div>
-
-<div class="output_wrapper">
-<div class="output">
+        1152          50
 
 
-<div class="output_area">
-
-    <div class="prompt"></div>
-
-
-<div class="output_subarea output_stream output_stdout output_text">
-<pre>
 ans =
 
         1152          73
@@ -13993,23 +13935,12 @@ ans =
 </div>
 <div class="cell border-box-sizing code_cell rendered">
 <div class="input">
-<div class="prompt input_prompt">In&nbsp;[14]:</div>
+<div class="prompt input_prompt">In&nbsp;[12]:</div>
 <div class="inner_cell">
     <div class="input_area">
-<div class=" highlight hl-matlab"><pre><span></span><span class="c">% Mean,STD, 95% CI</span>
-</pre></div>
+<div class=" highlight hl-matlab"><pre><span></span><span class="c">% Mean,STD, 95% CI Calculation for original table</span>
 
-    </div>
-</div>
-</div>
-
-</div>
-<div class="cell border-box-sizing code_cell rendered">
-<div class="input">
-<div class="prompt input_prompt">In&nbsp;[15]:</div>
-<div class="inner_cell">
-    <div class="input_area">
-<div class=" highlight hl-matlab"><pre><span></span><span class="k">for</span> <span class="nb">i</span> <span class="p">=</span> <span class="mi">1</span> <span class="p">:</span> <span class="nb">size</span><span class="p">(</span><span class="n">uniq_conds</span><span class="p">,</span><span class="mi">1</span><span class="p">)</span>
+<span class="k">for</span> <span class="nb">i</span> <span class="p">=</span> <span class="mi">1</span> <span class="p">:</span> <span class="nb">size</span><span class="p">(</span><span class="n">uniq_conds</span><span class="p">,</span><span class="mi">1</span><span class="p">)</span>
     <span class="n">T_cond</span> <span class="p">=</span> <span class="n">T_Full</span><span class="p">(</span><span class="n">T_Full</span><span class="p">.</span><span class="n">cond</span> <span class="o">==</span><span class="n">uniq_conds</span><span class="p">(</span><span class="nb">i</span><span class="p">),:);</span>
     <span class="n">T_cond</span> <span class="p">=</span> <span class="n">T_cond</span><span class="p">(:,</span><span class="mi">2</span><span class="p">:</span><span class="k">end</span><span class="o">-</span><span class="mi">1</span><span class="p">);</span>
     <span class="n">T_cond_array</span> <span class="p">=</span> <span class="n">table2array</span><span class="p">(</span><span class="n">T_cond</span><span class="p">);</span>
@@ -14020,23 +13951,11 @@ ans =
     <span class="n">ts</span> <span class="p">=</span> <span class="n">tinv</span><span class="p">([</span><span class="mf">0.025</span>  <span class="mf">0.975</span><span class="p">],</span><span class="nb">length</span><span class="p">(</span><span class="n">T_cond_array</span><span class="p">)</span><span class="o">-</span><span class="mi">1</span><span class="p">);</span>
     <span class="n">CI</span> <span class="p">=</span> <span class="n">mean</span><span class="p">(</span><span class="n">T_cond_array</span><span class="p">)</span> <span class="o">+</span> <span class="n">ts</span><span class="o">*</span><span class="n">SEM</span><span class="p">;</span> 
     <span class="n">CI_array</span><span class="p">(</span><span class="nb">i</span><span class="p">)</span> <span class="p">=</span> <span class="n">diff</span><span class="p">(</span><span class="n">CI</span><span class="p">)</span> <span class="o">/</span><span class="mi">2</span><span class="p">;</span>
+    <span class="n">n_array</span><span class="p">(</span><span class="nb">i</span><span class="p">)</span> <span class="p">=</span> <span class="nb">length</span><span class="p">(</span><span class="n">T_cond_array</span><span class="p">);</span>
 <span class="k">end</span>
-</pre></div>
 
-    </div>
-</div>
-</div>
-
-</div>
-<div class="cell border-box-sizing code_cell rendered">
-<div class="input">
-<div class="prompt input_prompt">In&nbsp;[16]:</div>
-<div class="inner_cell">
-    <div class="input_area">
-<div class=" highlight hl-matlab"><pre><span></span><span class="n">old_table</span> <span class="p">=</span> <span class="n">table</span><span class="p">(</span><span class="n">uniq_conds</span><span class="p">,</span><span class="n">mean_array</span><span class="o">&#39;</span><span class="p">);</span>
-<span class="n">old_table</span><span class="p">.</span><span class="n">Std</span> <span class="p">=</span> <span class="n">std_array</span><span class="o">&#39;</span><span class="p">;</span>
-<span class="n">old_table</span><span class="p">.</span><span class="n">CI</span> <span class="p">=</span> <span class="n">CI_array</span><span class="o">&#39;</span><span class="p">;</span>
-<span class="n">old_table</span><span class="p">.</span><span class="n">Properties</span><span class="p">.</span><span class="n">VariableNames</span> <span class="p">=</span> <span class="p">{</span><span class="s">&#39;Condition&#39;</span><span class="p">,</span> <span class="s">&#39;Mean&#39;</span><span class="p">,</span> <span class="s">&#39;Std&#39;</span><span class="p">,</span> <span class="s">&#39; CI 95%&#39;</span><span class="p">}</span>
+<span class="n">old_table</span> <span class="p">=</span> <span class="n">table</span><span class="p">(</span><span class="n">uniq_conds</span><span class="p">,</span><span class="n">mean_array</span><span class="o">&#39;</span><span class="p">,</span> <span class="n">std_array</span><span class="o">&#39;</span><span class="p">,</span> <span class="n">CI_array</span><span class="o">&#39;</span><span class="p">,</span> <span class="n">n_array</span><span class="o">&#39;</span><span class="p">);</span>
+<span class="n">old_table</span><span class="p">.</span><span class="n">Properties</span><span class="p">.</span><span class="n">VariableNames</span> <span class="p">=</span> <span class="p">{</span><span class="s">&#39;Condition&#39;</span><span class="p">,</span> <span class="s">&#39;MOS&#39;</span><span class="p">,</span> <span class="s">&#39;Std&#39;</span><span class="p">,</span> <span class="s">&#39; CI 95%&#39;</span><span class="p">,</span> <span class="s">&#39;n&#39;</span><span class="p">}</span>
 </pre></div>
 
     </div>
@@ -14056,59 +13975,59 @@ ans =
 <pre>
 old_table =
 
-  48x4 table
+  48x5 table
 
-    Condition     Mean       Std       CI 95% 
-    _________    ______    _______    ________
+    Condition     MOS        Std       CI 95%      n 
+    _________    ______    _______    ________    ___
 
-      &#34;c01&#34;      4.8364    0.42941    0.057861
-      &#34;c02&#34;      1.5413    0.58447    0.078021
-      &#34;c03&#34;      4.3519    0.80481     0.10794
-      &#34;c04&#34;      2.7834    0.91495     0.12242
-      &#34;c05&#34;       3.537    0.73359    0.098385
-      &#34;c06&#34;      4.6233    0.54893    0.073792
-      &#34;c07&#34;      3.6651     1.0377      0.1405
-      &#34;c08&#34;       3.934    0.72555     0.09823
-      &#34;c09&#34;      3.1174      0.858     0.11589
-      &#34;c10&#34;      4.5205    0.64487    0.085885
-      &#34;c11&#34;      4.2466    0.78107     0.10308
-      &#34;c12&#34;      1.5047     0.7121    0.096409
-      &#34;c13&#34;      4.4645    0.62672    0.085053
-      &#34;c14&#34;      2.7793    0.90795     0.12009
-      &#34;c15&#34;      3.5409      1.074     0.14271
-      &#34;c16&#34;      3.6804    0.79455     0.10582
-      &#34;c17&#34;      4.2297    0.95317     0.12998
-      &#34;c18&#34;       3.078     1.0288     0.13733
-      &#34;c19&#34;      4.5095    0.62055    0.084418
-      &#34;c20&#34;      2.7867    0.86023     0.11301
-      &#34;c21&#34;      3.0275    0.83648     0.11166
-      &#34;c22&#34;      2.8679    0.82123     0.11118
-      &#34;c23&#34;      3.7324     1.0041     0.13562
-      &#34;c24&#34;      1.4977    0.69167    0.091695
-      &#34;c25&#34;      4.2995    0.86863     0.11903
-      &#34;c26&#34;      1.5093     0.6397    0.085792
-      &#34;c27&#34;      2.7308     0.9803       0.134
-      &#34;c28&#34;      2.3288    0.82109      0.1086
-      &#34;c29&#34;      2.9539    0.94658     0.12665
-      &#34;c30&#34;      1.9548     0.7433    0.098539
-      &#34;c31&#34;      3.1284     0.8965     0.11967
-      &#34;c32&#34;      2.8148    0.85886     0.11518
-      &#34;c33&#34;       3.362     1.0069     0.13348
-      &#34;c34&#34;      3.3194    0.85442     0.11459
-      &#34;c35&#34;       2.715     0.8381     0.11293
-      &#34;c36&#34;      2.4429     1.0092     0.13441
-      &#34;c37&#34;      3.3091    0.83031     0.11033
-      &#34;c38&#34;      2.0776     0.9028     0.12024
-      &#34;c39&#34;      3.0741    0.69153    0.092743
-      &#34;c40&#34;      3.2928    0.74896    0.099064
-      &#34;c41&#34;      2.1469    0.91663      0.1244
-      &#34;c42&#34;      2.5166    0.80679     0.10949
-      &#34;c43&#34;      4.5315    0.66346    0.087755
-      &#34;c44&#34;      4.6758    0.56658    0.075458
-      &#34;c45&#34;      3.8597    0.95976     0.12724
-      &#34;c46&#34;      3.7376     1.0063     0.13341
-      &#34;c47&#34;      4.5859    0.62072    0.081182
-      &#34;c48&#34;      3.6682    0.83678     0.11043
+      &#34;c01&#34;      4.8364    0.42941    0.057861    214
+      &#34;c02&#34;      1.5413    0.58447    0.078021    218
+      &#34;c03&#34;      4.3519    0.80481     0.10794    216
+      &#34;c04&#34;      2.7834    0.91495     0.12242    217
+      &#34;c05&#34;       3.537    0.73359    0.098385    216
+      &#34;c06&#34;      4.6233    0.54893    0.073792    215
+      &#34;c07&#34;      3.6651     1.0377      0.1405    212
+      &#34;c08&#34;       3.934    0.72555     0.09823    212
+      &#34;c09&#34;      3.1174      0.858     0.11589    213
+      &#34;c10&#34;      4.5205    0.64487    0.085885    219
+      &#34;c11&#34;      4.2466    0.78107     0.10308    223
+      &#34;c12&#34;      1.5047     0.7121    0.096409    212
+      &#34;c13&#34;      4.4645    0.62672    0.085053    211
+      &#34;c14&#34;      2.7793    0.90795     0.12009    222
+      &#34;c15&#34;      3.5409      1.074     0.14271    220
+      &#34;c16&#34;      3.6804    0.79455     0.10582    219
+      &#34;c17&#34;      4.2297    0.95317     0.12998    209
+      &#34;c18&#34;       3.078     1.0288     0.13733    218
+      &#34;c19&#34;      4.5095    0.62055    0.084418    210
+      &#34;c20&#34;      2.7867    0.86023     0.11301    225
+      &#34;c21&#34;      3.0275    0.83648     0.11166    218
+      &#34;c22&#34;      2.8679    0.82123     0.11118    212
+      &#34;c23&#34;      3.7324     1.0041     0.13562    213
+      &#34;c24&#34;      1.4977    0.69167    0.091695    221
+      &#34;c25&#34;      4.2995    0.86863     0.11903    207
+      &#34;c26&#34;      1.5093     0.6397    0.085792    216
+      &#34;c27&#34;      2.7308     0.9803       0.134    208
+      &#34;c28&#34;      2.3288    0.82109      0.1086    222
+      &#34;c29&#34;      2.9539    0.94658     0.12665    217
+      &#34;c30&#34;      1.9548     0.7433    0.098539    221
+      &#34;c31&#34;      3.1284     0.8965     0.11967    218
+      &#34;c32&#34;      2.8148    0.85886     0.11518    216
+      &#34;c33&#34;       3.362     1.0069     0.13348    221
+      &#34;c34&#34;      3.3194    0.85442     0.11459    216
+      &#34;c35&#34;       2.715     0.8381     0.11293    214
+      &#34;c36&#34;      2.4429     1.0092     0.13441    219
+      &#34;c37&#34;      3.3091    0.83031     0.11033    220
+      &#34;c38&#34;      2.0776     0.9028     0.12024    219
+      &#34;c39&#34;      3.0741    0.69153    0.092743    216
+      &#34;c40&#34;      3.2928    0.74896    0.099064    222
+      &#34;c41&#34;      2.1469    0.91663      0.1244    211
+      &#34;c42&#34;      2.5166    0.80679     0.10949    211
+      &#34;c43&#34;      4.5315    0.66346    0.087755    222
+      &#34;c44&#34;      4.6758    0.56658    0.075458    219
+      &#34;c45&#34;      3.8597    0.95976     0.12724    221
+      &#34;c46&#34;      3.7376     1.0063     0.13341    221
+      &#34;c47&#34;      4.5859    0.62072    0.081182    227
+      &#34;c48&#34;      3.6682    0.83678     0.11043    223
 
 </pre>
 </div>
@@ -14120,10 +14039,12 @@ old_table =
 </div>
 <div class="cell border-box-sizing code_cell rendered">
 <div class="input">
-<div class="prompt input_prompt">In&nbsp;[17]:</div>
+<div class="prompt input_prompt">In&nbsp;[13]:</div>
 <div class="inner_cell">
     <div class="input_area">
-<div class=" highlight hl-matlab"><pre><span></span><span class="k">for</span> <span class="nb">i</span> <span class="p">=</span> <span class="mi">1</span> <span class="p">:</span> <span class="nb">size</span><span class="p">(</span><span class="n">uniq_conds</span><span class="p">,</span><span class="mi">1</span><span class="p">)</span>
+<div class=" highlight hl-matlab"><pre><span></span><span class="c">% Mean,STD, 95% CI Calculation for new table</span>
+
+<span class="k">for</span> <span class="nb">i</span> <span class="p">=</span> <span class="mi">1</span> <span class="p">:</span> <span class="nb">size</span><span class="p">(</span><span class="n">uniq_conds</span><span class="p">,</span><span class="mi">1</span><span class="p">)</span>
     <span class="n">T_cond</span> <span class="p">=</span> <span class="n">T_Full2</span><span class="p">(</span><span class="n">T_Full2</span><span class="p">.</span><span class="n">cond</span> <span class="o">==</span><span class="n">uniq_conds</span><span class="p">(</span><span class="nb">i</span><span class="p">),:);</span>
     <span class="n">T_cond</span> <span class="p">=</span> <span class="n">T_cond</span><span class="p">(:,</span><span class="mi">2</span><span class="p">:</span><span class="k">end</span><span class="o">-</span><span class="mi">1</span><span class="p">);</span>
     <span class="n">T_cond_array</span> <span class="p">=</span> <span class="n">table2array</span><span class="p">(</span><span class="n">T_cond</span><span class="p">);</span>
@@ -14134,23 +14055,11 @@ old_table =
     <span class="n">ts</span> <span class="p">=</span> <span class="n">tinv</span><span class="p">([</span><span class="mf">0.025</span>  <span class="mf">0.975</span><span class="p">],</span><span class="nb">length</span><span class="p">(</span><span class="n">T_cond_array</span><span class="p">)</span><span class="o">-</span><span class="mi">1</span><span class="p">);</span>
     <span class="n">CI</span> <span class="p">=</span> <span class="n">mean</span><span class="p">(</span><span class="n">T_cond_array</span><span class="p">)</span> <span class="o">+</span> <span class="n">ts</span><span class="o">*</span><span class="n">SEM</span><span class="p">;</span> 
     <span class="n">CI_array</span><span class="p">(</span><span class="nb">i</span><span class="p">)</span> <span class="p">=</span> <span class="n">diff</span><span class="p">(</span><span class="n">CI</span><span class="p">)</span> <span class="o">/</span><span class="mi">2</span><span class="p">;</span>
+    <span class="n">n_array</span><span class="p">(</span><span class="nb">i</span><span class="p">)</span> <span class="p">=</span> <span class="nb">length</span><span class="p">(</span><span class="n">T_cond_array</span><span class="p">);</span>
 <span class="k">end</span>
-</pre></div>
 
-    </div>
-</div>
-</div>
-
-</div>
-<div class="cell border-box-sizing code_cell rendered">
-<div class="input">
-<div class="prompt input_prompt">In&nbsp;[18]:</div>
-<div class="inner_cell">
-    <div class="input_area">
-<div class=" highlight hl-matlab"><pre><span></span><span class="n">final_table</span> <span class="p">=</span> <span class="n">table</span><span class="p">(</span><span class="n">uniq_conds</span><span class="p">,</span><span class="n">mean_array</span><span class="o">&#39;</span><span class="p">);</span>
-<span class="n">final_table</span><span class="p">.</span><span class="n">Std</span> <span class="p">=</span> <span class="n">std_array</span><span class="o">&#39;</span><span class="p">;</span>
-<span class="n">final_table</span><span class="p">.</span><span class="n">CI</span> <span class="p">=</span> <span class="n">CI_array</span><span class="o">&#39;</span><span class="p">;</span>
-<span class="n">final_table</span><span class="p">.</span><span class="n">Properties</span><span class="p">.</span><span class="n">VariableNames</span> <span class="p">=</span> <span class="p">{</span><span class="s">&#39;Condition&#39;</span><span class="p">,</span> <span class="s">&#39;Mean&#39;</span><span class="p">,</span> <span class="s">&#39;Std&#39;</span><span class="p">,</span> <span class="s">&#39; CI 95%&#39;</span><span class="p">}</span>
+<span class="n">final_table</span> <span class="p">=</span> <span class="n">table</span><span class="p">(</span><span class="n">uniq_conds</span><span class="p">,</span><span class="n">mean_array</span><span class="o">&#39;</span><span class="p">,</span> <span class="n">std_array</span><span class="o">&#39;</span><span class="p">,</span> <span class="n">CI_array</span><span class="o">&#39;</span><span class="p">,</span> <span class="n">n_array</span><span class="o">&#39;</span><span class="p">);</span>
+<span class="n">final_table</span><span class="p">.</span><span class="n">Properties</span><span class="p">.</span><span class="n">VariableNames</span> <span class="p">=</span> <span class="p">{</span><span class="s">&#39;Condition&#39;</span><span class="p">,</span> <span class="s">&#39;MOS&#39;</span><span class="p">,</span> <span class="s">&#39;Std&#39;</span><span class="p">,</span> <span class="s">&#39; CI 95%&#39;</span><span class="p">,</span> <span class="s">&#39;n&#39;</span><span class="p">}</span>
 </pre></div>
 
     </div>
@@ -14170,59 +14079,59 @@ old_table =
 <pre>
 final_table =
 
-  48x4 table
+  48x5 table
 
-    Condition     Mean       Std       CI 95% 
-    _________    ______    _______    ________
+    Condition     MOS        Std       CI 95%     n 
+    _________    ______    _______    ________    __
 
-      &#34;c01&#34;      4.9444    0.23231    0.078603
-      &#34;c02&#34;      1.5625    0.61892     0.22315
-      &#34;c03&#34;       4.575    0.54948     0.17573
-      &#34;c04&#34;      2.8444    0.76739     0.23055
-      &#34;c05&#34;      3.7179    0.72361     0.23457
-      &#34;c06&#34;      4.6538    0.48038     0.13374
-      &#34;c07&#34;           4    0.88641     0.33717
-      &#34;c08&#34;         3.8    0.54772     0.16455
-      &#34;c09&#34;      3.1064    0.78668     0.23098
-      &#34;c10&#34;      4.4706    0.56329     0.19654
-      &#34;c11&#34;      4.3019    0.66751     0.18399
-      &#34;c12&#34;      1.6098     0.7375     0.23278
-      &#34;c13&#34;      4.5111    0.62603     0.18808
-      &#34;c14&#34;      2.8205    0.82308     0.26681
-      &#34;c15&#34;      3.5745    0.92653     0.27204
-      &#34;c16&#34;      3.7778    0.72155     0.24414
-      &#34;c17&#34;      4.2444    0.90843     0.27292
-      &#34;c18&#34;      3.3571    0.95818     0.29859
-      &#34;c19&#34;      4.7692    0.42683     0.13836
-      &#34;c20&#34;      2.8913    0.73721     0.21892
-      &#34;c21&#34;        3.06    0.76692     0.21796
-      &#34;c22&#34;      3.0755    0.87374     0.24083
-      &#34;c23&#34;      3.7838    0.82108     0.27376
-      &#34;c24&#34;      1.4545    0.66313     0.20161
-      &#34;c25&#34;      4.5135    0.73112     0.24377
-      &#34;c26&#34;      1.4737    0.60345     0.19835
-      &#34;c27&#34;      2.7368    0.94966     0.31214
-      &#34;c28&#34;       2.175    0.84391     0.26989
-      &#34;c29&#34;      2.9375    0.95441     0.27713
-      &#34;c30&#34;      1.8158    0.69185     0.22741
-      &#34;c31&#34;      2.9268    0.75466      0.2382
-      &#34;c32&#34;      2.7609    0.87394     0.25953
-      &#34;c33&#34;      3.4348    0.80697     0.23964
-      &#34;c34&#34;      3.3261     0.7617      0.2262
-      &#34;c35&#34;      2.9778    0.75344     0.22636
-      &#34;c36&#34;      2.6538    0.96781     0.26944
-      &#34;c37&#34;      3.3721    0.72451     0.22297
-      &#34;c38&#34;           2     0.7746     0.24449
-      &#34;c39&#34;      3.1136    0.68932     0.20957
-      &#34;c40&#34;      3.2917    0.58194     0.16898
-      &#34;c41&#34;      2.0789    0.85049     0.27955
-      &#34;c42&#34;      2.5349    0.79728     0.24537
-      &#34;c43&#34;      4.7222    0.51331     0.17368
-      &#34;c44&#34;       4.875    0.33493     0.10712
-      &#34;c45&#34;      3.9773    0.84876     0.25805
-      &#34;c46&#34;      3.7949    0.83286     0.26998
-      &#34;c47&#34;      4.6512    0.52932      0.1629
-      &#34;c48&#34;       3.525    0.84694     0.27086
+      &#34;c01&#34;      4.9155    0.28013    0.066305    71
+      &#34;c02&#34;      1.6471    0.59173     0.12763    85
+      &#34;c03&#34;      4.3625    0.75042       0.167    80
+      &#34;c04&#34;      2.6702    0.78135     0.16004    94
+      &#34;c05&#34;      3.5802     0.7047     0.15582    81
+      &#34;c06&#34;      4.6354    0.50513     0.10235    96
+      &#34;c07&#34;      3.7931    0.89101      0.1899    87
+      &#34;c08&#34;       3.875    0.65763     0.13934    88
+      &#34;c09&#34;      3.1375    0.79147     0.17613    80
+      &#34;c10&#34;      4.4578     0.5906     0.12896    83
+      &#34;c11&#34;      4.2128    0.70134     0.14365    94
+      &#34;c12&#34;      1.6957    0.79475     0.16459    92
+      &#34;c13&#34;      4.4819    0.59184     0.12923    83
+      &#34;c14&#34;      2.8025    0.69677     0.15407    81
+      &#34;c15&#34;      3.7416    0.94782     0.19966    89
+      &#34;c16&#34;      3.6024      0.748     0.16333    83
+      &#34;c17&#34;      4.2907    0.66627     0.14285    86
+      &#34;c18&#34;      3.0674     0.9145     0.19264    89
+      &#34;c19&#34;      4.6203      0.514     0.11513    79
+      &#34;c20&#34;      2.7629     0.6888     0.13882    97
+      &#34;c21&#34;      3.0408    0.71679     0.14371    98
+      &#34;c22&#34;       2.914    0.76123     0.15677    93
+      &#34;c23&#34;      3.6136    0.96409     0.20427    88
+      &#34;c24&#34;      1.5506    0.62179     0.13098    89
+      &#34;c25&#34;         4.3    0.74891     0.17857    70
+      &#34;c26&#34;       1.619    0.57884     0.12562    84
+      &#34;c27&#34;      2.8171    0.87669     0.19263    82
+      &#34;c28&#34;      2.2747    0.70025     0.14583    91
+      &#34;c29&#34;      2.8723    0.83259     0.17053    94
+      &#34;c30&#34;      1.9318    0.65733     0.13927    88
+      &#34;c31&#34;      3.0617    0.74742     0.16527    81
+      &#34;c32&#34;      2.7727    0.78385     0.16608    88
+      &#34;c33&#34;      3.2907    0.80974     0.17361    86
+      &#34;c34&#34;      3.2935    0.81925     0.16966    92
+      &#34;c35&#34;      2.8095    0.81368     0.17658    84
+      &#34;c36&#34;      2.6211    0.91301     0.18599    95
+      &#34;c37&#34;      3.2907    0.64837     0.13901    86
+      &#34;c38&#34;      1.9667    0.81351     0.17039    90
+      &#34;c39&#34;      3.0488    0.58589     0.12873    82
+      &#34;c40&#34;      3.3333    0.68101     0.14025    93
+      &#34;c41&#34;      2.1556      0.923     0.19332    90
+      &#34;c42&#34;       2.494    0.75504     0.16487    83
+      &#34;c43&#34;      4.5618    0.60218     0.12685    89
+      &#34;c44&#34;      4.6889    0.55373     0.11598    90
+      &#34;c45&#34;      3.8913    0.88276     0.18281    92
+      &#34;c46&#34;      3.7558    0.76598     0.16423    86
+      &#34;c47&#34;      4.5682    0.54235     0.11491    88
+      &#34;c48&#34;      3.6413    0.77858     0.16124    92
 
 </pre>
 </div>
