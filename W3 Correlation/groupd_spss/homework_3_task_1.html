@@ -1,0 +1,126 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <title>Week 3 Task 1</title>
+
+	<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
+	<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+	<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+	<meta content="text/html;charset=utf-8" http-equiv="Content-Type">
+	<meta content="utf-8" http-equiv="encoding">
+</head>
+
+<body>
+<style type="text/css">
+	body{font-family:Tahoma,"Times New Roman", Times, serif;}
+	p{	margin:20px; }
+	.center {
+    display: block;
+    margin-left: auto;
+    margin-right: auto;
+    width: 40%;
+}
+fieldset { padding: 10px; background:#fbfbfb; border-radius:5px; margin-bottom:5px; }
+</style>
+
+
+<section class="container" >
+	<div class="panel panel-primary">
+		<div class="panel-heading">
+			<h3 class="panel-title">
+				<a data-target="#instruction" data-toggle="collapse" >Example</a>
+			</h3>
+		</div>
+		<div  class="panel-collapse collapse in" id="instruction">
+			<div class="panel-body" >
+			  <p>Calculate the suitable correlation coefficients for all speeker characteristics (unsympatisch to bescheiden) with each other and report which collerations are significant.</p>
+				<p>Dataset: likeability_dimension_ratings.csv</p>
+			</div>
+		</div>
+
+	</div>
+</section>
+
+<section class="container" >
+	<div class="panel panel-primary">
+		<div class="panel-heading">
+			<h3 class="panel-title">
+				<a data-target="#setup" data-toggle="collapse" >Setup and transfering data format</a>
+			</h3>
+		</div>
+		<div  class="panel-collapse collapse in" id="setup">
+			<div class="panel-body" >
+			  	<fieldset><label>Data cleaning and outlier detection:</label>
+				  	<p>To make sure the data is usable and no outliers affect the correlations later, follow these steps:</p>
+				  		<ol>
+				  			<li>Simply load the dataset into SPSS</li>
+				  			<li>Analyze → Descriptive Statistics → Explore</li>
+				  			<img src="imgs/t1/t1_outlier_p1.png" alt="Outlier" style="width:auto;height:450px;margin-left: 20px;">
+				  			<li>Add all characteristics to „Dependent List“-Field</li>
+				  			<li>Check „Plots“ in the „Display“-area</li>
+				  			<li>Click „Plots...“, unselect „Stem and leaf“ and close the window</li>
+				  			<img src="imgs/t1/t1_outlier_p2.png" alt="Outlier" style="width:auto;height:500px;margin-left: 20px;">
+				  			<li>Click „Ok“</li>
+				  		</ol>			  	
+				</fieldset>
+				<fieldset><label>This is one example of the boxplots that SPSS produces for each characteristic.</label>
+					<p><img src="imgs/t1/t1_outlier_output.png" alt="Outlier Output" style="width:auto;height:300px;margin-left: 20px;"></p>		
+					<p>In the boxplot you can see that all values are between 0 and 100, as it should be. While two values at the top are outside of the four quartiles and could qualify as outliers, they are not far away from the border and still within the 0 to 100 range.</p>
+		  		</fieldset>
+			</div>
+		</div>
+
+	</div>
+</section>
+
+<section class="container" >
+	<div class="panel panel-primary">
+		<div class="panel-heading">
+			<h3 class="panel-title">
+				<a data-target="#process" data-toggle="collapse" >Performing the test</a>
+			</h3>
+		</div>
+		<div  class="panel-collapse collapse in" id="process">
+			<div class="panel-body" >
+				<fieldset><label>To compute all correlations and present it in a fitting way, follow these steps:</label>
+					<ol>
+						<li>Analyze → Correlate → Bivariate</li>
+						<img src="imgs/t1/t1_p1.png" alt="Outlier Output" style="width:auto;height:450px;margin-left: 20px;">
+						<li>Add all characteistics to the „Variables“-field, check „Pearson“ in the „Correlation Coefficients“-area and set „Test of Significance“ to „Two-tailed“ and check „Flag significant correlations“</li>
+						<img src="imgs/t1/t1_p2.png" alt="Outlier Output" style="width:auto;height:350px;margin-left: 20px;">
+						<li>Style the output:</li>
+						<ol>
+							<li>Click „Style...“</li>
+							<li>Change „Value“ to „Significance“, „Condition“ to „x>0.05“ and the background color to grey → As most of the output will have a high significance, we will only mark the correlations with a low significance.</li>
+							<li>Click „Add“ → In the new condition change „Value“ to „Correlation“, „Condition“ to „Abs(x)>=0.5“ and give it a flashy color → The pairs with a high correlation will be highlighted in the output.</li>
+							<img src="imgs/t1/t1_p3.png" alt="Outlier Output" style="width:auto;height:350px;margin-left: 20px;">
+
+							<li>Click „Continue“ to close the window</li>
+						</ol>
+						<li>Click „Ok“ to generate the output</li>
+					</ol>
+				</fieldset>
+			</div>
+		</div>
+
+	</div>
+</section>
+
+<section class="container" >
+	<div class="panel panel-primary">
+		<div class="panel-heading">
+			<h3 class="panel-title">
+				<a data-target="#output" data-toggle="collapse" >Output</a>
+			</h3>
+		</div>
+		<div  class="panel-collapse collapse in" id="output">
+			<div class="panel-body" >
+			  	<p>Correlations higher than 0,5 are marked yellow. Significances higher than 0,05 are marked grey and should not be considered</p>
+  				<img src="imgs/t1/t1_output.png" alt="Outlier Output" style="width:auto;height:2000px;margin-left: 20px;">
+			</div>
+		</div>
+
+	</div>
+</section>
+</body>
+</html>
