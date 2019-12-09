@@ -1,0 +1,189 @@
+
+<!DOCTYPE html
+  PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+<html><head>
+      <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+   <!--
+This HTML was auto-generated from MATLAB code.
+To make changes, update the MATLAB code and republish this document.
+      --><title>Task_03</title><meta name="generator" content="MATLAB 9.4"><link rel="schema.DC" href="http://purl.org/dc/elements/1.1/"><meta name="DC.date" content="2019-12-09"><meta name="DC.source" content="Task_03.m"><style type="text/css">
+html,body,div,span,applet,object,iframe,h1,h2,h3,h4,h5,h6,p,blockquote,pre,a,abbr,acronym,address,big,cite,code,del,dfn,em,font,img,ins,kbd,q,s,samp,small,strike,strong,sub,sup,tt,var,b,u,i,center,dl,dt,dd,ol,ul,li,fieldset,form,label,legend,table,caption,tbody,tfoot,thead,tr,th,td{margin:0;padding:0;border:0;outline:0;font-size:100%;vertical-align:baseline;background:transparent}body{line-height:1}ol,ul{list-style:none}blockquote,q{quotes:none}blockquote:before,blockquote:after,q:before,q:after{content:'';content:none}:focus{outine:0}ins{text-decoration:none}del{text-decoration:line-through}table{border-collapse:collapse;border-spacing:0}
+
+html { min-height:100%; margin-bottom:1px; }
+html body { height:100%; margin:0px; font-family:Arial, Helvetica, sans-serif; font-size:10px; color:#000; line-height:140%; background:#fff none; overflow-y:scroll; }
+html body td { vertical-align:top; text-align:left; }
+
+h1 { padding:0px; margin:0px 0px 25px; font-family:Arial, Helvetica, sans-serif; font-size:1.5em; color:#d55000; line-height:100%; font-weight:normal; }
+h2 { padding:0px; margin:0px 0px 8px; font-family:Arial, Helvetica, sans-serif; font-size:1.2em; color:#000; font-weight:bold; line-height:140%; border-bottom:1px solid #d6d4d4; display:block; }
+h3 { padding:0px; margin:0px 0px 5px; font-family:Arial, Helvetica, sans-serif; font-size:1.1em; color:#000; font-weight:bold; line-height:140%; }
+
+a { color:#005fce; text-decoration:none; }
+a:hover { color:#005fce; text-decoration:underline; }
+a:visited { color:#004aa0; text-decoration:none; }
+
+p { padding:0px; margin:0px 0px 20px; }
+img { padding:0px; margin:0px 0px 20px; border:none; }
+p img, pre img, tt img, li img, h1 img, h2 img { margin-bottom:0px; } 
+
+ul { padding:0px; margin:0px 0px 20px 23px; list-style:square; }
+ul li { padding:0px; margin:0px 0px 7px 0px; }
+ul li ul { padding:5px 0px 0px; margin:0px 0px 7px 23px; }
+ul li ol li { list-style:decimal; }
+ol { padding:0px; margin:0px 0px 20px 0px; list-style:decimal; }
+ol li { padding:0px; margin:0px 0px 7px 23px; list-style-type:decimal; }
+ol li ol { padding:5px 0px 0px; margin:0px 0px 7px 0px; }
+ol li ol li { list-style-type:lower-alpha; }
+ol li ul { padding-top:7px; }
+ol li ul li { list-style:square; }
+
+.content { font-size:1.2em; line-height:140%; padding: 20px; }
+
+pre, code { font-size:12px; }
+tt { font-size: 1.2em; }
+pre { margin:0px 0px 20px; }
+pre.codeinput { padding:10px; border:1px solid #d3d3d3; background:#f7f7f7; }
+pre.codeoutput { padding:10px 11px; margin:0px 0px 20px; color:#4c4c4c; }
+pre.error { color:red; }
+
+@media print { pre.codeinput, pre.codeoutput { word-wrap:break-word; width:100%; } }
+
+span.keyword { color:#0000FF }
+span.comment { color:#228B22 }
+span.string { color:#A020F0 }
+span.untermstring { color:#B20000 }
+span.syscmd { color:#B28C00 }
+
+.footer { width:auto; padding:10px 0px; margin:25px 0px 0px; border-top:1px dotted #878787; font-size:0.8em; line-height:140%; font-style:italic; color:#878787; text-align:left; float:none; }
+.footer p { margin:0px; }
+.footer a { color:#878787; }
+.footer a:hover { color:#878787; text-decoration:underline; }
+.footer a:visited { color:#878787; }
+
+table th { padding:7px 5px; text-align:left; vertical-align:middle; border: 1px solid #d6d4d4; font-weight:bold; }
+table td { padding:7px 5px; text-align:left; vertical-align:top; border:1px solid #d6d4d4; }
+
+
+
+
+
+  </style></head><body><div class="content"><h2>Contents</h2><div><ul><li><a href="#1">Get all data</a></li><li><a href="#2">Calculation</a></li><li><a href="#3">Descripton</a></li><li><a href="#4">Result</a></li></ul></div><h2 id="1">Get all data</h2><p>First we get all the important data (VQ - VD)</p><pre class="codeinput">T = readtable(<span class="string">"..\..\Gaming_video_quality_dataset.xlsx"</span>);
+t_parameter=T(:,8:11);
+t_parameter.Properties.VariableNames
+</pre><pre class="codeoutput">
+ans =
+
+  1&times;4 cell array
+
+    {'VQ'}    {'VF'}    {'VU'}    {'VD'}
+
+</pre><h2 id="2">Calculation</h2><p>Now we have to calculate the CronbachAlpha value for each possible combination to see which observations build a same general construct. The calculation function is not native to matlab. But in the File Exachange community the formula for the CronbachAlpha value has already be implemented. see https://de.mathworks.com/matlabcentral/fileexchange/7829-cronbach-s-alpha</p><pre class="codeinput">entries =[];
+<span class="keyword">for</span> i=1:width(t_parameter)-1
+    <span class="keyword">for</span>(range=0:width(t_parameter)-i-1)
+        <span class="keyword">for</span>(x=i+1:width(t_parameter)-range)
+        t = table(table2array(t_parameter(:,i:i)),table2array(t_parameter(:,x:x+range)));
+        params = [ t_parameter(:,i:i).Properties.VariableNames' ; t_parameter(:,x:x+range).Properties.VariableNames' ]';
+
+        [us,s] = CronbachAlpha(table2array(t));
+
+        entry.parameter =  strjoin(string(params));
+        entry.standardized = s;
+        entry.regular = us;
+        entries = [entries, entry];
+        <span class="keyword">end</span>
+    <span class="keyword">end</span>
+<span class="keyword">end</span>
+</pre><h2 id="3">Descripton</h2><p>The function mentioned above can calculate the regular Cronbach's alpha value and a standardized Cronbach's alpha value. The regular value is based on covariances while the standardized one is based on correlations. The standardization is important if the tests have different scales (one 1-10 and the other 1-100) . Then the standardized value should be used. In our case the regular value can be used. Different values reflecting different constitencies:</p><pre class="codeinput">alpha = [<span class="string">"&gt;=0.9"</span>, <span class="string">"&gt;=0.8"</span>, <span class="string">"&gt;=0.7"</span>, <span class="string">"&gt;=0.6"</span>, <span class="string">"&gt;=0.5"</span>, <span class="string">"0.5&gt;"</span>];
+internal_consistency = [<span class="string">"excellent"</span>, <span class="string">"good"</span>, <span class="string">"acceptable"</span>, <span class="string">"questionable"</span>, <span class="string">"poor"</span>, <span class="string">"unacceptable"</span>];
+ta = table(alpha', internal_consistency')
+ta.Properties.VariableNames{<span class="string">'Var1'</span>} = <span class="string">'aplha'</span>;
+ta.Properties.VariableNames{<span class="string">'Var2'</span>} = <span class="string">'internal_consitency'</span>;
+</pre><pre class="codeoutput">
+ta =
+
+  6&times;2 table
+
+     Var1           Var2     
+    _______    ______________
+
+    "&gt;=0.9"    "excellent"   
+    "&gt;=0.8"    "good"        
+    "&gt;=0.7"    "acceptable"  
+    "&gt;=0.6"    "questionable"
+    "&gt;=0.5"    "poor"        
+    "0.5&gt;"     "unacceptable"
+
+</pre><h2 id="4">Result</h2><p>As you can see, the best value can be reached if only {VQ &amp; VU} (alpha = 0.85456) are used. In general it could be said, that the without the VD observation, a higher value can be archieved.</p><pre class="codeinput">final = struct2table(entries,<span class="string">'AsArray'</span>,true)
+</pre><pre class="codeoutput">
+final =
+
+  10&times;3 table
+
+      parameter      standardized    regular
+    _____________    ____________    _______
+
+    "VQ VF"             0.8247       0.83449
+    "VQ VU"            0.85025       0.85456
+    "VQ VD"            0.37315       0.37388
+    "VQ VF VU"         0.82982       0.84008
+    "VQ VU VD"           0.656       0.64546
+    "VQ VF VU VD"      0.74212       0.73664
+    "VF VU"            0.61727       0.61827
+    "VF VD"            0.28547       0.29444
+    "VF VU VD"         0.52537       0.51191
+    "VU VD"             0.2667       0.27143
+
+</pre><p class="footer"><br><a href="https://www.mathworks.com/products/matlab/">Published with MATLAB&reg; R2018a</a><br></p></div><!--
+##### SOURCE BEGIN #####
+%% Get all data
+% First we get all the important data (VQ - VD)
+T = readtable("..\..\Gaming_video_quality_dataset.xlsx");
+t_parameter=T(:,8:11);
+t_parameter.Properties.VariableNames
+
+%% Calculation
+% Now we have to calculate the CronbachAlpha value for each possible
+% combination to see which observations build a same general construct.
+% The calculation function is not native to matlab. But in the File
+% Exachange community the formula for the CronbachAlpha value has
+% already be implemented.
+% see https://de.mathworks.com/matlabcentral/fileexchange/7829-cronbach-s-alpha
+entries =[];
+for i=1:width(t_parameter)-1
+    for(range=0:width(t_parameter)-i-1)
+        for(x=i+1:width(t_parameter)-range)
+        t = table(table2array(t_parameter(:,i:i)),table2array(t_parameter(:,x:x+range)));
+        params = [ t_parameter(:,i:i).Properties.VariableNames' ; t_parameter(:,x:x+range).Properties.VariableNames' ]';
+        
+        [us,s] = CronbachAlpha(table2array(t));
+        
+        entry.parameter =  strjoin(string(params));
+        entry.standardized = s;
+        entry.regular = us;
+        entries = [entries, entry];
+        end
+    end
+end
+
+%% Descripton
+% The function mentioned above can calculate the regular Cronbach's alpha
+% value and a standardized Cronbach's alpha value. The regular value is
+% based on covariances while the standardized one is based on correlations.
+% The standardization is important if the tests have different scales (one
+% 1-10 and the other 1-100) . Then the standardized value should be used.
+% In our case the regular value can be used.
+% Different values reflecting different constitencies:
+
+alpha = [">=0.9", ">=0.8", ">=0.7", ">=0.6", ">=0.5", "0.5>"];
+internal_consistency = ["excellent", "good", "acceptable", "questionable", "poor", "unacceptable"];
+ta = table(alpha', internal_consistency')
+ta.Properties.VariableNames{'Var1'} = 'aplha';
+ta.Properties.VariableNames{'Var2'} = 'internal_consitency';
+
+
+%% Result
+% As you can see, the best value can be reached if only {VQ & VU} (alpha = 0.85456) are used.
+% In general it could be said, that the without the VD observation, a
+% higher value can be archieved.
+final = struct2table(entries,'AsArray',true)
+##### SOURCE END #####
+--></body></html>
