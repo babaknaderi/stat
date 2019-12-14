@@ -1,0 +1,149 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <title>Template</title>
+
+	<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
+	<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+	<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+	<meta content="text/html;charset=utf-8" http-equiv="Content-Type">
+	<meta content="utf-8" http-equiv="encoding">
+</head>
+
+<body>
+<style type="text/css">
+	body{font-family:Tahoma,"Times New Roman", Times, serif;}
+	p{	margin:20px; }
+	.center {
+    display: block;
+    margin-left: auto;
+    margin-right: auto;
+    width: 40%;
+}
+fieldset { padding: 10px; background:#fbfbfb; border-radius:5px; margin-bottom:5px; }
+</style>
+
+
+<section class="container" >
+	<div class="panel panel-primary">
+		<div class="panel-heading">
+			<h3 class="panel-title">
+				<a data-target="#instruction" data-toggle="collapse" >Example</a>
+			</h3>
+		</div>
+		<div  class="panel-collapse collapse in" id="instruction">
+			<div class="panel-body" >
+			  <p>Are the raters consistent over the time? Check the test-retest reliability of the test 
+				  stimulus <b>"maus_m_700_normAsl_-26"</b> for all four repitions (i.e repition 1 vs repition 2, 2 vs 3 and 3 vs 4)
+			  </p>
+			</div>
+		</div>
+
+	</div>
+</section>
+
+<section class="container" >
+	<div class="panel panel-primary">
+		<div class="panel-heading">
+			<h3 class="panel-title">
+				<a data-target="#setup" data-toggle="collapse" >Setup and transfering data format</a>
+			</h3>
+		</div>
+		<div  class="panel-collapse collapse in" id="setup">
+			<div class="panel-body" >
+				<fieldset>
+					
+					<p>
+						First, we need to check “no” in “Does your text file match a predefined format?”	
+					</p>
+					
+					<div style="display: inline-flex;">
+							<img src="imgs/task2_1.png" style="width:auto;height:400px;margin-left: 20px;">
+							
+					</div>
+					<p>
+						Variables are delimited by specific character (i.e, comma) and variables are starting from line 1.	
+					</p>
+					<img src="imgs/task2_2.png" style="width:600px;height:auto;margin-left: 20px;">
+					<p>
+						Check each line represents 1 case and we import all the cases.
+					</p>
+					<div style="display: inline-flex;">
+						<img src="imgs/task2_3.png" style="width:auto;height:400px;margin-left: 20px;">
+						
+				</div>
+				<p>
+					Check comma ass delimiter.
+				</p>
+				<div style="display: inline-flex;">
+					<img src="imgs/task2_4.png" style="width:auto;height:400px;margin-left: 20px;">
+					
+			</div>
+				</fieldset>
+			</div>
+		</div>
+
+	</div>
+</section> 
+
+<section class="container" >
+	<div class="panel panel-primary">
+		<div class="panel-heading">
+			<h3 class="panel-title">
+				<a data-target="#process" data-toggle="collapse" >Performing the test</a>
+			</h3>
+		</div>
+		<div  class="panel-collapse collapse in" id="process">
+			<div class="panel-body" >
+		  	<fieldset><label>Calculate test-retest reliability.</label>
+				<p>
+					<b>Analyze</b> > <b>Correlate</b> > <b>bivariate</b> > Add the rating 1 and rating 2 <b>“Variables”</b>
+				</p>
+				<div style="display: inline-flex;">
+					<img src="imgs/task2_6.png" style="width:auto;height:500px;margin-left: 20px;">
+					
+				</div>
+				<p>
+					<b>Analyze</b> > <b>Correlate</b> > <b>bivariate</b> > Add the rating 2 and rating 3 <b>“Variables”</b>
+				</p>
+				<div style="display: inline-flex;">
+					<img src="imgs/task2_7.png" style="width:auto;height:500px;margin-left: 20px;">
+					
+				</div>
+				<p>
+					<b>Analyze</b> > <b>Correlate</b> > <b>bivariate</b> > Add the rating 3 and rating 4 <b>“Variables”</b>
+				</p>
+				<div style="display: inline-flex;">
+					<img src="imgs/task2_8.png" style="width:auto;height:500px;margin-left: 20px;">
+					
+				
+			</fieldset>
+			</div>
+		</div>
+	</div>
+</section> 
+
+<section class="container" >
+	<div class="panel panel-primary">
+		<div class="panel-heading">
+			<h3 class="panel-title">
+				<a data-target="#output" data-toggle="collapse" >Output</a>
+			</h3>
+		</div>
+		<div  class="panel-collapse collapse in" id="output">
+			<div class="panel-body" >
+			  	<fieldset>
+					<p>
+						correlation between rating 1 vs 2, 2 vs 3 and 3 vs 4
+					</p>
+					<img src="imgs/task2_9.png" style="width:auto;height:700px;margin-left: 20px;">
+					<img src="imgs/task2_10.png" style="width:auto;height:400px;margin-left: 20px;">				
+				</fieldset>	 
+			</div>
+		</div>
+
+	</div>
+</section>
+
+</body>
+</html>

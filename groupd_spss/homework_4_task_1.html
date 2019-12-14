@@ -1,0 +1,127 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <title>Template</title>
+
+	<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
+	<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+	<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+	<meta content="text/html;charset=utf-8" http-equiv="Content-Type">
+	<meta content="utf-8" http-equiv="encoding">
+</head>
+
+<body>
+<style type="text/css">
+	body{font-family:Tahoma,"Times New Roman", Times, serif;}
+	p{	margin:20px; }
+	.center {
+    display: block;
+    margin-left: auto;
+    margin-right: auto;
+    width: 40%;
+}
+fieldset { padding: 10px; background:#fbfbfb; border-radius:5px; margin-bottom:5px; }
+</style>
+
+
+<section class="container" >
+	<div class="panel panel-primary">
+		<div class="panel-heading">
+			<h3 class="panel-title">
+				<a data-target="#instruction" data-toggle="collapse" >Example</a>
+			</h3>
+		</div>
+		<div  class="panel-collapse collapse in" id="instruction">
+			<div class="panel-body" >
+			  <p>How reliable was the CS study? Compare it with the corresponding Lab
+				study?(calculate per condition level, use Intra class correlation for both CS and Lab)</p>
+			</div>
+		</div>
+
+	</div>
+</section>
+
+<section class="container" >
+	<div class="panel panel-primary">
+		<div class="panel-heading">
+			<h3 class="panel-title">
+				<a data-target="#setup" data-toggle="collapse" >Setup and transfering data format</a>
+			</h3>
+		</div>
+		<div  class="panel-collapse collapse in" id="setup">
+			<div class="panel-body" >
+				<fieldset>
+					<p>
+						Open the “CS-per file” sheet of the document.
+					</p>
+					<p>
+						In order to compute the intra-class correlation for the ratings of the participant, each missing value in the ratings of the 18 participants (P1-P18) must be replaced.  Because the ratings are ordinal scaled integers, we choose to replace the missing values with the median over all datapoints for that participant.	
+					</p>
+					<p>
+						<b>Transform</b> > <b>Replace Missing Values…</b> > For the method choose the <b>“Median over nearby points”</b> and for the <b>“Span of nearby points”</b> check the option “All”.
+					</p>
+					<div style="display: inline-flex;">
+							<img src="imgs/task_1_replace_missing_values_path.png" alt="Replace Missing Values Path" style="width:auto;height:200px;margin-left: 20px;">
+							<img src="imgs/task_1_replace_missing_values.png" alt="Replacing Missing Data Modal" style="width:auto;height:200px;margin-left: 60px;">
+					</div>
+					<p>
+						Output of the missing data replacement:
+					</p>
+					<img src="imgs/task_1_replaced_missing_values_output.png" alt="Replacing Missing Data Output" style="width:600px;height:auto;margin-left: 20px;">
+					<p>Split File based on the <b>“condition”</b> value in order to calculate the intra-class correlation per condition level.</p>
+				</fieldset>
+			</div>
+		</div>
+
+	</div>
+</section> 
+
+<section class="container" >
+	<div class="panel panel-primary">
+		<div class="panel-heading">
+			<h3 class="panel-title">
+				<a data-target="#process" data-toggle="collapse" >Performing the test</a>
+			</h3>
+		</div>
+		<div  class="panel-collapse collapse in" id="process">
+			<div class="panel-body" >
+		  	<fieldset><label>Calculate the inter-class correlation coefficient for the ratings.</label>
+				<p>
+					<b>Analyze</b> > <b>Scale</b> > <b>Reliability Analysis…</b> > Add the ratings to the <b>“Items”</b> list and click on <b>“Statistics..”</b>
+				</p>
+				<div style="display: inline-flex;">
+					<img src="imgs/task_1_intraclass_correlation_path.png" alt="Intraclass Correlation Path" style="width:auto;height:200px;margin-left: 20px;">
+					<img src="imgs/task_1_intraclass_correlation_step_1.png" alt="ICC 1" style="width:auto;height:200px;margin-left: 60px;">
+				</div>
+				<p>
+					Check the <b>“Intraclass correlation coefficient”</b> and for the <b>“Model”</b> pick the <b>“One-Way Random”</b> option
+				</p>
+				<img src="imgs/task_1_intraclass_correlation_step_2.png" alt="Correlation Test Path" style="width:auto;height:200px;margin-left: 20px;">
+			</fieldset>
+			</div>
+		</div>
+	</div>
+</section> 
+
+<section class="container" >
+	<div class="panel panel-primary">
+		<div class="panel-heading">
+			<h3 class="panel-title">
+				<a data-target="#output" data-toggle="collapse" >Output</a>
+			</h3>
+		</div>
+		<div  class="panel-collapse collapse in" id="output">
+			<div class="panel-body" >
+			  	<fieldset>
+					<p>
+					</p>
+					<img src="imgs/task_1_intraclass_correlation_output.png" alt="Correlation Test Output" style="width:auto;height:100px;margin-left: 20px;">				
+				</fieldset>	 
+			</div>
+		</div>
+
+	</div>
+</section>
+
+</body>
+</html>
