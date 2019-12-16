@@ -13137,6 +13137,7 @@ div#notebook {
 
 <span class="kn">from</span> <span class="nn">sklearn</span> <span class="k">import</span> <span class="n">linear_model</span><span class="p">,</span> <span class="n">metrics</span><span class="p">,</span> <span class="n">preprocessing</span><span class="p">,</span> <span class="n">pipeline</span>  <span class="c1"># pip3 install sklearn --user</span>
 <span class="kn">from</span> <span class="nn">scipy</span> <span class="k">import</span> <span class="n">optimize</span>
+<span class="kn">from</span> <span class="nn">scipy.stats</span> <span class="k">import</span> <span class="n">spearmanr</span>
 
 <span class="kn">import</span> <span class="nn">matplotlib.pyplot</span> <span class="k">as</span> <span class="nn">plt</span>
 <span class="kn">import</span> <span class="nn">seaborn</span> <span class="k">as</span> <span class="nn">sns</span>
@@ -13235,6 +13236,9 @@ div#notebook {
 
 <span class="n">r_squared</span> <span class="o">=</span> <span class="n">metrics</span><span class="o">.</span><span class="n">r2_score</span><span class="p">(</span><span class="n">y</span><span class="p">,</span> <span class="n">prediction</span><span class="p">)</span>
 <span class="nb">print</span><span class="p">(</span><span class="n">f</span><span class="s2">&quot;R^2=</span><span class="si">{r_squared}</span><span class="s2">&quot;</span><span class="p">)</span>
+
+<span class="n">spearman</span> <span class="o">=</span> <span class="n">spearmanr</span><span class="p">(</span><span class="n">prediction</span><span class="p">,</span> <span class="n">mos_by_game_condition</span><span class="p">[[</span><span class="s2">&quot;VQ&quot;</span><span class="p">]]</span><span class="o">.</span><span class="n">values</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="n">f</span><span class="s2">&quot;Spearman correlation: </span><span class="si">{spearman[0]}</span><span class="s2">&quot;</span><span class="p">)</span>
 </pre></div>
 
     </div>
@@ -13253,6 +13257,7 @@ div#notebook {
 <div class="output_subarea output_stream output_stdout output_text">
 <pre>RMSE=0.15037739916835693
 R^2=0.9754794697815229
+Spearman correlation: 0.9860842900194534
 </pre>
 </div>
 </div>
