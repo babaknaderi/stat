@@ -1,0 +1,119 @@
+﻿<!DOCTYPE html>
+<html lang="en">
+<head>
+    <title>Template</title>
+
+	<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
+	<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+	<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+	<meta content="text/html;charset=utf-8" http-equiv="Content-Type">
+	<meta content="utf-8" http-equiv="encoding">
+</head>
+
+<body>
+<style type="text/css">
+	body{font-family:Tahoma,"Times New Roman", Times, serif;}
+	p{	margin:20px; }
+	.center {
+    display: block;
+    margin-left: auto;
+    margin-right: auto;
+    width: 40%;
+}
+fieldset { padding: 10px; background:#fbfbfb; border-radius:5px; margin-bottom:5px; }
+</style>
+
+
+<section class="container" >
+	<div class="panel panel-primary">
+		<div class="panel-heading">
+			<h3 class="panel-title">
+				<a data-target="#instruction" data-toggle="collapse" >Example</a>
+			</h3>
+		</div>
+		<div  class="panel-collapse collapse in" id="instruction">
+			<div class="panel-body" >
+              
+			<p>Use multiple linear regression to predict video quality (VQ) based on fragmentation (VF), unclearness (VU) and discontinuity (VD).  
+</p>
+
+			</div>
+		</div>
+
+	</div>
+</section>
+
+<section class="container" >
+	<div class="panel panel-primary">
+		<div class="panel-heading">
+			<h3 class="panel-title">
+				<a data-target="#setup" data-toggle="collapse" >Setup and transfering data format</a>
+			</h3>
+		</div>
+		<div  class="panel-collapse collapse in" id="process">
+			<div class="panel-body" >
+				<fieldset><label> 1.	Perform multiple linear regression</label>
+					<p>
+						<b>Choose Analyze</b> →  <b>Regression</b> →  <b>Linear…</b>  
+					</p>
+					<div style="display: inline-flex;">
+						<img src="imgs/t3/H_5_task_3_1.png" alt="Outlier condition" style="width:auto;height:200px;margin-left: 20px;">
+					</div>
+					<p>
+						Add VQ to <b>“Dependent”</b> and VF, VU and VD to <b>“Independent(s)”</b> →  Click <b>“Plots…”</b> to compute residuals plot
+					</p>
+					<div style="display: inline-flex;">
+						<img src="imgs/t3/H_5_task_3_2.png" alt="Outlier condition" style="width:auto;height:200px;margin-left: 20px;">
+					</div>
+					<p>
+						Add <b>*ZRESID</b> to y-variable and <b>*ZPRED to x-variable</b>
+					</p>
+					<div style="display: inline-flex;">
+						<img src="imgs/t3/H_5_task_3_3.png" alt="Outlier condition" style="width:auto;height:200px;margin-left: 20px;">
+						</div>						
+				</fieldset>
+			</div>
+		</div>
+	</div>
+</section>
+
+
+
+
+
+
+					
+
+<section class="container" >
+	<div class="panel panel-primary">
+		<div class="panel-heading">
+			<h3 class="panel-title">
+				<a data-target="#instruction" data-toggle="collapse" >Output</a>
+			</h3>
+		</div>
+		<div  class="panel-collapse collapse in" id="instruction">
+			<p>Output 1 </p>
+			<div class="panel-body" >
+				<img src="imgs/t3/H_5_task_3_residual_plot.PNG" alt="Outlier condition" style="width:auto;height:200px;margin-left: 20px;">
+			</div>
+
+			<p>Output 2 </p>
+			<div>	
+				<img src="imgs/t3/H_5_task_3_linear_regression_coefficients_output.PNG" alt="Outlier condition" style="width:auto;height:200px;margin-left: 20px;">				
+			</div> 
+			<p>Result interpretation</p>
+			<p>
+				A multiple linear regression was calculated to predict video quality (VQ) based on fragmentation (VF), unclearness (VU) and discontinuity (VD). A significant
+				regression equation was found (F(2, 3375) = 3492.7, p < .000), with an R<sup>2</sup> of .756.<br>
+				Video quality is equal to 0.003 + 0.388 VF + 0.465 VU + 0.085 VD.
+			</p>
+			<p>
+				<a href="imgs/t3/H5_task_3_output_pdf.pdf">Click here form more details!</a>
+			</p>
+		</div>
+
+	</div>
+</section>
+
+</body>
+</html>

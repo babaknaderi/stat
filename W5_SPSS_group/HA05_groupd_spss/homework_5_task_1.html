@@ -1,0 +1,115 @@
+﻿<!DOCTYPE html>
+<html lang="en">
+<head>
+    <title>Template</title>
+
+	<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
+	<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+	<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+	<meta content="text/html;charset=utf-8" http-equiv="Content-Type">
+	<meta content="utf-8" http-equiv="encoding">
+</head>
+
+<body>
+<style type="text/css">
+	body{font-family:Tahoma,"Times New Roman", Times, serif;}
+	p{	margin:20px; }
+	.center {
+    display: block;
+    margin-left: auto;
+    margin-right: auto;
+    width: 40%;
+}
+fieldset { padding: 10px; background:#fbfbfb; border-radius:5px; margin-bottom:5px; }
+</style>
+
+
+<section class="container" >
+	<div class="panel panel-primary">
+		<div class="panel-heading">
+			<h3 class="panel-title">
+				<a data-target="#instruction" data-toggle="collapse" >Example</a>
+			</h3>
+		</div>
+		<div  class="panel-collapse collapse in" id="instruction">
+			<div class="panel-body" >
+              
+			<p> Calculate as learned before the MOS values of VQ, VF, VU, and VD for each condition separated for each game
+</p>
+
+			</div>
+		</div>
+
+	</div>
+</section>
+
+<section class="container" >
+	<div class="panel panel-primary">
+		<div class="panel-heading">
+			<h3 class="panel-title">
+				<a data-target="#setup" data-toggle="collapse" >Setup and transfering data format</a>
+			</h3>
+		</div>
+		
+			  
+				<div  class="panel-collapse collapse in" id="process">
+					<div class="panel-body" >
+					  <fieldset><label> 1. Split by “Game” and “Condition” variables </label>
+						<p>
+							Check <b>“Compare groups”</b> and add <b>“Game”</b> and  <b>“Condition”</b> to the list <b>“Groups Based on”</b>
+						</p>
+						<div style="display: inline-flex;">
+							<img src="imgs/t1/H_5_task_1_1.png" alt="Outlier condition" style="width:auto;height:300px;margin-left: 20px;">
+						</div>
+						
+					</fieldset>
+
+
+					<fieldset><label> 2. Calculate mean for the 4 variables </label>
+						<p>
+							Click on Analyse → Descriptive Statistics → Descriptives… </b>
+						</p>
+						<div style="display: inline-flex;">
+							<img src="imgs/t1/H_5_task_1_2.png" alt="Outlier condition" style="width:auto;height:200px;margin-left: 20px;">
+						</div>
+
+						<p>
+								Add VQ, VF, VU, VD to <b>“Variable(s)”</b> list → Click on <b>“Options”</b> → Check <b>“Mean”</b> </p>
+						<div style="display: inline-flex;">
+							<img src="imgs/t1/H_5_task_1_3.png" alt="Outlier condition" style="width:auto;height:250px;margin-left: 20px;">
+						</div>
+
+						
+					</fieldset>
+					</div>
+				</div>
+			  
+			
+		
+
+	</div>
+</section> 
+
+
+
+<section class="container" >
+	<div class="panel panel-primary">
+		<div class="panel-heading">
+			<h3 class="panel-title">
+				<a data-target="#instruction" data-toggle="collapse" >Output</a>
+			</h3>
+		</div>
+		<div  class="panel-collapse collapse in" id="instruction">
+			<p>
+				<img src="imgs/t1/H_5_task_1_output.png"/>
+			</p>
+			<div class="panel-body" >
+				<a href="imgs/t1/MOS_table.pdf" alt="Outlier condition" style="width:auto;height:200px;margin-left: 20px;">Click here for entire output!</a>
+			</div>
+		</div>
+
+	</div>
+</section>
+
+</body>
+</html>

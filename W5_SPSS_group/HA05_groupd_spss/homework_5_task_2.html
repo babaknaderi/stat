@@ -1,0 +1,95 @@
+﻿<!DOCTYPE html>
+<html lang="en">
+<head>
+    <title>Template</title>
+
+	<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
+	<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+	<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+	<meta content="text/html;charset=utf-8" http-equiv="Content-Type">
+	<meta content="utf-8" http-equiv="encoding">
+</head>
+
+<body>
+<style type="text/css">
+	body{font-family:Tahoma,"Times New Roman", Times, serif;}
+	p{	margin:20px; }
+	.center {
+    display: block;
+    margin-left: auto;
+    margin-right: auto;
+    width: 40%;
+}
+fieldset { padding: 10px; background:#fbfbfb; border-radius:5px; margin-bottom:5px; }
+</style>
+
+
+<section class="container" >
+	<div class="panel panel-primary">
+		<div class="panel-heading">
+			<h3 class="panel-title">
+				<a data-target="#instruction" data-toggle="collapse" >Example</a>
+			</h3>
+		</div>
+		<div  class="panel-collapse collapse in" id="instruction">
+			<div class="panel-body" >
+              
+			<p>Calculate a new parameter called bitperpixel
+</p>
+
+			</div>
+		</div>
+
+	</div>
+</section>
+
+<section class="container" >
+	<div class="panel panel-primary">
+		<div class="panel-heading">
+			<h3 class="panel-title">
+				<a data-target="#setup" data-toggle="collapse" >Setup and transfering data format</a>
+			</h3>
+		</div>
+		
+			  
+				<div  class="panel-collapse collapse in" id="process">
+					<div class="panel-body" >
+					  <fieldset><label> 1. Calculate the number of pixels for each bitrate type.</label>
+						<p><i>Repeat calculation for each of the 3 types of bitrate values.</i></p>
+						<p>
+							<b>Transform</b> → <b>Compute Variable</b> → Enter formula according to which bitrate type you are calculating the number of pixels → Click on <b>“If…”</b> → Select all cases for the type of bitrate you are doing the calculations
+						</p>
+						<div style="display: inline-flex;">
+							<img src="imgs/t2/H_5_task_2_1.png" alt="Outlier condition" style="width:auto;height:300px;margin-left: 20px;">
+						</div>
+
+						<div style="display: inline-flex;">
+								<img src="imgs/t2/H_5_task_2_2.png" alt="Outlier condition" style="width:auto;height:300px;margin-left: 20px;">
+							</div>
+						
+					</fieldset>
+
+
+					<fieldset><label> 2. Calculate bitperpixel </label>
+						<p>
+							<b>Transform</b> → <b>Compute Variable</b>  → Enter formula according to which you are calculating the number of bits per pixel
+						</p>
+						<div style="display: inline-flex;">
+							<img src="imgs/t2/H_5_task_2_3.png" alt="Outlier condition" style="width:auto;height:300px;margin-left: 20px;">
+						</div>
+
+						
+
+						
+					</fieldset>
+					</div>
+				</div>
+			  
+			
+		
+
+	</div>
+</section> 
+
+
+

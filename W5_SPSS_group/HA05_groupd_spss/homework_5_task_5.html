@@ -1,0 +1,108 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <title>Template</title>
+
+	<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
+	<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+	<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+	<meta content="text/html;charset=utf-8" http-equiv="Content-Type">
+	<meta content="utf-8" http-equiv="encoding">
+</head>
+
+<body>
+<style type="text/css">
+	body{font-family:Tahoma,"Times New Roman", Times, serif;}
+	p{	margin:20px; }
+	.center {
+    display: block;
+    margin-left: auto;
+    margin-right: auto;
+    width: 40%;
+}
+fieldset { padding: 10px; background:#fbfbfb; border-radius:5px; margin-bottom:5px; }
+</style>
+
+
+<section class="container" >
+	<div class="panel panel-primary">
+		<div class="panel-heading">
+			<h3 class="panel-title">
+				<a data-target="#instruction" data-toggle="collapse" >Example</a>
+			</h3>
+		</div>
+		<div  class="panel-collapse collapse in" id="instruction">
+			<div class="panel-body" >
+			  <p>
+				Mix task 3 and 4 to predict the VQ in two steps
+			  </p>
+			</div>
+		</div>
+	</div>
+</section>
+
+
+<section class="container" >
+	<div class="panel panel-primary">
+		<div class="panel-heading">
+			<h3 class="panel-title">
+				<a data-target="#process" data-toggle="collapse" >Performing the test</a>
+			</h3>
+		</div>
+		<div  class="panel-collapse collapse in" id="process">
+			<div class="panel-body" >
+		  	<fieldset><label></label>
+				<p>
+					<b>Transform</b> > <b>Compute Variable</b> > Use the parameters calculated in task 4 to predict the 
+					values of the 3 variables 
+				</p>
+				<div style="display: inline-flex;">
+					<img src="imgs/t5/H_5_task_5_1.png" style="width:auto;height:400px;margin-left: 20px;">
+				</div>
+				<p>
+					Predict VF based on the formula: 3.444 * EXP(11.738*Bit_per_pixel)
+				</p>
+				<div style="display: inline-flex;">
+					<img src="imgs/t5/H_5_task_5_2.png" style="width:auto;height:400px;margin-left: 20px;">
+					
+				</div>
+				<p>
+					Predict VU based on the formula: 3.85 - 139.76*Bit_per_pixel + 11952.12*Bit_per_pixel<sup>2</sup> - 166110.79*Bit_per_pixel<sup>3</sup> 
+				</p>
+				<div style="display: inline-flex;">
+					<img src="imgs/t5/H_5_task_5_3.png" style="width:auto;height:400px;margin-left: 20px;">
+				</div>
+				<p>
+					Predict VD based on the formula: 4.556 * EXP(0.001*Framerate)
+				</p>
+				<p>
+					2.	Use predicted VF, VU and VD from step 1 and predict VQ based on the task 3. 
+				</p>
+				<div style="display: inline-flex;">
+					<img src="imgs/t5/H_5_task_5_4.png" style="width:auto;height:400px;margin-left: 20px;">
+				</div>
+			</fieldset>
+			</div>
+		</div>
+	</div>
+</section> 
+
+<section class="container" >
+	<div class="panel panel-primary">
+		<div class="panel-heading">
+			<h3 class="panel-title">
+				<a data-target="#output" data-toggle="collapse" >Output</a>
+			</h3>
+		</div>
+		<div  class="panel-collapse collapse in" id="output">
+			<div class="panel-body" >
+			  	<fieldset>
+				</fieldset>	 
+			</div>
+		</div>
+
+	</div>
+</section>
+
+</body>
+</html>
