@@ -1,0 +1,226 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <title>Template</title>
+
+	<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
+	<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+	<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+	<meta content="text/html;charset=utf-8" http-equiv="Content-Type">
+	<meta content="utf-8" http-equiv="encoding">
+</head>
+
+<body>
+<style type="text/css">
+	body{font-family:Tahoma,"Times New Roman", Times, serif;}
+	p{	margin:20px; }
+	.center {
+    display: block;
+    margin-left: auto;
+    margin-right: auto;
+    width: 40%;
+}
+fieldset { padding: 10px; background:#fbfbfb; border-radius:5px; margin-bottom:5px; }
+</style>
+
+
+<section class="container" >
+	<div class="panel panel-primary">
+		<div class="panel-heading">
+			<h3 class="panel-title">
+				<a data-target="#instruction" data-toggle="collapse" >Example</a>
+			</h3>
+		</div>
+		<div  class="panel-collapse collapse in" id="instruction">
+			<div class="panel-body" >
+			  <p>Use all collected ratings to derive possible dimension and item loadings of interpersonal speaker characteristics. Note that also an inverse interpretation of the ratings is possible. Please split the data in male and female speakers before performing the factor analysis.<br> File to use: likeability_dimension_ratings.csv</p>
+			</div>
+		</div>
+
+	</div>
+</section>
+
+<section class="container" >
+	<div class="panel panel-primary">
+		<div class="panel-heading">
+			<h3 class="panel-title">
+				<a data-target="#setup" data-toggle="collapse" >Setup and transfering data format</a>
+			</h3>
+		</div>
+		<div  class="panel-collapse collapse in" id="setup">
+			<div class="panel-body" >
+				<fieldset><label>Import the data in SPSS and split it in male and female speakers.</label>
+				</fieldset>
+			</div>
+		</div>
+
+	</div>
+</section> 
+
+<section class="container" >
+	<div class="panel panel-primary">
+		<div class="panel-heading">
+			<h3 class="panel-title">
+				<a data-target="#process" data-toggle="collapse" >Performing the test</a>
+			</h3>
+		</div>
+		<div  class="panel-collapse collapse in" id="process">
+			<div class="panel-body" >
+		  	<fieldset><label>Perform the factor analysis based on the 34 speaker characteristics of the dataset.</label>
+				<p>
+					<b>Analyze</b> > <b>Dimension Reduction</b> > <b>Factor</b>
+				</p>
+				<div style="display: inline-flex;">
+					<img src="imgs/factor_analysis_path.png" alt="Correlation Test Path" style="width:auto;height:200px;margin-left: 20px;">				
+				</div>
+				<p>
+					In the “<b>Factor Analysis</b>” modal, add the speaker characteristics to the “<b>Variables</b>” list.
+				</p>
+				<div style="display: inline-flex;">
+					<img src="imgs/factor_analysis_modal.png" alt="Correlation Test Path" style="width:auto;height:200px;margin-left: 20px;">				
+				</div>
+				<p>
+					1.	Click on “<b>Descriptives…</b>” button in the "Factor Analysis" modal and check in the “<b>Correlation Matrix</b>” section the “<b>Coefficients</b>” and the “<b>KMO and Bartlett’s test of sphericity</b>” options.
+				</p>
+				<div style="display: inline-flex;">
+					<img src="imgs/descriptives_modal.png" alt="Correlation Test Path" style="width:auto;height:200px;margin-left: 20px;">				
+				</div>
+				<p>
+					2.	Click on “<b>Extraction…</b>” and in the “<b>Display</b>” section, check the “<b>Scree plot</b>” option. Furthermore, the extraction of dimensions follows the “<b>Principal components</b>” method based on <b>Eigenvalues greater than 1</b>.
+				</p>
+				<div style="display: inline-flex;">
+					<img src="imgs/extraction_modal.png" alt="Correlation Test Path" style="width:auto;height:200px;margin-left: 20px;">				
+				</div>
+				<p>
+					3.	Click on “<b>Rotation…</b>” and choose the “<b>Varimax</b>” method.
+				</p>
+				<div style="display: inline-flex;">
+					<img src="imgs/rotation_modal.png" alt="Correlation Test Path" style="width:auto;height:200px;margin-left: 20px;">				
+				</div>
+				<p>
+					4.	Click on “<b>Options…</b>”. For a better overview of the loadings of each variable on the corresponding factor, we are only going to visualize the variables that have a loading higher than <b>.40</b> on the factors. 
+				</p>
+				<div style="display: inline-flex;">
+					<img src="imgs/options_modal.png" alt="Correlation Test Path" style="width:auto;height:200px;margin-left: 20px;">				
+				</div>
+			</fieldset>
+			</div>
+		</div>
+	</div>
+</section> 
+
+<section class="container" >
+	<div class="panel panel-primary">
+		<div class="panel-heading">
+			<h3 class="panel-title">
+				<a data-target="#output" data-toggle="collapse" >Output interpretation</a>
+			</h3>
+		</div>
+		<div  class="panel-collapse collapse in" id="output">
+			<div class="panel-body" >
+			  	<fieldset>
+					<div style="display: inline-flex;">
+						<img src="imgs/output_kmo_female.png" alt="KMO female" style="width:auto;height:120px;margin-left: 20px;">
+						<img src="imgs/output_kmo_male.png" alt="KMO male" style="width:auto;height:120px;margin-left: 20px;">								
+					</div>
+					<p>
+						In both female and male, the KMO (Kaiser-Meyer-Olkin Measure of Sampling Adequacy) value exceeded .5 with .932 and .921 respectively. Thus, we can conduct a factor analysis on the dataset.
+					</p>
+					<div style="display: inline-flex;">
+						<img src="imgs/total_variance_explained_female.png" alt="Nr. factors female" style="width:auto;height:150px;margin-left: 20px;">
+						<img src="imgs/total_variance_explained_male.png" alt="Nr. factors male" style="width:auto;height:150px;margin-left: 20px;">								
+					</div>
+					<p>
+						In the “Total Variance Explained”, each of the 34 speaker characteristics has a quality scored called “Eigenvalue” calculated. Only components with a high Eigenvalue are likely to represent a real underlying factor. The number of underlying factors correspond to the number of components with an Eigenvalue of at least 1. For both gender types, the 34 variables seem to measure 7 factors.
+					</p>
+					<div style="display: inline-flex;">
+						<img src="imgs/scree_plot_female.png" alt="Scree plot female" style="width:auto;height:250px;margin-left: 20px;">
+						<img src="imgs/scree_plot_male.png" alt="Scree plot male" style="width:auto;height:250px;margin-left: 20px;">								
+					</div>
+					<p>
+						The scree plots visualize the Eigenvalues of the characteristics. We can observe, that for both female and male seven of them have values bigger than 1.	
+					</p>
+					<div style="display: inline-flex;">
+						<img src="imgs/component_loadings_female_1.png" alt="Component loadings female" style="width:auto;height:600px;margin-left: 20px;">
+						<img src="imgs/component_loadings_male_1.png" alt="Component loadings male" style="width:auto;height:600px;margin-left: 20px;">								
+					</div>
+					<p>
+						The rotated component matrix shows which variables which factor measure. According to literature, for a sample size of minimum 100 participants, loadings of .30 or higher can be considered significant. Consequently, only variables with a loading higher that .40 are illustrated in the matrix.
+					</p>
+				</fieldset>	 
+			</div>
+		</div>
+
+	</div>
+</section>
+
+<section class="container" >
+		<div class="panel panel-primary">
+			<div class="panel-heading">
+				<h3 class="panel-title">
+					<a data-target="#output" data-toggle="collapse" >Validation</a>
+				</h3>
+			</div>
+			<div  class="panel-collapse collapse in" id="output">
+				<div class="panel-body" >
+					<fieldset><label>Check the reliability of the 7 factors with Cronbach’s alpha
+					</label>	
+					<p>
+						In the "Rotated Component Matrix" it can be seen that variables with a negative meaning (e.g. 
+						gleichgueltig, gelangweilt) have a negative loading factor. If we compute the Cronbach's alpha 
+						of the seven factors, we will get an invalid value. To comput the internal reliability we need 
+						to rescale the negative variables to the other direction.
+					</p>
+					<label>Step 1</label>
+					<p>
+						For the variables <b>unsympatisch, verstaendnislos, distanziert, gelangweilt, charakterlos, dominant,
+						alt, haesslisch, gleichgueltig, zynisch, aufgesetzt</b> we flip the values by substracting the actual values forma
+						200.
+					</p>
+					<p>
+						<b>Transform</b> > <b>Compute Variable...</b> > In the "Compute variable" modal we enter the "flipping" expression (100 - variable_name)
+					</p>
+					<p>
+						For each the enumerated variables we repeate the calculation process.
+					</p>
+					<label>Step 2</label>
+					<p>
+						For each resulting factor/component we compute the Cronbach's Alpha value separated for the female and male speakers.
+					</p>			
+					<p>
+						<b>Analyse</b> > <b>Scale</b> > <b>Reliability Analysis...</b> > In the "Reliability Analysis" modal, we add the variables of the component for which we are computing the alpha-value 
+						and under "<b>Statistics</b>", in the "<b>Inter-Item</b>"- section, we check the "<b>Correlations</b>" option.
+					</p>
+					<p>
+						We repeate the calculation process for each component for both female and male speakers.
+					</p>
+					<label>Cronbach's Alpha values for the female factors/components:</label>
+					<p>
+						<div style="display: inline-flex;">
+							<img src="imgs/cronbachs_alpha_component_1_female_1.png" alt="Component loadings female" style="width:auto;height:150px;margin-left: 20px;">
+							<img src="imgs/cronbachs_alpha_component_2_female_1.png" alt="Component loadings male" style="width:auto;height:150px;margin-left: 20px;">
+							<img src="imgs/cronbachs_alpha_component_3_female_1.png" alt="Component loadings male" style="width:auto;height:150px;margin-left: 20px;">
+							<img src="imgs/cronbachs_alpha_component_4_female_1.png" alt="Component loadings male" style="width:auto;height:150px;margin-left: 20px;">								
+						</div>
+					</p>
+					<p>
+						<div style="display: inline-flex;">
+							<img src="imgs/cronbachs_alpha_component_5_female_1.png" alt="Component loadings female" style="width:auto;height:150px;margin-left: 20px;">
+							<img src="imgs/cronbachs_alpha_component_6_female_1.png" alt="Component loadings male" style="width:auto;height:150px;margin-left: 20px;">
+							<img src="imgs/cronbachs_alpha_component_7_female_1.png" alt="Component loadings male" style="width:auto;height:150px;margin-left: 20px;">								
+						</div>
+					</p>
+					<p>
+						The first factor has an excellent internal consistency (Cronbach’s alpha = .914). With values between 0.7 and 0.8, the second and forth component
+						have an acceptable consistency. Problematic are the fifth and seventh factors, which have a Cronbach’s alpha value lower than 0.5.
+					</p>
+					<label>Cronbach's Alpha values for the male factors/components:</label>
+					</fieldset>	 
+				</div>
+			</div>
+	
+		</div>
+	</section>
+
+</body>
+</html>

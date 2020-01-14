@@ -1,0 +1,389 @@
+﻿<!DOCTYPE html>
+<html lang="en">
+<head>
+    <title>Template</title>
+
+	<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
+	<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+	<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+	<meta content="text/html;charset=utf-8" http-equiv="Content-Type">
+	<meta content="utf-8" http-equiv="encoding">
+</head>
+
+<body>
+<style type="text/css">
+	body{font-family:Tahoma,"Times New Roman", Times, serif;}
+	p{	margin:20px; }
+	.center {
+    display: block;
+    margin-left: auto;
+    margin-right: auto;
+    width: 40%;
+}
+fieldset { padding: 10px; background:#fbfbfb; border-radius:5px; margin-bottom:5px; }
+</style>
+
+
+<section class="container" >
+	<div class="panel panel-primary">
+		<div class="panel-heading">
+			<h3 class="panel-title">
+				<a data-target="#instruction" data-toggle="collapse" >Task 2</a>
+			</h3>
+		</div>
+		<div  class="panel-collapse collapse in" id="instruction">
+			<div class="panel-body" >
+              
+			<p> Check using all available ratings, if the three quality features VF, VU, and VD are perceptual dimensions (i.e. factors).
+<p> File to use: Gaming_Video_Quality_dataset.xlsx
+
+</p>
+
+			</div>
+		</div>
+
+	</div>
+</section>
+
+<section class="container" >
+	<div class="panel panel-primary">
+		<div class="panel-heading">
+			<h3 class="panel-title">
+				<a data-target="#setup" data-toggle="collapse" >Setup and transfering data format</a>
+			</h3>
+		</div>
+		
+			  
+				<div  class="panel-collapse collapse in" id="process">
+					<div class="panel-body" >
+					  <fieldset><label>  Loading the dataset </label>
+						<p>
+							Simply load the data set into SPSS. Check “Read Variable Names from the First Row of Data”
+						</p>
+						<div style="display: inline-flex;">
+							<img src="imgs/1.JPG" alt="Outlier condition" style="width:auto;height:600px;margin-left: 20px;">
+						</div>
+						
+					</fieldset>
+					</div>
+				</div>
+			  
+			
+		
+
+	</div>
+</section> 
+
+<section class="container" >
+	<div class="panel panel-primary">
+		<div class="panel-heading">
+			<h3 class="panel-title">
+				<a data-target="#process" data-toggle="collapse" >Performing the test</a>
+			</h3>
+		</div>
+		<div  class="panel-collapse collapse in" id="process">
+			<div class="panel-body" >
+			  
+			<fieldset>	
+				<div  class="panel-collapse collapse in" id="process">
+					<div class="panel-body" >
+					  <fieldset><label> Check if PCA can be done: KMO test > 0.5</label>
+						<p>
+							Analyze-->Dimension Reduction-->Factor-->Descriptives
+                                                        Check “KMO and Bartlett’s test of Sphericity” 
+                                                        The KMO is 0.60 which is greater than 0.50 So PCA can be done.
+ 
+						</p>
+						<div style="display: inline-flex;">
+							<img src="imgs/2a.jpg" alt="Outlier condition" style="width:auto;height:600px;margin-left: 20px;">
+                                                        
+                                                      
+						</div>
+						
+						<p>
+								
+						</p>
+</p>
+						<div style="display: inline-flex;">
+							<img src="imgs/2b.jpg" alt="Outlier condition" style="width:auto;height:600px;margin-left: 20px;">
+                                                        
+                                                      
+						</div>
+						
+						<p>
+								
+						</p>
+</p>
+						<div style="display: inline-flex;">
+							<img src="imgs/2d.jpg" alt="Outlier condition" style="width:auto;height:200px;margin-left: 20px;">
+                                                        
+                                                      
+						</div>
+						
+						<p>
+								
+						</p>
+						<div style="display: inline-flex;">
+							
+						</div>
+
+
+					</fieldset>
+					</div>
+				</div>
+			</fieldset>
+			
+
+			
+			
+						<div  class="panel-collapse collapse in" id="process">
+					<div class="panel-body" >
+					  <fieldset><label> Calculate eigenvalues</label>
+						<p>
+							Analyze-->Dimension Reduction-->Factor-->Extraction
+                                                        Check “Scree plot” and select option “Eigen value greater than 1” 
+
+ 
+						</p>
+						<div style="display: inline-flex;">
+							<img src="imgs/2c.JPG" alt="Outlier condition" style="width:auto;height:600px;margin-left: 20px;">
+						</div>
+                                                </p>
+						<div style="display: inline-flex;">
+							<img src="imgs/2e.JPG" alt="Outlier condition" style="width:auto;height:300px;margin-left: 20px;">
+						</div>
+                                                </p>
+						<div style="display: inline-flex;">
+							<img src="imgs/2f.JPG" alt="Outlier condition" style="width:auto;height:500px;margin-left: 20px;">
+						</div>
+
+					</fieldset>
+					</div>
+				</div>
+			</fieldset>
+
+                        <div  class="panel-collapse collapse in" id="process">
+					<div class="panel-body" >
+					  <fieldset><label> Deciding the number of factors</label>
+						<p>
+							So only 1 factor is chosen which has eigen value > 1, but the communalities matrix show that extraction for VD is very small (.128) and also Component matrix very small correlation between VD and the factor.
+
+ 
+						</p>
+						<div style="display: inline-flex;">
+							<img src="imgs/2g.JPG" alt="Outlier condition" style="width:auto;height:600px;margin-left: 20px;">
+						</div>
+                                                </p>
+						<div style="display: inline-flex;">
+							<img src="imgs/2h.JPG" alt="Outlier condition" style="width:auto;height:400px;margin-left: 20px;">
+						</div>
+
+					</fieldset>
+					</div>
+ <p>
+							So, we chose to include two factors instead of the one manually:
+Analyze-->Dimension Reduction-->Factor-->Extraction. Select the option “fixed number of factors” and set it as 2.
+After including the 2nd factor the extraction is VD improves significantly as shown in “Communalities” table and the correlation between VD and factor 2 is high as well. 
+
+
+ 
+						</p>
+						<div style="display: inline-flex;">
+							<img src="imgs/3a.JPG" alt="Outlier condition" style="width:auto;height:600px;margin-left: 20px;">
+						</div>
+                                                </p>
+						<div style="display: inline-flex;">
+							<img src="imgs/3b.JPG" alt="Outlier condition" style="width:auto;height:200px;margin-left: 20px;">
+						</div>
+<div style="display: inline-flex;">
+							<img src="imgs/3c.JPG" alt="Outlier condition" style="width:auto;height:200px;margin-left: 20px;">
+						</div>
+<div style="display: inline-flex;">
+							<img src="imgs/3d.JPG" alt="Outlier condition" style="width:auto;height:200px;margin-left: 20px;">
+						</div>
+
+					</fieldset>
+					</div>
+				</div>
+			</fieldset>
+
+<fieldset>	
+				<div  class="panel-collapse collapse in" id="process">
+					<div class="panel-body" >
+					  Calculate the factor loading using proper rotation</label>
+						<p>
+							To check the orthogonality of the factors, we check the “Component Correlation Matrix”. The components are not considered if their correlation is greater 0.50. 
+Analyze-->Dimension Reduction-->Factor-->Rotation. Select “Varimax” under “Method” and Check “Rotated Solution”
+Component Correlation Matrix show small correlation between between components. VQ, VF and VU highly correlate with factor 1 and VD with factor 2. 
+
+ 
+						</p>
+						<div style="display: inline-flex;">
+							<img src="imgs/4c.jpg" alt="Outlier condition" style="width:auto;height:400px;margin-left: 20px;">
+                                                        
+                                                      
+						</div>
+						
+						<p>
+								
+						</p>
+</p>
+						<div style="display: inline-flex;">
+							<img src="imgs/4b.jpg" alt="Outlier condition" style="width:auto;height:300px;margin-left: 20px;">
+                                                        
+                                                      
+						</div>
+						
+						<p>
+								
+						</p>
+</p>
+						
+                                                        
+                                                      
+						</div>
+						
+						<p>
+								
+						</p>
+						<div style="display: inline-flex;">
+							
+						</div>
+
+
+					</fieldset>
+					</div>
+				</div>
+			</fieldset>
+
+<fieldset>	
+				<div  class="panel-collapse collapse in" id="process">
+					<div class="panel-body" >
+					  Check the reliability with Cronbach’s alpha</label>
+						<p>
+							Now to check the reliability of the result, we calculate Cronbach Alpha for VQ, VF and, VU, which comes out to be 0.830, which proves the reliability of our analysis.  
+Analyze-->Scale-->Reliability analysis.
+
+
+ 
+						</p>
+						<div style="display: inline-flex;">
+							<img src="imgs/5a.jpg" alt="Outlier condition" style="width:auto;height:400px;margin-left: 20px;">
+                                                        
+                                                      
+						</div>
+						
+						<p>
+								
+						</p>
+</p>
+						<div style="display: inline-flex;">
+							<img src="imgs/5b.jpg" alt="Outlier condition" style="width:auto;height:300px;margin-left: 20px;">
+                                                        
+                                                      
+						</div>
+						
+						<p>
+								
+						</p>
+</p>
+						
+                                                        
+                                                      
+						</div>
+						
+						<p>
+								
+						</p>
+						<div style="display: inline-flex;">
+							
+						</div>
+
+
+					</fieldset>
+					</div>
+				</div>
+			</fieldset>
+
+
+
+
+					
+
+
+
+
+
+
+					</fieldset>
+					</div>
+				</div>
+			</fieldset>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+                
+
+			
+
+
+
+			</div>
+		</div>
+
+	</div>
+</section> 
+
+<section class="container" >
+	<div class="panel panel-primary">
+		<div class="panel-heading">
+			<h3 class="panel-title">
+				<a data-target="#instruction" data-toggle="collapse" >Output</a>
+			</h3>
+		</div>
+		<div  class="panel-collapse collapse in" id="instruction">
+			<div class="panel-body" >
+				<img src="imgs/4d.jpg" alt="Outlier condition" style="width:auto;height:400px;margin-left: 20px;">
+</div>
+
+<div  class="panel-collapse collapse in" id="instruction">
+			<div class="panel-body" >
+				<img src="imgs/5c.jpg" alt="Outlier condition" style="width:auto;height:150px;margin-left: 20px;">
+</div>
+<p> The output shows that VU, VF form one factor and VD form another factor
+
+
+ 
+						</p>
+						
+
+
+
+
+			</div>
+		</div>
+
+	</div>
+</section>
+
+</body>
+</html>
