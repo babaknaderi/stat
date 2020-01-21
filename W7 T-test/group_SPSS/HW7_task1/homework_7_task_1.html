@@ -1,0 +1,334 @@
+﻿<!DOCTYPE html>
+<html lang="en">
+<head>
+    <title>Template</title>
+
+	<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
+	<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+	<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+	<meta content="text/html;charset=utf-8" http-equiv="Content-Type">
+	<meta content="utf-8" http-equiv="encoding">
+</head>
+
+<body>
+<style type="text/css">
+	body{font-family:Tahoma,"Times New Roman", Times, serif;}
+	p{	margin:20px; }
+	.center {
+    display: block;
+    margin-left: auto;
+    margin-right: auto;
+    width: 40%;
+}
+fieldset { padding: 10px; background:#fbfbfb; border-radius:5px; margin-bottom:5px; }
+</style>
+
+
+<section class="container" >
+	<div class="panel panel-primary">
+		<div class="panel-heading">
+			<h3 class="panel-title">
+				<a data-target="#instruction" data-toggle="collapse" >Task 1</a>
+			</h3>
+		</div>
+		<div  class="panel-collapse collapse in" id="instruction">
+			<div class="panel-body" >
+              
+			<p> 1.	RQ: Does increasing the bitrate (independent variable) from 2000 kbps to 6000 kbps for the first game using a resolution of 1080p and a framerate of 60 fps (conditions 36 and 50) significantly improve the video quality ratings (dependent variable). Use the ratings provided in the gaming video quality dataset. In case of an extreme outlier, the participant can be completely removed from the dataset.
+
+</p>
+
+			</div>
+		</div>
+
+	</div>
+</section>
+
+<section class="container" >
+	<div class="panel panel-primary">
+		<div class="panel-heading">
+			<h3 class="panel-title">
+				<a data-target="#setup" data-toggle="collapse" >Setup and transfering data format</a>
+			</h3>
+		</div>
+		
+			  
+				<div  class="panel-collapse collapse in" id="process">
+					<div class="panel-body" >
+					  <fieldset><label>  Loading the dataset </label>
+						<p>
+							Simply load the data set into SPSS. Check “Read Variable Names from the First Row of Data”
+						</p>
+						<div style="display: inline-flex;">
+							<img src="imgs/1.JPG" alt="Outlier condition" style="width:auto;height:600px;margin-left: 20px;">
+						</div>
+						
+					</fieldset>
+					</div>
+				</div>
+			  
+			
+		
+
+	</div>
+</section> 
+
+<section class="container" >
+	<div class="panel panel-primary">
+		<div class="panel-heading">
+			<h3 class="panel-title">
+				<a data-target="#process" data-toggle="collapse" >Performing the test</a>
+			</h3>
+		</div>
+		<div  class="panel-collapse collapse in" id="process">
+			<div class="panel-body" >
+			  
+			<fieldset>	
+				<div  class="panel-collapse collapse in" id="process">
+					<div class="panel-body" >
+					  <fieldset><label> Filtering for the given conditions</label>
+						<p>
+							We have to filter the data according to the given conditions which are 50 and 36. 
+Data > select cases. In the cases set the conditions shown. This will filter all the unselected conditions.
+
+ 
+						</p>
+						<div style="display: inline-flex;">
+							<img src="imgs/2.jpg" alt="Outlier condition" style="width:auto;height:600px;margin-left: 20px;">
+                                                        
+                                                      
+						</div>
+						
+						<p>
+								
+						</p>
+</p>
+						
+</p>
+						<div style="display: inline-flex;">
+							<img src="imgs/3.jpg" alt="Outlier condition" style="width:auto;height:400px;margin-left: 20px;">
+                                                        
+                                                      
+						</div>
+						
+						<p>
+								
+						</p>
+						<div style="display: inline-flex;">
+							
+						</div>
+
+
+					</fieldset>
+					</div>
+				</div>
+			</fieldset>
+			
+
+			
+			
+						<div  class="panel-collapse collapse in" id="process">
+					<div class="panel-body" >
+					  <fieldset><label> Filtering for game 1</label>
+						<p>
+							Now we have to filter the games. We only require game 1 to stay.
+Transform > Recode into different variables. Make to a new variable “game_num” according to the conditions defined in the picture. “game_num” will be used to filter for game1
+
+
+ 
+						</p>
+						<div style="display: inline-flex;">
+							<img src="imgs/4.JPG" alt="Outlier condition" style="width:auto;height:600px;margin-left: 20px;">
+						</div>
+                                                </p>
+						<div style="display: inline-flex;">
+							<img src="imgs/5.JPG" alt="Outlier condition" style="width:auto;height:300px;margin-left: 20px;">
+						</div>
+                                                </p>
+						<div style="display: inline-flex;">
+							<img src="imgs/6.JPG" alt="Outlier condition" style="width:auto;height:500px;margin-left: 20px;">
+						</div>
+<div style="display: inline-flex;">
+							<img src="imgs/7.JPG" alt="Outlier condition" style="width:auto;height:300px;margin-left: 20px;">
+						</div>
+                                                </p>
+
+					</fieldset>
+					</div>
+				</div>
+			</fieldset>
+
+                        <div  class="panel-collapse collapse in" id="process">
+					<div class="panel-body" >
+					  <fieldset><label> Detecting the outliers</label>
+						<p>
+							Now that we have the required data, we will now try to find the outliers in bitrate and VQ variables. As shown in the plots, there are no outliers. 
+Analyze > Descriptive Statistics > Explore… > Add “bitrate” and “VQ” to “Dependent List” 
+> Click on “Statistics…” button > In the “Statistics” modal, check the option “Outliers” 
+> Click on “Plots…” button > In the “Plots” modal check the option “Normality plots with tests” and under the “Descriptive”-section uncheck “Stem-and-leaf” 
+
+ 
+						</p>
+						<div style="display: inline-flex;">
+							<img src="imgs/8.JPG" alt="Outlier condition" style="width:auto;height:600px;margin-left: 20px;">
+						</div>
+                                                </p>
+						<div style="display: inline-flex;">
+							<img src="imgs/9.JPG" alt="Outlier condition" style="width:auto;height:400px;margin-left: 20px;">
+						</div>
+</p>
+						<div style="display: inline-flex;">
+							<img src="imgs/14.JPG" alt="Outlier condition" style="width:auto;height:400px;margin-left: 20px;">
+						</div>
+</p>
+						<div style="display: inline-flex;">
+							<img src="imgs/15.JPG" alt="Outlier condition" style="width:auto;height:400px;margin-left: 20px;">
+						</div>
+					</fieldset>
+					</div>
+ <p>
+							
+
+ 
+					
+
+                        <div  class="panel-collapse collapse in" id="process">
+					<div class="panel-body" >
+					  <fieldset><label> Preparing the for t test</label>
+						<p>
+							Now compute the paired t tests on VQ2000 and VQ6000. Analyze > paired samples t test. Add VQ2000 and VQ6000 and variable 1 and 2 respectively. 
+
+ 
+						</p>
+						<div style="display: inline-flex;">
+							<img src="imgs/11.JPG" alt="Outlier condition" style="width:auto;height:600px;margin-left: 20px;">
+						</div>
+                                                </p>
+						<div style="display: inline-flex;">
+							<img src="imgs/12.JPG" alt="Outlier condition" style="width:auto;height:400px;margin-left: 20px;">
+						</div>
+				</div>
+			</fieldset>
+
+<fieldset>	
+				<div  class="panel-collapse collapse in" id="process">
+					<div class="panel-body" >
+					  Calculating the factor</label>
+						<p>
+							The factor is calculated using the formaula for r as shown in the figure below. Since SPSS doesnt give it automacticall we calculated it manually. It comes out to be 0.808 which is large.
+
+ 
+						</p>
+						<div style="display: inline-flex;">
+							<img src="imgs/r.jpg" alt="Outlier condition" style="width:auto;height:100px;margin-left: 20px;">
+                                                        
+                                                      
+						</div>
+						
+                                                        
+                                                      
+						</div>
+						
+						<p>
+								
+						</p>
+</p>
+						
+                                                        
+                                                      
+						</div>
+						
+						<p>
+								
+						</p>
+						<div style="display: inline-flex;">
+							
+						</div>
+
+
+					</fieldset>
+					</div>
+				</div>
+			</fieldset>
+
+
+
+
+					
+
+
+
+
+
+
+					</fieldset>
+					</div>
+				</div>
+			</fieldset>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+                
+
+			
+
+
+
+			</div>
+		</div>
+
+	</div>
+</section> 
+
+<section class="container" >
+	<div class="panel panel-primary">
+		<div class="panel-heading">
+			<h3 class="panel-title">
+				<a data-target="#instruction" data-toggle="collapse" >Output</a>
+			</h3>
+		</div>
+		<div  class="panel-collapse collapse in" id="instruction">
+			<div class="panel-body" >
+				<img src="imgs/13.jpg" alt="Outlier condition" style="width:auto;height:400px;margin-left: 20px;">
+</div>
+
+
+</div>
+<p> The output shows that There was a significant average difference between VQs at bitrate of 2000 and 6000. (t24 = 6.772, p < 0.000).</p>
+
+<p> On average, VQ at bitrate 2000 is 1.31 points lower than VQ at bitrate 6000. (95% CI [-1.72, -.911]). </p>
+
+<p> There is a weak correlation between VQ at both bitrates which is not significant. </p>
+
+						
+
+
+
+
+			</div>
+		</div>
+
+	</div>
+</section>
+
+</body>
+</html>
