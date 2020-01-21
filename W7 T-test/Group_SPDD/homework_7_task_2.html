@@ -1,0 +1,197 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <title>Template</title>
+
+	<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
+	<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+	<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+	<meta content="text/html;charset=utf-8" http-equiv="Content-Type">
+	<meta content="utf-8" http-equiv="encoding">
+</head>
+
+<body>
+<style type="text/css">
+	body{font-family:Tahoma,"Times New Roman", Times, serif;}
+	p{	margin:20px; }
+	.center {
+    display: block;
+    margin-left: auto;
+    margin-right: auto;
+    width: 40%;
+}
+fieldset { padding: 10px; background:#fbfbfb; border-radius:5px; margin-bottom:5px; }
+</style>
+
+
+<section class="container" >
+	<div class="panel panel-primary">
+		<div class="panel-heading">
+			<h3 class="panel-title">
+				<a data-target="#instruction" data-toggle="collapse" >Example</a>
+			</h3>
+		</div>
+		<div  class="panel-collapse collapse in" id="instruction">
+			<div class="panel-body" >
+			  <p>Does the test environment (independent variable), i.e. Lab (ID=1) or home (ID=0), have a significant influence on speech quality ratings (dependent variable)?</p><p>Use the quality ratings of condition 3 provided in the file (lab_crowd_speech_quality).</p>
+			</div>
+		</div>
+
+	</div>
+</section>
+
+<section class="container" >
+	<div class="panel panel-primary">
+		<div class="panel-heading">
+			<h3 class="panel-title">
+				<a data-target="#setup" data-toggle="collapse" >Setup and transfering data format</a>
+			</h3>
+		</div>
+		<div  class="panel-collapse collapse in" id="setup">
+			<div class="panel-body" >
+				<fieldset><label>Import the data in SPSS.</label>
+				</fieldset>
+			</div>
+		</div>
+
+	</div>
+</section> 
+
+<section class="container" >
+	<div class="panel panel-primary">
+		<div class="panel-heading">
+			<h3 class="panel-title">
+				<a data-target="#process" data-toggle="collapse" >Test Requirements</a>
+			</h3>
+		</div>
+		<div  class="panel-collapse collapse in" id="process">
+			<div class="panel-body" >
+		  	<fieldset><label>To answer the question, we want to conduct an independent t-test where the independent variable consists of two categorical, independent groups “home” and “lab”. Check if the test requirement for an independent T-test are met.</label>
+				<p>
+					<b>Test assumptions:</b>
+					<ul>
+						<li>There should not be any significant outliers in the dataset.</li>
+						<li>Dependent variable should be approximately normally distributed for each group of the independent variable.</li>
+						<li><b>Homogeneity of variances</b>: in SPSS, when conducting the independent T-Test, the Levene’s test will be computed as well. Based on the outcome of the homogeneity test, you will have to decide, which outcome of the t-test to interpret.</li>
+					</ul>
+				</p>
+				<p>
+					<b>Analyze</b> > <b>Descriptive Statistics</b> > <b>Explore…</b> > Add “<b>Quality</b>” to “Dependent List” and “<b>Environment</b>” to the “Factor List”
+				</p>
+				<div style="display: inline-flex;">
+					<img src="imgs/explore_path.png" alt="Explore Path" style="width:auto;height:150px;margin-left: 20px;">
+					<img src="imgs/explore_modal.png" alt="Explore Modal" style="width:auto;height:150px;margin-left: 20px;">								
+				</div>
+				<p>
+					Click on “<b>Statistics…</b>” button > In the “Statistics” modal, check the option “<b>Outliers</b>”. 
+				</p>
+				<div style="display: inline-flex;">
+					<img src="imgs/statistics_modal.png" alt="Statistics Modal" style="width:auto;height:200px;margin-left: 20px;">				
+				</div>
+				<p>
+					Click on “<b>Plots…</b>” button > In the “Plots” modal check the option “<b>Normality plots with tests</b>” and under the “Descriptive”-section uncheck “Stem-and-leaf” and check “<b>Histogram</b>”.
+				</p>
+				<div style="display: inline-flex;">
+					<img src="imgs/plots_modal.png" alt="Plots Modal" style="width:auto;height:200px;margin-left: 20px;">				
+				</div>
+			</fieldset>
+			</div>
+		</div>
+	</div>
+</section> 
+
+<section class="container" >
+	<div class="panel panel-primary">
+		<div class="panel-heading">
+			<h3 class="panel-title">
+				<a data-target="#process" data-toggle="collapse" >Independent-Samples T Test</a>
+			</h3>
+		</div>
+		<div  class="panel-collapse collapse in" id="process">
+			<div class="panel-body" >
+		  	<fieldset><label>To answer the question, we want to conduct an independent t-test where the independent variable consists of two categorical, independent groups “home” and “lab”. Check if the test requirement for an independent T-test are met.</label>
+				<p>
+					Conduct the independent t-test.
+				</p>
+				<p>
+					<b>Analyze</b> > <b>Compare Means</b> > <b>Independent-Samples T Test…</b> > Add “<b>Quality</b>” to “Test Variable(s)” list and “<b>Environment</b>” as the “Grouping Variable”. > Click on “<b>Define Groups...</b>” > For “<b>Group 1</b>” enter the value of the “home” environment type (0) and for “<b>Group 2</b>” the one of the “lab” environment type (1).
+				</p>
+				<div style="display: inline-flex;">
+					<img src="imgs/t_test_path.png" alt="T Test Path" style="width:auto;height:150px;margin-left: 20px;">
+					<img src="imgs/t_test_modal.png" alt="T Test Modal" style="width:auto;height:150px;margin-left: 20px;">						
+					<img src="imgs/define_groups.png" alt="Define Groups Modal" style="width:auto;height:150px;margin-left: 20px;">										
+				</div>
+			</fieldset>
+			</div>
+		</div>
+	</div>
+</section> 
+
+<section class="container" >
+	<div class="panel panel-primary">
+		<div class="panel-heading">
+			<h3 class="panel-title">
+				<a data-target="#output" data-toggle="collapse">Output interpretation</a>
+			</h3>
+		</div>
+		<div  class="panel-collapse collapse in" id="output">
+			<div class="panel-body" >
+				  <fieldset><label>Outlier detection</label>
+					<p>For the "home" condition, there are four outliers (ID 206, 208, 209, 211) marked in the boxplot.<br>
+						To check if the outliers affect the data, we compare the 5% trimmed mean and mean values. If there is 
+						a significant difference, the outliers should be removed. In this case, there is only a minimal difference between the values, implying
+						that the presence of the outliers does not influence the outcomes of the tests.
+					</p>
+					<div style="display: inline-flex;">
+						<img src="imgs/descriptives.png" alt="KMO female" style="width:auto;height:300px;margin-left: 20px;">
+						<img src="imgs/boxplot_outliers.png" alt="KMO male" style="width:auto;height:300px;margin-left: 20px;">								
+					</div>
+					<p></p>
+					<label>Normality Test</label>
+					<p>
+						The Shapiro-Wilk test showed a significant departure from normality in both the “home” (W(213)=.884, p=.000) and “lab” (W(192)=.860, p=.000) conditions.
+					</p>
+					<div style="display: inline-flex;">
+						<img src="imgs/normality_test.png" alt="Normality Test" style="width:auto;height:150px;margin-left: 20px;">
+					</div>
+					<p>
+					</p>
+					<label>Independent T-Test</label>
+					<p>
+						An independent-samples t-test was conducted to compare the speech quality ratings in home and lab conditions. Levene’s test for equality of variances indicated homogeneity of variances, F = .09, p = .764. There was a significant difference in the ratings for home (M= 3.12, SD= 0.858) and for lab (M= 2.83, SD= 0.829) conditions; t(403)=3.44, p=0.001, d=-0,34. Persons performing the rating process at home assessed higher ratings to the test material compared to persons performing the test in the lab.
+					</p>
+					<div style="display: inline-flex;">
+						<img src="imgs/group_stats.png" alt="Scree plot male" style="width:auto;height:100px;margin-left: 20px;">								
+					</div>
+					<div style="display: inline-flex;">
+						<img src="imgs/t_test_output.png" alt="Scree plot male" style="width:auto;height:150px;margin-left: 20px;">								
+					</div>
+					<p>
+					</p>
+					<label>Effect Size</label>
+					<p>
+						To measure the effect size, we compute Cohen's D. SPSS does not
+						provide any function for the effect size, but this can be computed based on
+						the following formula:
+					</p>
+					<div style="display: inline-flex;">
+						<img src="imgs/effect_size.png" alt="Effect Size" style="width:auto;height:100px;margin-left: 20px;">								
+					</div>
+					<p>
+						We can read the means and standard deviations from the output of the independent t-test.
+					</p>
+					<p>
+						<b>d = (2,83-3,12)/sqrt((0,858^2 + 0,829^2)/2)= -0,29/sqrt((0,74 + 0,69)/2)= -0,29/sqrt(0,715)= -0,29/0,85 = -0,34</b>
+					</p>
+					<p>
+						Cohen’s effect size value (d =-0.34) suggests low practical significance.
+					</p>
+				</fieldset>	 
+			</div>
+		</div>
+
+	</div>
+</section>
+
+</body>
+</html>
