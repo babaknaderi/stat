@@ -1,0 +1,372 @@
+
+<!DOCTYPE html
+  PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+<html><head>
+      <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+   <!--
+This HTML was auto-generated from MATLAB code.
+To make changes, update the MATLAB code and republish this document.
+      --><title>Task_02</title><meta name="generator" content="MATLAB 9.7"><link rel="schema.DC" href="http://purl.org/dc/elements/1.1/"><meta name="DC.date" content="2020-01-28"><meta name="DC.source" content="Task_02.m"><style type="text/css">
+html,body,div,span,applet,object,iframe,h1,h2,h3,h4,h5,h6,p,blockquote,pre,a,abbr,acronym,address,big,cite,code,del,dfn,em,font,img,ins,kbd,q,s,samp,small,strike,strong,sub,sup,tt,var,b,u,i,center,dl,dt,dd,ol,ul,li,fieldset,form,label,legend,table,caption,tbody,tfoot,thead,tr,th,td{margin:0;padding:0;border:0;outline:0;font-size:100%;vertical-align:baseline;background:transparent}body{line-height:1}ol,ul{list-style:none}blockquote,q{quotes:none}blockquote:before,blockquote:after,q:before,q:after{content:'';content:none}:focus{outine:0}ins{text-decoration:none}del{text-decoration:line-through}table{border-collapse:collapse;border-spacing:0}
+
+html { min-height:100%; margin-bottom:1px; }
+html body { height:100%; margin:0px; font-family:Arial, Helvetica, sans-serif; font-size:10px; color:#000; line-height:140%; background:#fff none; overflow-y:scroll; }
+html body td { vertical-align:top; text-align:left; }
+
+h1 { padding:0px; margin:0px 0px 25px; font-family:Arial, Helvetica, sans-serif; font-size:1.5em; color:#d55000; line-height:100%; font-weight:normal; }
+h2 { padding:0px; margin:0px 0px 8px; font-family:Arial, Helvetica, sans-serif; font-size:1.2em; color:#000; font-weight:bold; line-height:140%; border-bottom:1px solid #d6d4d4; display:block; }
+h3 { padding:0px; margin:0px 0px 5px; font-family:Arial, Helvetica, sans-serif; font-size:1.1em; color:#000; font-weight:bold; line-height:140%; }
+
+a { color:#005fce; text-decoration:none; }
+a:hover { color:#005fce; text-decoration:underline; }
+a:visited { color:#004aa0; text-decoration:none; }
+
+p { padding:0px; margin:0px 0px 20px; }
+img { padding:0px; margin:0px 0px 20px; border:none; }
+p img, pre img, tt img, li img, h1 img, h2 img { margin-bottom:0px; } 
+
+ul { padding:0px; margin:0px 0px 20px 23px; list-style:square; }
+ul li { padding:0px; margin:0px 0px 7px 0px; }
+ul li ul { padding:5px 0px 0px; margin:0px 0px 7px 23px; }
+ul li ol li { list-style:decimal; }
+ol { padding:0px; margin:0px 0px 20px 0px; list-style:decimal; }
+ol li { padding:0px; margin:0px 0px 7px 23px; list-style-type:decimal; }
+ol li ol { padding:5px 0px 0px; margin:0px 0px 7px 0px; }
+ol li ol li { list-style-type:lower-alpha; }
+ol li ul { padding-top:7px; }
+ol li ul li { list-style:square; }
+
+.content { font-size:1.2em; line-height:140%; padding: 20px; }
+
+pre, code { font-size:12px; }
+tt { font-size: 1.2em; }
+pre { margin:0px 0px 20px; }
+pre.codeinput { padding:10px; border:1px solid #d3d3d3; background:#f7f7f7; }
+pre.codeoutput { padding:10px 11px; margin:0px 0px 20px; color:#4c4c4c; }
+pre.error { color:red; }
+
+@media print { pre.codeinput, pre.codeoutput { word-wrap:break-word; width:100%; } }
+
+span.keyword { color:#0000FF }
+span.comment { color:#228B22 }
+span.string { color:#A020F0 }
+span.untermstring { color:#B20000 }
+span.syscmd { color:#B28C00 }
+
+.footer { width:auto; padding:10px 0px; margin:25px 0px 0px; border-top:1px dotted #878787; font-size:0.8em; line-height:140%; font-style:italic; color:#878787; text-align:left; float:none; }
+.footer p { margin:0px; }
+.footer a { color:#878787; }
+.footer a:hover { color:#878787; text-decoration:underline; }
+.footer a:visited { color:#878787; }
+
+table th { padding:7px 5px; text-align:left; vertical-align:middle; border: 1px solid #d6d4d4; font-weight:bold; }
+table td { padding:7px 5px; text-align:left; vertical-align:top; border:1px solid #d6d4d4; }
+
+
+
+
+
+  </style></head><body><div class="content"><h2>Contents</h2><div><ul><li><a href="#1">Read Data</a></li><li><a href="#2">Choose Test</a></li><li><a href="#3">Requirements: (2) No significant outliers</a></li><li><a href="#6">Requirements: (5) Normally distributed dependent variables</a></li><li><a href="#8">Requirements: (6) Homogeneity of variances (Levene&#8217;s test)</a></li><li><a href="#10">T-Test</a></li><li><a href="#12">Effect size</a></li></ul></div><h2 id="1">Read Data</h2><p>Read in data sets and seperate them by ID into 2 groups</p><pre class="codeinput">T = readtable(<span class="string">"..\..\lab_crowd_speech_quality.xlsx"</span>);
+t_home = T(T.Environment == 0,:).Quality;
+t_lab = T(T.Environment == 1,:).Quality;
+</pre><h2 id="2">Choose Test</h2><p>Now we have to decide which test we have to use. In the task it is written: "Does the independent variable [test environment: (Lab=ID=1)  (home=ID=0)] have a significant influence on the dependent variable (speech quality</p><p>Based on the Decision Tree we should use an independent T-test because:</p><p>a) Input data is categorical (lab and home)</p><p>b) Input data is independent from each other (one is conducted in the lab and the other in the home enviroment and these are not related)</p><p>c) Two variables</p><p>=&gt; Independent T-Test</p><p>In order to to conduct the test the following requirements needs to be met:</p><p>(1) dependent variable measured at intervall or ratio level (check, because the the dependent variable is the given rating which is an interval)</p><p>(2) No significant outliers (will be checked later)</p><p>(3) Two categorical, independent groups (check, see above)</p><p>(4) independence of observations (check, see above)</p><p>(5) Normally distributed dependent variables (will be checked later)</p><p>(6) homogeneity of variances (Levene&#8217;s test) (will be checked later)</p><h2 id="3">Requirements: (2) No significant outliers</h2><p>We will use the 25th and 75th percentiles to detect outliers.</p><pre class="codeinput">subplot(1,2,1)
+boxplot(t_home);
+ylabel(<span class="string">'Ratings'</span>)
+title(<span class="string">'Home'</span>)
+subplot(1,2,2)
+boxplot(t_lab);
+ylabel(<span class="string">'Ratings'</span>)
+title(<span class="string">'Lab'</span>)
+</pre><img vspace="5" hspace="5" src="Task_02_01.png" alt=""> <p>As can be seen, the home enviroment ratings need to be cleared from outliers.</p><pre class="codeinput">[cleard_outliers_of_home, TF_home] = rmoutliers(t_home,<span class="string">'quartiles'</span>);
+[m,n]= size(t_home);
+disp(<span class="string">"original amount: "</span> + m)
+[m,n]=size(cleard_outliers_of_home);
+disp(<span class="string">"new amount: "</span> + m)
+t_home = cleard_outliers_of_home;
+</pre><pre class="codeoutput">original amount: 213
+new amount: 208
+</pre><p>5 outliers of the home enviroment are removed.</p><pre class="codeinput">subplot(1,2,1)
+boxplot(t_home);
+ylabel(<span class="string">'Ratings'</span>)
+title(<span class="string">'Home'</span>)
+subplot(1,2,2)
+boxplot(t_lab);
+ylabel(<span class="string">'Ratings'</span>)
+title(<span class="string">'Lab'</span>)
+</pre><img vspace="5" hspace="5" src="Task_02_02.png" alt=""> <h2 id="6">Requirements: (5) Normally distributed dependent variables</h2><p>Now we check, if the data is normally distributed. This can be done by the Kolmogorov-Smirnov or Shapiro-Wilk test.</p><pre class="codeinput"><span class="comment">%Kolmogorov-Smirnov</span>
+<span class="comment">%if 1 = no normal distribution, if 0 = normal distribution</span>
+<span class="comment">%significance &lt; 0,05,               significance &gt;= 0,05:</span>
+[h_ks,p_ks_value] = kstest(t_home);
+<span class="keyword">if</span>(h_ks==1)
+    fprintf(<span class="string">"Home environment ratings are not normal distributed(Kolmogrov-Smirnov-Test) with significant level:%d\n"</span>, p_ks_value)
+<span class="keyword">else</span>
+    fprintf(<span class="string">"Home environment ratings are normal distributed(Kolmogrov-Smirnov-Test) with significant level:%d\n"</span>,p_ks_value)
+<span class="keyword">end</span>
+[h_ks,p_ks_value] = kstest(t_lab);
+<span class="keyword">if</span>(h_ks==1)
+    fprintf(<span class="string">"Lab environment ratings are not normal distributed(Kolmogrov-Smirnov-Test) with significant level:%d\n"</span>, p_ks_value)
+<span class="keyword">else</span>
+    fprintf(<span class="string">"Lab environment ratings are normal distributed(Kolmogrov-Smirnov-Test) with significant level:%d\n"</span>,p_ks_value)
+<span class="keyword">end</span>
+
+<span class="comment">%Shapiro-Wilk</span>
+<span class="comment">% performs the Shapiro-Wilk test to determine if the null hypothesis of composite</span>
+<span class="comment">% normality is a reasonable assumption of a given distribution.</span>
+<span class="comment">%   The Shapiro-Wilk and Shapiro-Francia null hypothesis is:</span>
+<span class="comment">%   "X is normal with unspecified mean and variance."</span>
+<span class="comment">% - pVAlueis the p-value, or the probability of observing the given</span>
+<span class="comment">%   result by chance given that the null hypothesis is true</span>
+<span class="comment">% - H</span>
+<span class="comment">%     H = 0 =&gt; Do not reject the null hypothesis at significance level ALPHA.</span>
+<span class="comment">%     H = 1 =&gt; Reject the null hypothesis at significance level ALPHA.</span>
+<span class="comment">%  if 1 = no normal distribution, if 0 = normal distribution</span>
+<span class="comment">%  significance &lt; 0,05,               significance &gt;= 0,05:</span>
+[h_sw, p_sw_value, SWstatistic] = swtest(t_home, 0.05);
+
+<span class="keyword">if</span>(h_sw==1)
+    fprintf(<span class="string">"Home environment ratings are not normal distributed(Shapiro-Wilk) with significant level: %d\n"</span>, p_sw_value)
+<span class="keyword">else</span>
+    fprintf(<span class="string">"Home environment ratings are distributed(Shapiro-Wilk) with significant level:%d\n"</span>,p_sw_value)
+<span class="keyword">end</span>
+
+[h_sw, p_sw_value, SWstatistic] = swtest(t_lab, 0.05);
+
+<span class="keyword">if</span>(h_sw==1)
+    fprintf(<span class="string">"Lab environment ratings are not normal distributed(Shapiro-Wilk) with significant level: %d\n"</span>, p_sw_value)
+<span class="keyword">else</span>
+    fprintf(<span class="string">"Lab environment ratings are distributed(Shapiro-Wilk) with significant level:%d\n"</span>,p_sw_value)
+<span class="keyword">end</span>
+
+[bincounts_home,edges_home,bin_home] = histcounts(t_home);
+subplot(1,2,1)
+centers_home=round(edges_home((1:end-1)));
+bar(centers_home,bincounts_home);
+
+[bincounts_lab,edges_lab,bin_lab] = histcounts(t_lab);
+subplot(1,2,2)
+centers_lab=round(edges_lab((1:end-1)));
+bar(centers_lab,bincounts_lab);
+</pre><pre class="codeoutput">Home environment ratings are not normal distributed(Kolmogrov-Smirnov-Test) with significant level:1.552091e-175
+Lab environment ratings are not normal distributed(Kolmogrov-Smirnov-Test) with significant level:8.950334e-144
+Home environment ratings are not normal distributed(Shapiro-Wilk) with significant level: 3.440581e-13
+Lab environment ratings are not normal distributed(Shapiro-Wilk) with significant level: 2.771783e-12
+</pre><img vspace="5" hspace="5" src="Task_02_03.png" alt=""> <p>Even if both test fail we can assume, based on the two plots, that the data is approximately normally distributed. Furthermore are no other t-Tests witout normally distribution feasible. the Kolmogorov-Smirnov or Shapiro-Wilk test.</p><h2 id="8">Requirements: (6) Homogeneity of variances (Levene&#8217;s test)</h2><p>Because we have changed the amount of ratings during the outlier removal we need to conduct the Levene's test and check the equality of the variances from both independent variables.</p><pre class="codeinput">disp(<span class="string">"For mean - Levene"</span>)
+p = vartestn(table2array(T),<span class="string">'TestType'</span>,<span class="string">'LeveneAbsolute'</span>)
+disp(<span class="string">"For median - Levene"</span>)
+p = vartestn(table2array(T),<span class="string">'TestType'</span>,<span class="string">'BrownForsythe'</span>)
+</pre><pre class="codeoutput">For mean - Levene
+
+p =
+
+   3.3476e-04
+
+For median - Levene
+
+p =
+
+    0.0017
+
+</pre><img vspace="5" hspace="5" src="Task_02_04.png" alt=""> <img vspace="5" hspace="5" src="Task_02_05.png" alt=""> <img vspace="5" hspace="5" src="Task_02_06.png" alt=""> <img vspace="5" hspace="5" src="Task_02_07.png" alt=""> <p>Apparently the data shows a significant level of lower than 0.05 so therefore we should reject the null hypothesis which means that both data sets have similar variances. But to go further we assume it will be higher than 0.05</p><h2 id="10">T-Test</h2><p>Perform the T-Test First we assume same variances:</p><pre class="codeinput">[h_t_test_1,p_t_test_1,ci,stats] = ttest2(t_home, t_lab);
+
+<span class="keyword">if</span>(h_t_test_1==1)
+    fprintf(<span class="string">"The test rejects the null hypothesis an therefore shows, that the two data samples are not from populations with equal means with significant level: %d\n"</span>, p_t_test_1)
+<span class="keyword">else</span>
+    fprintf(<span class="string">"The test accepts the null hypothesis an therefore shows, that the two data samples are from populations with equal means with significant level: %d\n"</span>, p_t_test_1)
+<span class="keyword">end</span>
+</pre><pre class="codeoutput">The test rejects the null hypothesis an therefore shows, that the two data samples are not from populations with equal means with significant level: 3.747314e-05
+</pre><p>Now we assume they are unequal</p><pre class="codeinput">[h_t_test_2,p_t_test_2,ci,stats] = ttest2(t_home, t_lab,<span class="string">'Vartype'</span>,<span class="string">'unequal'</span>);
+
+<span class="keyword">if</span>(h_t_test_2==1)
+    fprintf(<span class="string">"The test rejects the null hypothesis an therefore shows, that the two data samples are not from populations with equal means with significant level: %d\n"</span>, p_t_test_2)
+<span class="keyword">else</span>
+    fprintf(<span class="string">"The test accepts the null hypothesis an therefore shows, that the two data samples are from populations with equal means with significant level: %d\n"</span>, p_t_test_2)
+<span class="keyword">end</span>
+</pre><pre class="codeoutput">The test rejects the null hypothesis an therefore shows, that the two data samples are not from populations with equal means with significant level: 3.846255e-05
+</pre><h2 id="12">Effect size</h2><p>Last we have to calculate the effect size with the Cohen's d formula (for paired and not paired t-Tests)</p><pre class="codeinput"><span class="comment">%https://de.mathworks.com/matlabcentral/fileexchange/62957-computecohen_d-x1-x2-varargin</span>
+effect_size= computeCohen_d(t_home,t_lab, <span class="string">'independent'</span>)
+</pre><pre class="codeoutput">
+effect_size =
+
+    0.4173
+
+</pre><p>This values means, that the difference between the home enviroment and the lab enviroment is 0.4 times the standard deviation.</p><p class="footer"><br><a href="https://www.mathworks.com/products/matlab/">Published with MATLAB&reg; R2019b</a><br></p></div><!--
+##### SOURCE BEGIN #####
+%% Read Data
+% Read in data sets and seperate them by ID into 2 groups
+T = readtable("..\..\lab_crowd_speech_quality.xlsx");
+t_home = T(T.Environment == 0,:).Quality;
+t_lab = T(T.Environment == 1,:).Quality;
+
+%% Choose Test
+% Now we have to decide which test we have to use.
+% In the task it is written: "Does the 
+% independent variable [test environment: (Lab=ID=1) || (home=ID=0)]
+% have a significant influence on the dependent variable (speech quality
+% 
+% Based on the Decision Tree we should use an independent T-test because:
+%
+% a) Input data is categorical (lab and home)
+%
+% b) Input data is independent from each other (one is conducted in the lab and the other in the home enviroment and these are not related)
+%
+% c) Two variables
+%
+% => Independent T-Test
+%
+% In order to to conduct the test the following requirements needs to be
+% met:
+%
+% (1) dependent variable measured at intervall or ratio level
+% (check, because the the dependent variable is the given rating which is an interval)
+%
+% (2) No significant outliers (will be checked later)
+%
+% (3) Two categorical, independent groups (check, see above)
+%
+% (4) independence of observations (check, see above)
+%
+% (5) Normally distributed dependent variables (will be checked later)
+%
+% (6) homogeneity of variances (Levene’s test) (will be checked later)
+%% Requirements: (2) No significant outliers
+% We will use the 25th and 75th percentiles to detect outliers.
+
+subplot(1,2,1)
+boxplot(t_home);
+ylabel('Ratings')
+title('Home')
+subplot(1,2,2)
+boxplot(t_lab);
+ylabel('Ratings')
+title('Lab')
+
+%%
+% As can be seen, the home enviroment ratings need to be cleared from
+% outliers.
+[cleard_outliers_of_home, TF_home] = rmoutliers(t_home,'quartiles');
+[m,n]= size(t_home);
+disp("original amount: " + m)
+[m,n]=size(cleard_outliers_of_home);
+disp("new amount: " + m)
+t_home = cleard_outliers_of_home;
+
+%%
+% 5 outliers of the home enviroment are removed.
+
+subplot(1,2,1)
+boxplot(t_home);
+ylabel('Ratings')
+title('Home')
+subplot(1,2,2)
+boxplot(t_lab);
+ylabel('Ratings')
+title('Lab')
+
+%% Requirements: (5) Normally distributed dependent variables 
+% Now we check, if the data is normally distributed. This can be done by
+% the Kolmogorov-Smirnov or Shapiro-Wilk test.
+
+%Kolmogorov-Smirnov
+%if 1 = no normal distribution, if 0 = normal distribution
+%significance < 0,05,               significance >= 0,05: 
+[h_ks,p_ks_value] = kstest(t_home);
+if(h_ks==1)
+    fprintf("Home environment ratings are not normal distributed(Kolmogrov-Smirnov-Test) with significant level:%d\n", p_ks_value)
+else
+    fprintf("Home environment ratings are normal distributed(Kolmogrov-Smirnov-Test) with significant level:%d\n",p_ks_value)
+end
+[h_ks,p_ks_value] = kstest(t_lab);
+if(h_ks==1)
+    fprintf("Lab environment ratings are not normal distributed(Kolmogrov-Smirnov-Test) with significant level:%d\n", p_ks_value)
+else
+    fprintf("Lab environment ratings are normal distributed(Kolmogrov-Smirnov-Test) with significant level:%d\n",p_ks_value)
+end
+
+%Shapiro-Wilk 
+% performs the Shapiro-Wilk test to determine if the null hypothesis of composite
+% normality is a reasonable assumption of a given distribution. 
+%   The Shapiro-Wilk and Shapiro-Francia null hypothesis is: 
+%   "X is normal with unspecified mean and variance."
+% - pVAlueis the p-value, or the probability of observing the given
+%   result by chance given that the null hypothesis is true
+% - H
+%     H = 0 => Do not reject the null hypothesis at significance level ALPHA.
+%     H = 1 => Reject the null hypothesis at significance level ALPHA.
+%  if 1 = no normal distribution, if 0 = normal distribution
+%  significance < 0,05,               significance >= 0,05: 
+[h_sw, p_sw_value, SWstatistic] = swtest(t_home, 0.05);
+
+if(h_sw==1)
+    fprintf("Home environment ratings are not normal distributed(Shapiro-Wilk) with significant level: %d\n", p_sw_value)
+else
+    fprintf("Home environment ratings are distributed(Shapiro-Wilk) with significant level:%d\n",p_sw_value)
+end
+
+[h_sw, p_sw_value, SWstatistic] = swtest(t_lab, 0.05);
+
+if(h_sw==1)
+    fprintf("Lab environment ratings are not normal distributed(Shapiro-Wilk) with significant level: %d\n", p_sw_value)
+else
+    fprintf("Lab environment ratings are distributed(Shapiro-Wilk) with significant level:%d\n",p_sw_value)
+end
+
+[bincounts_home,edges_home,bin_home] = histcounts(t_home);
+subplot(1,2,1)
+centers_home=round(edges_home((1:end-1)));
+bar(centers_home,bincounts_home);
+
+[bincounts_lab,edges_lab,bin_lab] = histcounts(t_lab);
+subplot(1,2,2)
+centers_lab=round(edges_lab((1:end-1)));
+bar(centers_lab,bincounts_lab);
+
+%% 
+% Even if both test fail we can assume, based on the two plots, that the
+% data is approximately normally distributed. Furthermore are no other
+% t-Tests witout normally distribution feasible.
+% the Kolmogorov-Smirnov or Shapiro-Wilk test.
+%% Requirements: (6) Homogeneity of variances (Levene’s test)
+% Because we have changed the amount of ratings during the outlier removal
+% we need to conduct the Levene's test and check the equality of the
+% variances from both independent variables.
+
+disp("For mean - Levene")
+p = vartestn(table2array(T),'TestType','LeveneAbsolute')
+disp("For median - Levene")
+p = vartestn(table2array(T),'TestType','BrownForsythe')
+%% 
+% Apparently the data shows a significant level of lower than 0.05 so
+% therefore we should reject the null hypothesis which means that both data
+% sets have similar variances. But to go further we assume it will be
+% higher than 0.05
+
+%% T-Test
+% Perform the T-Test
+% First we assume same variances:
+[h_t_test_1,p_t_test_1,ci,stats] = ttest2(t_home, t_lab);
+
+if(h_t_test_1==1)
+    fprintf("The test rejects the null hypothesis an therefore shows, that the two data samples are not from populations with equal means with significant level: %d\n", p_t_test_1)
+else
+    fprintf("The test accepts the null hypothesis an therefore shows, that the two data samples are from populations with equal means with significant level: %d\n", p_t_test_1)
+end
+%%
+% Now we assume they are unequal
+[h_t_test_2,p_t_test_2,ci,stats] = ttest2(t_home, t_lab,'Vartype','unequal');
+
+if(h_t_test_2==1)
+    fprintf("The test rejects the null hypothesis an therefore shows, that the two data samples are not from populations with equal means with significant level: %d\n", p_t_test_2)
+else
+    fprintf("The test accepts the null hypothesis an therefore shows, that the two data samples are from populations with equal means with significant level: %d\n", p_t_test_2)
+end
+
+%% Effect size
+% Last we have to calculate the effect size with the Cohen's d formula (for paired and not paired t-Tests)
+
+%https://de.mathworks.com/matlabcentral/fileexchange/62957-computecohen_d-x1-x2-varargin
+effect_size= computeCohen_d(t_home,t_lab, 'independent')
+%% 
+% This values means, that the difference between the home enviroment and
+% the lab enviroment is 0.4 times the standard deviation.
+##### SOURCE END #####
+--></body></html>
