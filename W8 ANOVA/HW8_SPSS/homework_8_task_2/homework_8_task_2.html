@@ -1,0 +1,164 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <title>Template</title>
+
+	<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
+	<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+	<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+	<meta content="text/html;charset=utf-8" http-equiv="Content-Type">
+	<meta content="utf-8" http-equiv="encoding">
+</head>
+
+<body>
+<style type="text/css">
+	body{font-family:Tahoma,"Times New Roman", Times, serif;}
+	p{	margin:20px; }
+	.center {
+    display: block;
+    margin-left: auto;
+    margin-right: auto;
+    width: 40%;
+}
+fieldset { padding: 10px; background:#fbfbfb; border-radius:5px; margin-bottom:5px; }
+</style>
+
+
+<section class="container" >
+	<div class="panel panel-primary">
+		<div class="panel-heading">
+			<h3 class="panel-title">
+				<a data-target="#instruction" data-toggle="collapse" >Example</a>
+			</h3>
+		</div>
+		<div  class="panel-collapse collapse in" id="instruction">
+			<div class="panel-body" >
+				<p>Does the <i>testStimulus</i> have a significant influence on speech quality ratings and if yes, for which cases.
+				Please assume that each of the six files was assessed by a different set of test participants. Use the quality ratings provided in the data set
+				<i>speech_quality_repetition_dataset</i>.
+				</p>
+			</div>
+		</div>
+
+	</div>
+</section>
+
+<section class="container" >
+	<div class="panel panel-primary">
+		<div class="panel-heading">
+			<h3 class="panel-title">
+				<a data-target="#setup" data-toggle="collapse" >Setup and transfering data format</a>
+			</h3>
+		</div>
+		<div  class="panel-collapse collapse in" id="setup">
+			<div class="panel-body" >
+				<fieldset><label>Import the data in SPSS. Recode the <b>testStimulus</b> variable by assigning each one of them values from 1
+				to 6.
+				</label>
+				</fieldset>
+			</div>
+		</div>
+
+	</div>
+</section> 
+
+<section class="container" >
+	<div class="panel panel-primary">
+		<div class="panel-heading">
+			<h3 class="panel-title">
+				<a data-target="#process" data-toggle="collapse" >ANOVA</a>
+			</h3>
+		</div>
+		<div  class="panel-collapse collapse in" id="process">
+			<div class="panel-body" >
+		  	<fieldset><label></label>
+				<p>
+					Conduct the test.
+				</p>
+				<p>
+					<b>Analyze</b> > <b>Compare Means</b> > <b>One-Way ANOVA...</b>
+				</p>
+				<div style="display: inline-flex;">
+					<img src="imgs/anova_path.png" alt="T Test Path" style="width:auto;height:300px;margin-left: 20px;">
+				</div>
+				<p>In the <b>One-Way ANOVA</b> modal, add the <b>rating</b> variable to the <b>Dependent List</b> and <b>testStimulus</b> to the <b>Factor</b> section.</p>
+				<div style="display: inline-flex;">
+					<img src="imgs/anova_modal.png" alt="T Test Path" style="width:auto;height:300px;margin-left: 20px;">
+				</div>
+				<p>In the <b>Options</b> modal, under the <b>Statistics</b> section check <b>Descriptives, Homogenity of variance test, Welch</b> options.</p>
+				<div style="display: inline-flex;">
+					<img src="imgs/options_modal.png" alt="T Test Path" style="width:auto;height:300px;margin-left: 20px;">
+				</div>
+				<p>In the <b>Post Hoc</b> modal, choose to perform a <b>Tukey</b> and a <b>Games-Howell</b> tests since we do not know if the assumpition of
+				variance homogenity is given.
+				</p>
+				<div style="display: inline-flex;">
+					<img src="imgs/post_hoc.png" alt="T Test Path" style="width:auto;height:300px;margin-left: 20px;">
+				</div>
+			</fieldset>
+			</div>
+		</div>
+	</div>
+</section> 
+
+<section class="container" >
+	<div class="panel panel-primary">
+		<div class="panel-heading">
+			<h3 class="panel-title">
+				<a data-target="#output" data-toggle="collapse">Output interpretation</a>
+			</h3>
+		</div>
+		<div  class="panel-collapse collapse in" id="output">
+			<div class="panel-body" >
+				  <fieldset>
+					<label>Variance of Homogeneity</label>
+					<p>
+						Levene’s test of homogenity of variances indicated unequal variances (F = 7,80, p < .05) among the data. As a consequence, computing an ANOVA would result in erronated values. 
+						An alternative would be to compute a <b>Welch-ANOVA</b>,
+						test which does not assume equality of variances.	
+					</p>
+					<div style="display: inline-flex;">
+						<img src="imgs/homogenity_test__output.png" alt="Normality Test" style="width:auto;height:150px;margin-left: 20px;">
+					</div>
+					<br>
+					<label>Welch-ANOVA</label>
+					<p>
+						In the case of a Welch-ANOVA, results are to be read from the <b>Robust Test of Equality of Means</b> table.
+					</p>
+					<p>
+						<b>Interpretation: </b> The type of test stimulus has a significant influence on the speech quality ratings,
+						Welch's F(5, 410,46) = 326,08, p < .05.
+					</p>
+					<div style="display: inline-flex;">
+						<img src="imgs/anova_test_output.png" alt="Scree plot male" style="width:auto;height:250px;margin-left: 20px;">								
+					</div>
+					<p>
+					</p>
+					<br>
+					<label>Post Hoc Tests</label>
+					<p>
+						In the case of variance heterogenity, the <b>Games-Howell</b> post-hoc test is the alternative to the Tukey post-hoc test.
+						Consequently, the results of the post-hoc tests, are to be read from the line indicated by the <b>Games-Howell</b> label.
+					</p>
+					<p>
+						Games-Howell post-hoc analysis revealed a significant difference (p < .001) between the speech quality ratings of almost all stimulus types/ files.
+						An <b>exception</b> is to be made in the cases of the 1st and the 4th (p = 1.00), the 2nd and the 5th (p = .82), and the 3rd and 6th (p = 0.73) stimulus type, where no significant
+						difference was recognized between the speech quality ratings.
+					</p>
+					<div style="display: inline-flex;">
+						<img src="imgs/post_hoc_output.png" alt="Scree plot male" style="width:auto;height:1000px;margin-left: 20px;">								
+					</div>
+					<p></p>
+					<label>Descriptives</label><br>
+					<div style="display: inline-flex;">
+						<img src="imgs/descriptives.png" alt="Scree plot male" style="width:auto;height:200px;margin-left: 20px;">								
+					</div>
+				</fieldset>	 
+			</div>
+		</div>
+
+	</div>
+</section>
+
+</body>
+</html>

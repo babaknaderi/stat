@@ -1,0 +1,436 @@
+﻿<!DOCTYPE html>
+<html lang="en">
+<head>
+    <title>Template</title>
+
+	<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
+	<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+	<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+	<meta content="text/html;charset=utf-8" http-equiv="Content-Type">
+	<meta content="utf-8" http-equiv="encoding">
+</head>
+
+<body>
+<style type="text/css">
+	body{font-family:Tahoma,"Times New Roman", Times, serif;}
+	p{	margin:20px; }
+	.center {
+    display: block;
+    margin-left: auto;
+    margin-right: auto;
+    width: 40%;
+}
+fieldset { padding: 10px; background:#fbfbfb; border-radius:5px; margin-bottom:5px; }
+</style>
+
+
+<section class="container" >
+	<div class="panel panel-primary">
+		<div class="panel-heading">
+			<h3 class="panel-title">
+				<a data-target="#instruction" data-toggle="collapse" >Task 1</a>
+			</h3>
+		</div>
+		<div  class="panel-collapse collapse in" id="instruction">
+			<div class="panel-body" >
+              
+			<p>1.RQ: Does increasing the bitrate or changing the game (independent variables)
+have a significant effect on the video quality (VQ) ratings (dependent variable).
+Please consider only ratings at a resolution of 1080p and a framerate of 60 fps
+(conditions 36 and 50). Use the ratings provided in the gaming video quality dataset.
+
+</p>
+
+			</div>
+		</div>
+
+	</div>
+</section>
+
+<section class="container" >
+	<div class="panel panel-primary">
+		<div class="panel-heading">
+			<h3 class="panel-title">
+				<a data-target="#setup" data-toggle="collapse" >Setup and transfering data format</a>
+			</h3>
+		</div>
+		
+			  
+				<div  class="panel-collapse collapse in" id="process">
+					<div class="panel-body" >
+					  <fieldset><label>  Loading the dataset </label>
+						<p>
+							Simply load the data set into SPSS. Check “Read Variable Names from the First Row of Data”
+						</p>
+						<div style="display: inline-flex;">
+							<img src="imgs/1.JPG" alt="Outlier condition" style="width:auto;height:600px;margin-left: 20px;">
+						</div>
+						
+					</fieldset>
+					</div>
+				</div>
+			  
+			
+		
+
+	</div>
+</section> 
+
+<section class="container" >
+	<div class="panel panel-primary">
+		<div class="panel-heading">
+			<h3 class="panel-title">
+				<a data-target="#process" data-toggle="collapse" >Performing the test</a>
+			</h3>
+		</div>
+		<div  class="panel-collapse collapse in" id="process">
+			<div class="panel-body" >
+			  
+			<fieldset>	
+				<div  class="panel-collapse collapse in" id="process">
+					<div class="panel-body" >
+					  <fieldset><label> Filtering for the given conditions</label>
+						<p>
+							We have to filter the data according to the given conditions which are 50 and 36. 
+Data > select cases. In the cases set the conditions shown. This will filter all the unselected conditions.
+
+ 
+						</p>
+						<div style="display: inline-flex;">
+							<img src="imgs/2.jpg" alt="Outlier condition" style="width:auto;height:600px;margin-left: 20px;">
+                                                        
+                                                      
+						</div>
+						
+						<p>
+								
+						</p>
+</p>
+						
+</p>
+						<div style="display: inline-flex;">
+							<img src="imgs/3.jpg" alt="Outlier condition" style="width:auto;height:400px;margin-left: 20px;">
+                                                        
+                                                      
+						</div>
+						
+						<p>
+								
+						</p>
+						<div style="display: inline-flex;">
+							
+						</div>
+
+
+					</fieldset>
+					</div>
+				</div>
+			</fieldset>
+			
+
+			
+			
+						<div  class="panel-collapse collapse in" id="process">
+					<div class="panel-body" >
+					  <fieldset><label> Recoding for game 1</label>
+						<p>
+							Now we have to compute the variables on the bases of games. We want game variable to be numerical for this purpose.
+Transform > Recode into different variables. Make to a new variable “game_num” according to the conditions defined in the picture. “game_num” will be used to compute variables
+
+
+ 
+						</p>
+						<div style="display: inline-flex;">
+							<img src="imgs/4.JPG" alt="Outlier condition" style="width:auto;height:600px;margin-left: 20px;">
+						</div>
+                                                </p>
+						<div style="display: inline-flex;">
+							<img src="imgs/5.JPG" alt="Outlier condition" style="width:auto;height:300px;margin-left: 20px;">
+						</div>
+                                                </p>
+						<div style="display: inline-flex;">
+							<img src="imgs/6.JPG" alt="Outlier condition" style="width:auto;height:500px;margin-left: 20px;">
+						</div>
+
+                                                </p>
+
+					</fieldset>
+					</div>
+				</div>
+			</fieldset>
+
+                        <div  class="panel-collapse collapse in" id="process">
+					<div class="panel-body" >
+					  <fieldset><label> Computing the variables for ANOVA analysis</label>
+						<p>
+							Now we have to compute the 4 variables having VQ based on bitrate and game, We will have VQ_1_2000 representing the VQ for game1 and bitrate 2000 and so on.   
+
+ 
+						</p>
+						<div style="display: inline-flex;">
+							<img src="imgs/CV1.JPG" alt="Outlier condition" style="width:auto;height:600px;margin-left: 20px;">
+						</div>
+                                                </p>
+						<div style="display: inline-flex;">
+							<img src="imgs/CV2.JPG" alt="Outlier condition" style="width:auto;height:400px;margin-left: 20px;">
+						</div>
+</p>
+						
+					</fieldset>
+					</div>
+ <p>
+
+                        <div  class="panel-collapse collapse in" id="process">
+					<div class="panel-body" >
+					  <fieldset><label> Detecting the outliars in VQ</label>
+						<p>
+							Now that we have the required data, we will now try to find the outliers in VQ variable. As shown in the plot, there are no outliers. 
+Analyze > Descriptive Statistics > Explore… > Add “VQ” to “Dependent List” 
+> Click on “Statistics…” button > In the “Statistics” modal, check the option “Outliers” 
+> Click on “Plots…” button > under the “Descriptive”-section uncheck “Stem-and-leaf” 
+
+ 
+						</p>
+						<div style="display: inline-flex;">
+							<img src="imgs/8.JPG" alt="Outlier condition" style="width:auto;height:600px;margin-left: 20px;">
+						</div>
+                                                </p>
+						<div style="display: inline-flex;">
+							<img src="imgs/VQbox.JPG" alt="Outlier condition" style="width:auto;height:400px;margin-left: 20px;">
+						</div>
+</p>
+						
+					</fieldset>
+					</div>
+ <p>
+							
+
+ 
+					
+
+                        <div  class="panel-collapse collapse in" id="process">
+					<div class="panel-body" >
+					  <fieldset><label> doing normality test on 4 previously computed variables</label>
+						<p>
+							Analyze > Descriptive Statistics > Explore… > Add all 4 computed variables to “Dependent List” 
+
+> Click on “Plots…” button > under "Plots" section, check "Normality plots with tests" and under the “Descriptive”-section uncheck “Stem-and-leaf”. As shown, two of the variables arent normally distributed. (VQ_1_2000 and VQ_6_2000) 
+
+ 
+						</p>
+						<div style="display: inline-flex;">
+							<img src="imgs/8.JPG" alt="Outlier condition" style="width:auto;height:600px;margin-left: 20px;">
+						</div>
+                                                </p>
+						<div style="display: inline-flex;">
+							<img src="imgs/cn1.JPG" alt="Outlier condition" style="width:auto;height:400px;margin-left: 20px;">
+						</div>
+
+<div style="display: inline-flex;">
+							<img src="imgs/cn2.JPG" alt="Outlier condition" style="width:auto;height:400px;margin-left: 20px;">
+						</div>
+
+<div style="display: inline-flex;">
+							<img src="imgs/normb.JPG" alt="Outlier condition" style="width:auto;height:400px;margin-left: 20px;">
+						</div>
+				</div>
+			</fieldset>
+
+<fieldset>	
+				<div  class="panel-collapse collapse in" id="process">
+					<div class="panel-body" >
+					  Corecting the data for normality</label>
+						<p>
+							To make all the variable "normal", we look at the boxplots of the 4 variables we computed earlier. The boxplots of "VQ_1_2000" and "VQ_6_2000" show some extreme outliars. We remove the outliars by limiting the values of "VQ_1_2000" as (VQ_1_2000>=2)&(VQ_1_2000<=3.6) and "VQ_6_2000" as (VQ_6_2000>2.6)&(VQ_6_2000<=3.4), shown below. The limits are determind by turning on the grid lines and scaling on boxplots. The resultant boxplots dont show any significant outliars:    
+ 
+						</p>
+						<div style="display: inline-flex;">
+							<img src="imgs/VQ_1_2000b.jpg" alt="Outlier condition" style="width:auto;height:100px;margin-left: 20px;">
+                                                        
+                                                      
+						</div>
+<div style="display: inline-flex;">
+							<img src="imgs/VQ_1_6000b.jpg" alt="Outlier condition" style="width:auto;height:100px;margin-left: 20px;">
+                                                        
+                                                      
+						</div>
+<div style="display: inline-flex;">
+							<img src="imgs/VQ_6_2000l.jpg" alt="Outlier condition" style="width:auto;height:100px;margin-left: 20px;">
+                                                        
+                                                      
+						</div>
+<div style="display: inline-flex;">
+							<img src="imgs/VQ_6_6000b.jpg" alt="Outlier condition" style="width:auto;height:100px;margin-left: 20px;">
+                                                        
+                                                      
+						</div>
+<div style="display: inline-flex;">
+							<img src="imgs/VQ_1_2000a.jpg" alt="Outlier condition" style="width:auto;height:100px;margin-left: 20px;">
+                                                        
+                                                      
+						</div>
+<div style="display: inline-flex;">
+							<img src="imgs/VQ_1_6000a.jpg" alt="Outlier condition" style="width:auto;height:100px;margin-left: 20px;">
+                                                        
+                                                      
+						</div>
+<div style="display: inline-flex;">
+							<img src="imgs/VQ_6_2000a.jpg" alt="Outlier condition" style="width:auto;height:100px;margin-left: 20px;">
+                                                        
+                                                      
+						</div>
+<div style="display: inline-flex;">
+							<img src="imgs/VQ_6_6000a.jpg" alt="Outlier condition" style="width:auto;height:100px;margin-left: 20px;">
+                                                        
+                                                      
+						</div>
+						
+                                                        
+               
+
+
+					</fieldset>
+
+<fieldset>	
+				<div  class="panel-collapse collapse in" id="process">
+					<div class="panel-body" >
+					  Checking the normality of the 4 variables again</label>
+						<p>
+							As shown below, all 4 variables now conform to the conditions of normality: 
+ 
+						</p>
+						<div style="display: inline-flex;">
+							<img src="imgs/norma.jpg" alt="Outlier condition" style="width:auto;height:100px;margin-left: 20px;">
+                                                        
+                                                      
+						</div>
+
+</fieldset>
+
+<fieldset>	
+				<div  class="panel-collapse collapse in" id="process">
+					<div class="panel-body" >
+					  Doing the two-way repeated ANOVA test</label>
+						<p>
+							since we have two input variables (bitrate and game) and the experiment was repeated with the same participants. Hence, we do two-way repeated ANOVA.
+ Analyse > General Linear Models > Repeated Measures. Add "Game_numf" and "Bit_rate" with 2 levels as factors. Map these factors with 2 levels on 4 computed variables (that is "VQ_1_2000" and so on...). Click on Estimated Maeginal Means and add "Game_numf" "bit_rate" and "Game_numf*bit_rate" to "display means for". Finally, in the option menu, check "descriptive statistics" and "Estimate of effect size" 
+						</p>
+						<div style="display: inline-flex;">
+							<img src="imgs/da1.jpg" alt="Outlier condition" style="width:auto;height:100px;margin-left: 20px;">
+                                                        
+                                                      
+						</div>
+
+<div style="display: inline-flex;">
+							<img src="imgs/da2.jpg" alt="Outlier condition" style="width:auto;height:100px;margin-left: 20px;">
+                                                        
+                                                      
+						</div>
+<div style="display: inline-flex;">
+							<img src="imgs/da3.jpg" alt="Outlier condition" style="width:auto;height:100px;margin-left: 20px;">
+                                                        
+                                                      
+						</div>
+<div style="display: inline-flex;">
+							<img src="imgs/da4.jpg" alt="Outlier condition" style="width:auto;height:100px;margin-left: 20px;">
+                                                        
+                                                      
+						</div>
+<div style="display: inline-flex;">
+							<img src="imgs/da5.jpg" alt="Outlier condition" style="width:auto;height:100px;margin-left: 20px;">
+                                                        
+                                                      
+						</div>
+<div style="display: inline-flex;">
+							<img src="imgs/da6.jpg" alt="Outlier condition" style="width:auto;height:100px;margin-left: 20px;">
+                                                        
+                                                      
+						</div>
+
+
+
+
+					
+
+
+
+
+
+
+					</fieldset>
+					</div>
+				</div>
+			</fieldset>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+                
+
+			
+
+
+
+			</div>
+		</div>
+
+	</div>
+</section> 
+
+<section class="container" >
+	<div class="panel panel-primary">
+		<div class="panel-heading">
+			<h3 class="panel-title">
+				<a data-target="#instruction" data-toggle="collapse" >Output</a>
+			</h3>
+		</div>
+		<div  class="panel-collapse collapse in" id="instruction">
+			<div class="panel-body" >
+				<img src="imgs/sphere.jpg" alt="Outlier condition" style="width:auto;height:400px;margin-left: 20px;">
+</div>
+<div class="panel-body" >
+				<img src="imgs/12.jpg" alt="Outlier condition" style="width:auto;height:400px;margin-left: 20px;">
+</div>
+<div class="panel-body" >
+				<img src="imgs/means.jpg" alt="Outlier condition" style="width:auto;height:400px;margin-left: 20px;">
+</div>
+
+
+</div>
+<p> As there is no signicance on sphericity test, hence we check the "Within-Subjects Effects" table</p>
+
+<p> as shown, there is no interation effect and no effect of game on the Video quality. But, bitrate has large effect. F(1,13)=127.806, p<0.001,eta square= 0.908. The complete output is contained in the "within_subject.pdf" </p>
+
+<p> nothing can be said about the signicance of means since there is no pairwise comparison table generated.  </p>
+
+						
+
+
+
+
+			</div>
+		</div>
+
+	</div>
+</section>
+
+</body>
+</html>
