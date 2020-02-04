@@ -1,0 +1,206 @@
+
+<!DOCTYPE html
+  PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+<html><head>
+      <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+   <!--
+This HTML was auto-generated from MATLAB code.
+To make changes, update the MATLAB code and republish this document.
+      --><title>task_01</title><meta name="generator" content="MATLAB 9.7"><link rel="schema.DC" href="http://purl.org/dc/elements/1.1/"><meta name="DC.date" content="2020-02-04"><meta name="DC.source" content="task_01.m"><style type="text/css">
+html,body,div,span,applet,object,iframe,h1,h2,h3,h4,h5,h6,p,blockquote,pre,a,abbr,acronym,address,big,cite,code,del,dfn,em,font,img,ins,kbd,q,s,samp,small,strike,strong,sub,sup,tt,var,b,u,i,center,dl,dt,dd,ol,ul,li,fieldset,form,label,legend,table,caption,tbody,tfoot,thead,tr,th,td{margin:0;padding:0;border:0;outline:0;font-size:100%;vertical-align:baseline;background:transparent}body{line-height:1}ol,ul{list-style:none}blockquote,q{quotes:none}blockquote:before,blockquote:after,q:before,q:after{content:'';content:none}:focus{outine:0}ins{text-decoration:none}del{text-decoration:line-through}table{border-collapse:collapse;border-spacing:0}
+
+html { min-height:100%; margin-bottom:1px; }
+html body { height:100%; margin:0px; font-family:Arial, Helvetica, sans-serif; font-size:10px; color:#000; line-height:140%; background:#fff none; overflow-y:scroll; }
+html body td { vertical-align:top; text-align:left; }
+
+h1 { padding:0px; margin:0px 0px 25px; font-family:Arial, Helvetica, sans-serif; font-size:1.5em; color:#d55000; line-height:100%; font-weight:normal; }
+h2 { padding:0px; margin:0px 0px 8px; font-family:Arial, Helvetica, sans-serif; font-size:1.2em; color:#000; font-weight:bold; line-height:140%; border-bottom:1px solid #d6d4d4; display:block; }
+h3 { padding:0px; margin:0px 0px 5px; font-family:Arial, Helvetica, sans-serif; font-size:1.1em; color:#000; font-weight:bold; line-height:140%; }
+
+a { color:#005fce; text-decoration:none; }
+a:hover { color:#005fce; text-decoration:underline; }
+a:visited { color:#004aa0; text-decoration:none; }
+
+p { padding:0px; margin:0px 0px 20px; }
+img { padding:0px; margin:0px 0px 20px; border:none; }
+p img, pre img, tt img, li img, h1 img, h2 img { margin-bottom:0px; } 
+
+ul { padding:0px; margin:0px 0px 20px 23px; list-style:square; }
+ul li { padding:0px; margin:0px 0px 7px 0px; }
+ul li ul { padding:5px 0px 0px; margin:0px 0px 7px 23px; }
+ul li ol li { list-style:decimal; }
+ol { padding:0px; margin:0px 0px 20px 0px; list-style:decimal; }
+ol li { padding:0px; margin:0px 0px 7px 23px; list-style-type:decimal; }
+ol li ol { padding:5px 0px 0px; margin:0px 0px 7px 0px; }
+ol li ol li { list-style-type:lower-alpha; }
+ol li ul { padding-top:7px; }
+ol li ul li { list-style:square; }
+
+.content { font-size:1.2em; line-height:140%; padding: 20px; }
+
+pre, code { font-size:12px; }
+tt { font-size: 1.2em; }
+pre { margin:0px 0px 20px; }
+pre.codeinput { padding:10px; border:1px solid #d3d3d3; background:#f7f7f7; }
+pre.codeoutput { padding:10px 11px; margin:0px 0px 20px; color:#4c4c4c; }
+pre.error { color:red; }
+
+@media print { pre.codeinput, pre.codeoutput { word-wrap:break-word; width:100%; } }
+
+span.keyword { color:#0000FF }
+span.comment { color:#228B22 }
+span.string { color:#A020F0 }
+span.untermstring { color:#B20000 }
+span.syscmd { color:#B28C00 }
+
+.footer { width:auto; padding:10px 0px; margin:25px 0px 0px; border-top:1px dotted #878787; font-size:0.8em; line-height:140%; font-style:italic; color:#878787; text-align:left; float:none; }
+.footer p { margin:0px; }
+.footer a { color:#878787; }
+.footer a:hover { color:#878787; text-decoration:underline; }
+.footer a:visited { color:#878787; }
+
+table th { padding:7px 5px; text-align:left; vertical-align:middle; border: 1px solid #d6d4d4; font-weight:bold; }
+table td { padding:7px 5px; text-align:left; vertical-align:top; border:1px solid #d6d4d4; }
+
+
+
+
+
+  </style></head><body><div class="content"><h2>Contents</h2><div><ul><li><a href="#1">Before we start</a></li><li><a href="#2">Get Data</a></li><li><a href="#3">Anova requirements:</a></li><li><a href="#4">Anova type:</a></li><li><a href="#5">Data transformation:</a></li><li><a href="#6">Anova</a></li><li><a href="#8">Post-hoc Test</a></li></ul></div><h2 id="1">Before we start</h2><p>According to the lecutre, we don't have to check for normal distribution, homogenety of variances, observation independence and outliers.</p><pre class="codeinput">w = warning (<span class="string">'off'</span>,<span class="string">'all'</span>);
+</pre><h2 id="2">Get Data</h2><pre class="codeinput"><span class="comment">%Extracting the relevant columns and converting it to matrix.</span>
+
+T = readtable(<span class="string">'../../gaming_video_quality_dataset.xlsx'</span>);
+t_filtered = T(T.Condition== 36 | T.Condition == 50,:);
+</pre><h2 id="3">Anova requirements:</h2><p>1. Depended variables interval or ratio scale: Video quality is on a scale from 1-5</p><p>2. Independent variables with two or more groups: the given conditions (36 and 50) for game contains 'Game1' &amp; 'Game6' and for Bitrate the values 2000 and 6000</p><p>3. Independence of observation: see above</p><p>4. No significant outliers: see above</p><p>5. Normal distributed population for every single group: see above</p><p>6. Homogeneity of variances: see above</p><h2 id="4">Anova type:</h2><p>We have given 2 independent variables, so therefore 2 factors. And because we have multiple participants for the factors game and bitrate and therefor multiple values, so it is a repeated measure. The amount of ratings differes, becaus the participants with PID=23-25 only rated for game one. This means our anova is unbalanced.</p><p>=&gt; Conduct two-way unbalanced repeated measure anova</p><h2 id="5">Data transformation:</h2><p>Data transformation for, so it can be used in the anova2 function. Unfortunately there is no function in matlab, which allows a two-way unbalanced repeated measure anova. It's either n-way balanced repeated/unrepeated or n-way unbalanced unrepeated. So we have to delete those rows from PID = 23-25.</p><pre class="codeinput">t_filtered = t_filtered(t_filtered.PID ~= 23 &amp; t_filtered.PID ~= 24 &amp; t_filtered.PID ~= 25,:);
+bitrates = unique(t_filtered.Bitrate);
+games = unique(t_filtered.Game);
+bitrate_vq_entries =[];
+<span class="keyword">for</span> i=1:length(bitrates)
+    entry.bitrate = bitrates(i);
+    entry.vqs = [];
+     <span class="keyword">for</span> y=1:length(games)
+         entry.vqs = [entry.vqs, t_filtered(t_filtered.Game == games(y)+<span class="string">""</span> &amp; t_filtered.Bitrate == bitrates(i),:).VQ'];
+     <span class="keyword">end</span>
+     bitrate_vq_entries = [bitrate_vq_entries, entry];
+<span class="keyword">end</span>
+y = [];
+<span class="keyword">for</span> i=1:length(bitrate_vq_entries)
+    y = [y bitrate_vq_entries(i).vqs'];
+<span class="keyword">end</span>
+repetitions = size(unique(t_filtered.PID));
+</pre><h2 id="6">Anova</h2><p>Calculate anova2 function</p><pre class="codeinput">[p,tbl,stats] = anova2(y,repetitions(:,1));
+</pre><img vspace="5" hspace="5" src="task_01_01.png" alt=""> <p>A p value less 0.05 would be a strong evidence that at l east one mean video quality from one of the games/bitrates differs from one another. Or in other words: changing the game/ increasing the bitrate (independent variables) have a significant effect on the video quality.</p><pre class="codeinput">disp(p)
+<span class="keyword">if</span>(any(p &lt; 0.05))
+    fprintf(<span class="string">"At least one mean video quality from one of the games/bitrate differs significanlty from one another. P-value is: %d\n . Changing the game or bitrate(independent variables) have a significant effect on the video quality."</span> , p(p &lt; 0.05))
+<span class="keyword">else</span>
+    fprintf(<span class="string">"No mean video quality from one of the games/bitrates differs significantly from one another. P-value is: %d\n . Changing the game or bitrate(independent variables) have a no significant effect on the video quality."</span> , p(p &gt;= 0.05))
+<span class="keyword">end</span>
+</pre><pre class="codeoutput">    0.0000    0.9486    0.7867
+
+At least one mean video quality from one of the games/bitrate differs significanlty from one another. P-value is: 2.653566e-10
+ . Changing the game or bitrate(independent variables) have a significant effect on the video quality.</pre><h2 id="8">Post-hoc Test</h2><p>Because we have done a balanced anova we could use REGWQ or Tukey. But 'Bonferroni' is also possible.</p><p>Each group mean is represented by a symbol, and the interval is represented by a line extending out from the symbol. Two group means are significantly different if their intervals are disjoint; they are not significantly different if their intervals overlap.</p><p>For columns (here bitrate):</p><pre class="codeinput">[c,m,h,nms] = multcompare(stats,<span class="string">'CType'</span>,<span class="string">'bonferroni'</span>);
+</pre><pre class="codeoutput">Note: Your model includes an interaction term.  A test of main effects can be 
+difficult to interpret when the model includes interactions.
+</pre><img vspace="5" hspace="5" src="task_01_02.png" alt=""> <img vspace="5" hspace="5" src="second_other.png" alt=""><p>Significant differences between the bitrates =&gt; Changing the Bitrate increases the video quality.</p><p>For rows (here game):</p><pre class="codeinput">[c_2,m_2,h_2,nms_2] = multcompare(stats,<span class="string">'Estimate'</span>,<span class="string">'row'</span>,<span class="string">'CType'</span>,<span class="string">'bonferroni'</span>);
+</pre><pre class="codeoutput">Note: Your model includes an interaction term.  A test of main effects can be 
+difficult to interpret when the model includes interactions.
+</pre><img vspace="5" hspace="5" src="task_01_03.png" alt=""> <img vspace="5" hspace="5" src="second.png" alt=""><p>No Significant differences between the games =&gt; Changing the games does not increases the video quality.</p><p class="footer"><br><a href="https://www.mathworks.com/products/matlab/">Published with MATLAB&reg; R2019b</a><br></p></div><!--
+##### SOURCE BEGIN #####
+%% Before we start
+% According to the lecutre, we don't have to check for normal distribution,
+% homogenety of variances, observation independence and outliers.
+w = warning ('off','all');
+
+
+%% Get Data
+%Extracting the relevant columns and converting it to matrix.
+
+T = readtable('../../gaming_video_quality_dataset.xlsx');
+t_filtered = T(T.Condition== 36 | T.Condition == 50,:);
+
+%% Anova requirements:
+% 1. Depended variables interval or ratio scale: Video quality is on a
+% scale from 1-5
+%
+% 2. Independent variables with two or more groups: the given conditions
+% (36 and 50) for game contains 'Game1' & 'Game6' and for Bitrate the
+% values 2000 and 6000
+%
+% 3. Independence of observation: see above
+%
+% 4. No significant outliers: see above
+%
+% 5. Normal distributed population for every single group: see above
+%
+% 6. Homogeneity of variances: see above
+%
+
+%% Anova type:
+% We have given 2 independent variables, so therefore 2 factors. And
+% because we have multiple participants for the factors
+% game and bitrate and therefor multiple values, so it is a repeated measure.
+% The amount of ratings differes, becaus the participants with PID=23-25
+% only rated for game one. This means our anova is unbalanced.
+%
+% => Conduct two-way unbalanced repeated measure anova
+%% Data transformation:
+% Data transformation for, so it can be used in the anova2 function.
+% Unfortunately there is no function in matlab, which allows a 
+% two-way unbalanced repeated measure anova. It's either n-way
+% balanced repeated/unrepeated or n-way unbalanced unrepeated. So we have
+% to delete those rows from PID = 23-25.
+t_filtered = t_filtered(t_filtered.PID ~= 23 & t_filtered.PID ~= 24 & t_filtered.PID ~= 25,:);
+bitrates = unique(t_filtered.Bitrate);
+games = unique(t_filtered.Game);
+bitrate_vq_entries =[];
+for i=1:length(bitrates)
+    entry.bitrate = bitrates(i);
+    entry.vqs = [];
+     for y=1:length(games)
+         entry.vqs = [entry.vqs, t_filtered(t_filtered.Game == games(y)+"" & t_filtered.Bitrate == bitrates(i),:).VQ'];
+     end
+     bitrate_vq_entries = [bitrate_vq_entries, entry];  
+end
+y = [];
+for i=1:length(bitrate_vq_entries)
+    y = [y bitrate_vq_entries(i).vqs'];
+end
+repetitions = size(unique(t_filtered.PID));
+%% Anova
+% Calculate anova2 function
+[p,tbl,stats] = anova2(y,repetitions(:,1));
+%% 
+% A p value less 0.05 would be a strong evidence that at l east one mean video
+% quality from one of the games/bitrates differs from one another. Or in other words:
+% changing the game/ increasing the bitrate (independent variables) have a significant effect on the video quality.
+%
+
+disp(p)
+if(any(p < 0.05))
+    fprintf("At least one mean video quality from one of the games/bitrate differs significanlty from one another. P-value is: %d\n . Changing the game or bitrate(independent variables) have a significant effect on the video quality." , p(p < 0.05))
+else
+    fprintf("No mean video quality from one of the games/bitrates differs significantly from one another. P-value is: %d\n . Changing the game or bitrate(independent variables) have a no significant effect on the video quality." , p(p >= 0.05))
+end
+
+%% Post-hoc Test
+% Because we have done a balanced anova we could use REGWQ or Tukey. But
+% 'Bonferroni' is also possible.
+%
+% Each group mean is represented by a symbol, and the interval is represented 
+% by a line extending out from the symbol. Two group means are 
+% significantly different if their intervals are disjoint; 
+% they are not significantly different if their intervals overlap.
+%
+% For columns (here bitrate):
+[c,m,h,nms] = multcompare(stats,'CType','bonferroni');
+%% 
+% Significant differences between the bitrates => Changing the Bitrate
+% increases the video quality.
+%% 
+% For rows (here game):
+[c_2,m_2,h_2,nms_2] = multcompare(stats,'Estimate','row','CType','bonferroni');
+%%
+% No Significant differences between the games => Changing the games does
+% not increases the video quality.
+##### SOURCE END #####
+--></body></html>
