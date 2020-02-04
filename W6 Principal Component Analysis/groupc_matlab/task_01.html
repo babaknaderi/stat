@@ -1,0 +1,200 @@
+
+<!DOCTYPE html
+  PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+<html><head>
+      <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+   <!--
+This HTML was auto-generated from MATLAB code.
+To make changes, update the MATLAB code and republish this document.
+      --><title>task_01</title><meta name="generator" content="MATLAB 9.4"><link rel="schema.DC" href="http://purl.org/dc/elements/1.1/"><meta name="DC.date" content="2020-01-14"><meta name="DC.source" content="task_01.m"><style type="text/css">
+html,body,div,span,applet,object,iframe,h1,h2,h3,h4,h5,h6,p,blockquote,pre,a,abbr,acronym,address,big,cite,code,del,dfn,em,font,img,ins,kbd,q,s,samp,small,strike,strong,sub,sup,tt,var,b,u,i,center,dl,dt,dd,ol,ul,li,fieldset,form,label,legend,table,caption,tbody,tfoot,thead,tr,th,td{margin:0;padding:0;border:0;outline:0;font-size:100%;vertical-align:baseline;background:transparent}body{line-height:1}ol,ul{list-style:none}blockquote,q{quotes:none}blockquote:before,blockquote:after,q:before,q:after{content:'';content:none}:focus{outine:0}ins{text-decoration:none}del{text-decoration:line-through}table{border-collapse:collapse;border-spacing:0}
+
+html { min-height:100%; margin-bottom:1px; }
+html body { height:100%; margin:0px; font-family:Arial, Helvetica, sans-serif; font-size:10px; color:#000; line-height:140%; background:#fff none; overflow-y:scroll; }
+html body td { vertical-align:top; text-align:left; }
+
+h1 { padding:0px; margin:0px 0px 25px; font-family:Arial, Helvetica, sans-serif; font-size:1.5em; color:#d55000; line-height:100%; font-weight:normal; }
+h2 { padding:0px; margin:0px 0px 8px; font-family:Arial, Helvetica, sans-serif; font-size:1.2em; color:#000; font-weight:bold; line-height:140%; border-bottom:1px solid #d6d4d4; display:block; }
+h3 { padding:0px; margin:0px 0px 5px; font-family:Arial, Helvetica, sans-serif; font-size:1.1em; color:#000; font-weight:bold; line-height:140%; }
+
+a { color:#005fce; text-decoration:none; }
+a:hover { color:#005fce; text-decoration:underline; }
+a:visited { color:#004aa0; text-decoration:none; }
+
+p { padding:0px; margin:0px 0px 20px; }
+img { padding:0px; margin:0px 0px 20px; border:none; }
+p img, pre img, tt img, li img, h1 img, h2 img { margin-bottom:0px; } 
+
+ul { padding:0px; margin:0px 0px 20px 23px; list-style:square; }
+ul li { padding:0px; margin:0px 0px 7px 0px; }
+ul li ul { padding:5px 0px 0px; margin:0px 0px 7px 23px; }
+ul li ol li { list-style:decimal; }
+ol { padding:0px; margin:0px 0px 20px 0px; list-style:decimal; }
+ol li { padding:0px; margin:0px 0px 7px 23px; list-style-type:decimal; }
+ol li ol { padding:5px 0px 0px; margin:0px 0px 7px 0px; }
+ol li ol li { list-style-type:lower-alpha; }
+ol li ul { padding-top:7px; }
+ol li ul li { list-style:square; }
+
+.content { font-size:1.2em; line-height:140%; padding: 20px; }
+
+pre, code { font-size:12px; }
+tt { font-size: 1.2em; }
+pre { margin:0px 0px 20px; }
+pre.codeinput { padding:10px; border:1px solid #d3d3d3; background:#f7f7f7; }
+pre.codeoutput { padding:10px 11px; margin:0px 0px 20px; color:#4c4c4c; }
+pre.error { color:red; }
+
+@media print { pre.codeinput, pre.codeoutput { word-wrap:break-word; width:100%; } }
+
+span.keyword { color:#0000FF }
+span.comment { color:#228B22 }
+span.string { color:#A020F0 }
+span.untermstring { color:#B20000 }
+span.syscmd { color:#B28C00 }
+
+.footer { width:auto; padding:10px 0px; margin:25px 0px 0px; border-top:1px dotted #878787; font-size:0.8em; line-height:140%; font-style:italic; color:#878787; text-align:left; float:none; }
+.footer p { margin:0px; }
+.footer a { color:#878787; }
+.footer a:hover { color:#878787; text-decoration:underline; }
+.footer a:visited { color:#878787; }
+
+table th { padding:7px 5px; text-align:left; vertical-align:middle; border: 1px solid #d6d4d4; font-weight:bold; }
+table td { padding:7px 5px; text-align:left; vertical-align:top; border:1px solid #d6d4d4; }
+
+
+
+
+
+  </style></head><body><div class="content"><h2>Contents</h2><div><ul><li><a href="#1">Get Data</a></li><li><a href="#2">KMO - Test</a></li><li><a href="#3">PCA - Eigenvalues</a></li><li><a href="#4">Point of Inflexion</a></li><li><a href="#5">PCA - Calculation</a></li><li><a href="#6">PCA - Explaination</a></li><li><a href="#7">PCA - Plot</a></li><li><a href="#8">Cronbach Alpha</a></li></ul></div><h2 id="1">Get Data</h2><p>First we must extract all relevant rows from the dataset (where testStimulus = "haus_m_700_normAsl_-26")</p><pre class="codeinput">w = warning (<span class="string">'off'</span>,<span class="string">'all'</span>);
+T = readtable(<span class="string">"..\..\likeability_dimension_ratings.csv"</span>);
+
+T.herzlich = str2double(T.herzlich);
+T.herzlich(isnan(T.herzlich)) = round(nanmean(T.herzlich));
+<span class="comment">%0T = removevars(T, {'herzlich'});</span>
+
+t_male = T(T.speaker_gender == <span class="string">"male"</span>,:);
+t_female = T(T.speaker_gender == <span class="string">"female"</span>,:);
+
+<span class="comment">%to get charcteristica</span>
+t_male_char= t_male(:,10:end);
+t_female_char = t_female(:,10:end);
+</pre><h2 id="2">KMO - Test</h2><pre class="codeinput">kmo(t_male_char{:,:})
+kmo(t_female_char{:,:})
+</pre><pre class="codeoutput"> 
+Kaiser-Meyer-Olkin Measure of Sampling Adequacy: 0.9208
+The KMO test yields a degree of common variance marvelous.
+ 
+Kaiser-Meyer-Olkin Measure of Sampling Adequacy: 0.9321
+The KMO test yields a degree of common variance marvelous.
+</pre><h2 id="3">PCA - Eigenvalues</h2><p>calculate Eigenvalues for all principal components using pca - function</p><pre class="codeinput">subplot(2,1,1);
+[c,s,male_latent]= pca(table2array(t_male_char));
+plot(1:size(male_latent),male_latent, <span class="string">'-o'</span>)
+xlabel(<span class="string">'Component Number'</span>);
+ylabel(<span class="string">'Eigenvalue'</span>);
+[cc,ss,female_latent] = pca(table2array(t_female_char));
+subplot(2,1,2);
+plot(1:size(female_latent),female_latent, <span class="string">'-o'</span>)
+xlabel(<span class="string">'Component Number'</span>);
+ylabel(<span class="string">'Eigenvalue'</span>);
+</pre><img vspace="5" hspace="5" src="task_01_01.png" alt=""> <h2 id="4">Point of Inflexion</h2><p>based on the plot:</p><pre class="codeinput">male_components_amount = 4;
+female_components_amount = 4;
+</pre><h2 id="5">PCA - Calculation</h2><p>now PCA again with reduced amount of component numbers</p><pre class="codeinput">[male_coeff,male_score,male_latent,male_tsquared,male_explained] = pca(table2array(t_male_char));
+[female_coeff,female_score,femal_latent,female_tsquared,female_explained] = pca(table2array(t_female_char));
+</pre><h2 id="6">PCA - Explaination</h2><p>Percentage of the total variance explained by each principal component</p><pre class="codeinput">subplot(2,1,1);
+plot(1:size(male_explained),male_explained, <span class="string">'-o'</span>)
+xlabel(<span class="string">'Component Number'</span>);
+ylabel(<span class="string">'Percentage of the total variance'</span>);
+subplot(2,1,2);
+plot(1:size(female_explained),female_explained, <span class="string">'-o'</span>)
+xlabel(<span class="string">'Component Number'</span>);
+ylabel(<span class="string">'Percentage of the total variance'</span>);
+</pre><img vspace="5" hspace="5" src="task_01_02.png" alt=""> <h2 id="7">PCA - Plot</h2><pre class="codeinput">subplot(2,1,1);
+biplot(male_coeff(:,1:2),<span class="string">'score'</span>,male_score(:,1:2))
+subplot(2,1,2);
+biplot(female_coeff(:,1:2),<span class="string">'score'</span>,female_score(:,1:2))
+</pre><img vspace="5" hspace="5" src="task_01_03.png" alt=""> <h2 id="8">Cronbach Alpha</h2><p>used function from File Exchange: https://de.mathworks.com/matlabcentral/fileexchange/38320-cronbach-s-alpha?focused=5248118&amp;tab=function</p><pre class="codeinput">disp(<span class="string">"male old: "</span> + CronbachAlpha(t_male_char{:,:}))
+disp(<span class="string">"male new: "</span> + CronbachAlpha(male_score))
+disp(<span class="string">"female old: "</span> + CronbachAlpha(t_female_char{:,:}))
+disp(<span class="string">"female new: "</span> + CronbachAlpha(female_score))
+</pre><pre class="codeoutput">male old: 0.059755
+male new: 2.8953e-16
+female old: -0.10019
+female new: 4.4759e-17
+</pre><p class="footer"><br><a href="https://www.mathworks.com/products/matlab/">Published with MATLAB&reg; R2018a</a><br></p></div><!--
+##### SOURCE BEGIN #####
+%% Get Data
+% First we must extract all relevant rows from the dataset (where testStimulus = "haus_m_700_normAsl_-26")
+w = warning ('off','all');
+T = readtable("..\..\likeability_dimension_ratings.csv");
+
+T.herzlich = str2double(T.herzlich);
+T.herzlich(isnan(T.herzlich)) = round(nanmean(T.herzlich));
+%0T = removevars(T, {'herzlich'});
+
+t_male = T(T.speaker_gender == "male",:);
+t_female = T(T.speaker_gender == "female",:);
+
+%to get charcteristica
+t_male_char= t_male(:,10:end);
+t_female_char = t_female(:,10:end);
+
+
+%% KMO - Test
+kmo(t_male_char{:,:})
+kmo(t_female_char{:,:})
+
+
+%% PCA - Eigenvalues
+% calculate Eigenvalues for all principal components using pca - function
+subplot(2,1,1);
+[c,s,male_latent]= pca(table2array(t_male_char));
+plot(1:size(male_latent),male_latent, '-o')
+xlabel('Component Number');
+ylabel('Eigenvalue');
+[cc,ss,female_latent] = pca(table2array(t_female_char));
+subplot(2,1,2);
+plot(1:size(female_latent),female_latent, '-o')
+xlabel('Component Number');
+ylabel('Eigenvalue');
+
+%% Point of Inflexion
+% based on the plot:
+male_components_amount = 4;
+female_components_amount = 4;
+
+%% PCA - Calculation
+% now PCA again with reduced amount of component numbers
+[male_coeff,male_score,male_latent,male_tsquared,male_explained] = pca(table2array(t_male_char));
+[female_coeff,female_score,femal_latent,female_tsquared,female_explained] = pca(table2array(t_female_char));
+
+%% PCA - Explaination
+% Percentage of the total variance explained by each principal component
+
+subplot(2,1,1);
+plot(1:size(male_explained),male_explained, '-o')
+xlabel('Component Number');
+ylabel('Percentage of the total variance');
+subplot(2,1,2);
+plot(1:size(female_explained),female_explained, '-o')
+xlabel('Component Number');
+ylabel('Percentage of the total variance');
+
+
+%% PCA - Plot
+subplot(2,1,1);
+biplot(male_coeff(:,1:2),'score',male_score(:,1:2))
+subplot(2,1,2);
+biplot(female_coeff(:,1:2),'score',female_score(:,1:2))
+
+%% Cronbach Alpha
+% used function from File Exchange: 
+% https://de.mathworks.com/matlabcentral/fileexchange/38320-cronbach-s-alpha?focused=5248118&tab=function
+
+disp("male old: " + CronbachAlpha(t_male_char{:,:}))
+disp("male new: " + CronbachAlpha(male_score))
+disp("female old: " + CronbachAlpha(t_female_char{:,:}))
+disp("female new: " + CronbachAlpha(female_score))
+
+##### SOURCE END #####
+--></body></html>
