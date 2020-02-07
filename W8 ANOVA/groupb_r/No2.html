@@ -13097,7 +13097,7 @@ div#notebook {
 <span class="c1"># install.packages(&#39;gdata&#39;)      # file reading</span>
 <span class="c1"># install.packages(&#39;car&#39;)        # homogenity of variances</span>
 <span class="c1"># install.packages(&#39;rstatix&#39;)    # ANOVA</span>
-<span class="c1"># install.packages(&#39;ez&#39;)         # ANOVA table</span>
+<span class="c1"># install.packages(&#39;lsr&#39;)        # effect size</span>
 </pre></div>
 
     </div>
@@ -13114,7 +13114,7 @@ div#notebook {
 <span class="nf">library</span><span class="p">(</span><span class="n">readxl</span><span class="p">)</span>    <span class="c1"># reading in data</span>
 <span class="nf">library</span><span class="p">(</span><span class="n">car</span><span class="p">)</span>       <span class="c1"># homogenity of variances</span>
 <span class="nf">library</span><span class="p">(</span><span class="n">rstatix</span><span class="p">)</span>   <span class="c1"># ANOVA</span>
-<span class="nf">library</span><span class="p">(</span><span class="n">ez</span><span class="p">)</span>        <span class="c1"># ANOVA table</span>
+<span class="nf">library</span><span class="p">(</span><span class="n">lsr</span><span class="p">)</span>       <span class="c1"># effect size</span>
 </pre></div>
 
     </div>
@@ -13209,7 +13209,7 @@ div#notebook {
 <div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
 </div><div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
-<h4 id="1.-Dependent-variables-on-interval-or-ratio-scale-=&gt;-check,-because-rating-is-discrete-&amp;-on-interval-scale">1. Dependent variables on interval or ratio scale =&gt; check, because rating is discrete &amp; on interval scale<a class="anchor-link" href="#1.-Dependent-variables-on-interval-or-ratio-scale-=&gt;-check,-because-rating-is-discrete-&amp;-on-interval-scale">&#182;</a></h4><h4 id="2.-Independent-variables-with-two-or-more-groups-=&gt;-check,-because-testStimulus-has-multiple-different-values-(6-in-total)">2. Independent variables with two or more groups =&gt; check, because testStimulus has multiple different values (6 in total)<a class="anchor-link" href="#2.-Independent-variables-with-two-or-more-groups-=&gt;-check,-because-testStimulus-has-multiple-different-values-(6-in-total)">&#182;</a></h4><h4 id="3.-Indepenence-of-observation-=&gt;-check,-because-observations-come-from-different-people-or-different-conditions,-i.e.-stimuli,-therefore-independence-can-be-assumed">3. Indepenence of observation =&gt; check, because observations come from different people or different conditions, i.e. stimuli, therefore independence can be assumed<a class="anchor-link" href="#3.-Indepenence-of-observation-=&gt;-check,-because-observations-come-from-different-people-or-different-conditions,-i.e.-stimuli,-therefore-independence-can-be-assumed">&#182;</a></h4><h4 id="4.-No-significant-outliers-=&gt;-don't-know,-need-to-check-that-in-the-next-step!">4. No significant outliers =&gt; don't know, need to check that in the next step!<a class="anchor-link" href="#4.-No-significant-outliers-=&gt;-don't-know,-need-to-check-that-in-the-next-step!">&#182;</a></h4><h4 id="5.-Normally-distributed-population-for-every-single-group-=&gt;-don't-know,-need-to-check-that-in-the-next-step!">5. Normally distributed population for every single group =&gt; don't know, need to check that in the next step!<a class="anchor-link" href="#5.-Normally-distributed-population-for-every-single-group-=&gt;-don't-know,-need-to-check-that-in-the-next-step!">&#182;</a></h4><h4 id="6.-Homogenity-of-variances-=&gt;-don't-know,-need-to-check-that-in-the-next-step!">6. Homogenity of variances =&gt; don't know, need to check that in the next step!<a class="anchor-link" href="#6.-Homogenity-of-variances-=&gt;-don't-know,-need-to-check-that-in-the-next-step!">&#182;</a></h4>
+<h4 id="1.-Dependent-variables-on-interval-or-ratio-scale-=&gt;-check,-because-rating-is-discrete-&amp;-on-interval-scale">1. Dependent variables on interval or ratio scale =&gt; check, because rating is discrete &amp; on interval scale<a class="anchor-link" href="#1.-Dependent-variables-on-interval-or-ratio-scale-=&gt;-check,-because-rating-is-discrete-&amp;-on-interval-scale">&#182;</a></h4><h4 id="2.-Independent-variables-with-two-or-more-groups-=&gt;-check,-because-testStimulus-has-multiple-different-values-(6-in-total)">2. Independent variables with two or more groups =&gt; check, because testStimulus has multiple different values (6 in total)<a class="anchor-link" href="#2.-Independent-variables-with-two-or-more-groups-=&gt;-check,-because-testStimulus-has-multiple-different-values-(6-in-total)">&#182;</a></h4><h4 id="3.-Indepenence-of-observation-=&gt;-check,-because-observations-come-from-different-people-in-different-conditions,-i.e.-stimuli,-therefore-independence-can-be-assumed">3. Indepenence of observation =&gt; check, because observations come from different people in different conditions, i.e. stimuli, therefore independence can be assumed<a class="anchor-link" href="#3.-Indepenence-of-observation-=&gt;-check,-because-observations-come-from-different-people-in-different-conditions,-i.e.-stimuli,-therefore-independence-can-be-assumed">&#182;</a></h4><h4 id="4.-No-significant-outliers-=&gt;-don't-know,-need-to-check-that-in-the-next-step!">4. No significant outliers =&gt; don't know, need to check that in the next step!<a class="anchor-link" href="#4.-No-significant-outliers-=&gt;-don't-know,-need-to-check-that-in-the-next-step!">&#182;</a></h4><h4 id="5.-Normally-distributed-population-for-every-single-group-=&gt;-don't-know,-need-to-check-that-in-the-next-step!">5. Normally distributed population for every single group =&gt; don't know, need to check that in the next step!<a class="anchor-link" href="#5.-Normally-distributed-population-for-every-single-group-=&gt;-don't-know,-need-to-check-that-in-the-next-step!">&#182;</a></h4><h4 id="6.-Homogenity-of-variances-=&gt;-don't-know,-need-to-check-that-in-the-next-step!">6. Homogenity of variances =&gt; don't know, need to check that in the next step!<a class="anchor-link" href="#6.-Homogenity-of-variances-=&gt;-don't-know,-need-to-check-that-in-the-next-step!">&#182;</a></h4>
 </div>
 </div>
 </div>
@@ -13342,6 +13342,8 @@ div#notebook {
 
 <div class="output_wrapper">
 <div class="output">
+
+
 
 <div class="output_area">
 
@@ -13504,14 +13506,11 @@ div#notebook {
 <div class="inner_cell">
     <div class="input_area">
 <div class=" highlight hl-r"><pre><span></span><span class="c1"># conduct one-way independent measure ANOVA</span>
-<span class="n">anova_res</span> <span class="o">=</span> <span class="nf">ezANOVA</span><span class="p">(</span>
-    <span class="n">data</span> <span class="o">=</span> <span class="n">quality_data</span><span class="p">,</span> 
-    <span class="n">dv</span> <span class="o">=</span> <span class="n">.(Rating</span><span class="p">),</span> 
-    <span class="n">wid</span> <span class="o">=</span> <span class="n">.(Subject</span><span class="p">),</span> 
-    <span class="n">within</span> <span class="o">=</span> <span class="n">.(Stimulus</span><span class="p">)</span>
-<span class="p">)</span>
+<span class="n">anova_results</span> <span class="o">&lt;-</span> <span class="nf">aov</span><span class="p">(</span><span class="n">Rating</span><span class="o">~</span><span class="n">Stimulus</span><span class="p">,</span> <span class="n">data</span> <span class="o">=</span> <span class="n">quality_data</span><span class="p">)</span>
+<span class="nf">summary</span><span class="p">(</span><span class="n">anova_results</span><span class="p">)</span>
 
-<span class="n">anova_res</span>
+<span class="c1"># compute effect size</span>
+<span class="nf">etaSquared</span><span class="p">(</span><span class="n">anova_results</span><span class="p">,</span> <span class="n">anova</span><span class="o">=</span><span class="kc">TRUE</span><span class="p">)</span>
 </pre></div>
 
     </div>
@@ -13528,33 +13527,31 @@ div#notebook {
 
 
 
+
+<div class="output_text output_subarea ">
+<pre>             Df Sum Sq Mean Sq F value Pr(&gt;F)    
+Stimulus      5  231.8   46.35   66.55 &lt;2e-16 ***
+Residuals   216  150.4    0.70                   
+---
+Signif. codes:  0 &#39;***&#39; 0.001 &#39;**&#39; 0.01 &#39;*&#39; 0.05 &#39;.&#39; 0.1 &#39; &#39; 1</pre>
+</div>
+
+</div>
+
+<div class="output_area">
+
+    <div class="prompt"></div>
+
+
+
 <div class="output_html rendered_html output_subarea ">
-<dl>
-	<dt>$ANOVA</dt>
-		<dd><table>
-<thead><tr><th></th><th scope=col>Effect</th><th scope=col>DFn</th><th scope=col>DFd</th><th scope=col>F</th><th scope=col>p</th><th scope=col>p&lt;.05</th><th scope=col>ges</th></tr></thead>
+<table>
+<thead><tr><th></th><th scope=col>eta.sq</th><th scope=col>eta.sq.part</th><th scope=col>SS</th><th scope=col>df</th><th scope=col>MS</th><th scope=col>F</th><th scope=col>p</th></tr></thead>
 <tbody>
-	<tr><th scope=row>2</th><td>Stimulus    </td><td>5           </td><td>180         </td><td>105.5003    </td><td>1.339507e-51</td><td>*           </td><td>0.6063881   </td></tr>
+	<tr><th scope=row>Stimulus</th><td>0.6063881 </td><td>0.6063881 </td><td>231.7523  </td><td>  5       </td><td>46.3504505</td><td>66.55278  </td><td> 0        </td></tr>
+	<tr><th scope=row>Residuals</th><td>0.3936119 </td><td>       NA </td><td>150.4324  </td><td>216       </td><td> 0.6964464</td><td>      NA  </td><td>NA        </td></tr>
 </tbody>
 </table>
-</dd>
-	<dt>$`Mauchly's Test for Sphericity`</dt>
-		<dd><table>
-<thead><tr><th></th><th scope=col>Effect</th><th scope=col>W</th><th scope=col>p</th><th scope=col>p&lt;.05</th></tr></thead>
-<tbody>
-	<tr><th scope=row>2</th><td>Stimulus  </td><td>0.4784972 </td><td>0.03362589</td><td>*         </td></tr>
-</tbody>
-</table>
-</dd>
-	<dt>$`Sphericity Corrections`</dt>
-		<dd><table>
-<thead><tr><th></th><th scope=col>Effect</th><th scope=col>GGe</th><th scope=col>p[GG]</th><th scope=col>p[GG]&lt;.05</th><th scope=col>HFe</th><th scope=col>p[HF]</th><th scope=col>p[HF]&lt;.05</th></tr></thead>
-<tbody>
-	<tr><th scope=row>2</th><td>Stimulus    </td><td>0.7675274   </td><td>3.394932e-40</td><td>*           </td><td>0.8705365   </td><td>2.993396e-45</td><td>*           </td></tr>
-</tbody>
-</table>
-</dd>
-</dl>
 
 </div>
 
@@ -13567,7 +13564,7 @@ div#notebook {
 <div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
 </div><div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
-<h4 id="Based-on-the-results-of-the-Mauchly's-sphericity-test,-we-need-to-apply-the-Greenhouse-Geisser-correction-on-our-p-value,-however,-this-does-not-make-a-huge-difference-here-as-the-p-value-of-the-stimulus-main-effect-still-remains-at-around-0">Based on the results of the Mauchly's sphericity test, we need to apply the Greenhouse-Geisser correction on our p value, however, this does not make a huge difference here as the p value of the stimulus main effect still remains at around 0<a class="anchor-link" href="#Based-on-the-results-of-the-Mauchly's-sphericity-test,-we-need-to-apply-the-Greenhouse-Geisser-correction-on-our-p-value,-however,-this-does-not-make-a-huge-difference-here-as-the-p-value-of-the-stimulus-main-effect-still-remains-at-around-0">&#182;</a></h4><h4 id="Therefore:-Stimulus-has-significant-effect-on-speech-quality-ratings-with-p-value-of-around-0-(more-on-that-later)!">Therefore: Stimulus has significant effect on speech quality ratings with p value of around 0 (more on that later)!<a class="anchor-link" href="#Therefore:-Stimulus-has-significant-effect-on-speech-quality-ratings-with-p-value-of-around-0-(more-on-that-later)!">&#182;</a></h4>
+<h4 id="Based-on-the-results:-Stimulus-has-significant-effect-on-speech-quality-ratings-with-p-value-of-around-0-(more-on-that-later)!">Based on the results: Stimulus has significant effect on speech quality ratings with p value of around 0 (more on that later)!<a class="anchor-link" href="#Based-on-the-results:-Stimulus-has-significant-effect-on-speech-quality-ratings-with-p-value-of-around-0-(more-on-that-later)!">&#182;</a></h4>
 </div>
 </div>
 </div>
@@ -13584,7 +13581,7 @@ div#notebook {
 <div class="inner_cell">
     <div class="input_area">
 <div class=" highlight hl-r"><pre><span></span><span class="c1"># as equal sample sizes (each n=148) and Tukey most widely used: Tukey [&quot;Cramming Sam&#39;s tips&quot; for post hoc tests (from lecture)]</span>
-<span class="n">post_hoc</span> <span class="o">&lt;-</span> <span class="nf">TukeyHSD</span><span class="p">(</span><span class="nf">aov</span><span class="p">(</span><span class="n">Rating</span> <span class="o">~</span> <span class="n">Stimulus</span><span class="p">,</span> <span class="n">data</span> <span class="o">=</span> <span class="n">quality_data</span><span class="p">))</span>
+<span class="n">post_hoc</span> <span class="o">&lt;-</span> <span class="nf">TukeyHSD</span><span class="p">(</span><span class="n">anova_results</span><span class="p">)</span>
 <span class="n">tibble</span><span class="o">::</span><span class="nf">rownames_to_column</span><span class="p">(</span><span class="nf">as.data.frame</span><span class="p">(</span><span class="n">post_hoc</span><span class="o">$</span><span class="n">Stimulus</span><span class="p">),</span> <span class="s">&#39;Compared Stimuli&#39;</span><span class="p">)</span> <span class="o">%&gt;%</span> <span class="nf">arrange</span><span class="p">(</span><span class="nf">desc</span><span class="p">(</span><span class="n">`p adj`</span><span class="p">))</span>
 </pre></div>
 
@@ -13731,7 +13728,7 @@ maus_m_700_normAsl_-26 (df_{maus_m_700_normAsl_-26} = 36): mean around 4.541, st
 <div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
 </div><div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
-<h4 id="Altering-the-testStimulus-aka-condition-does-have-a-significant-effect-on-the-speech-quality-ratings:">Altering the testStimulus aka condition does have a significant effect on the speech quality ratings:<a class="anchor-link" href="#Altering-the-testStimulus-aka-condition-does-have-a-significant-effect-on-the-speech-quality-ratings:">&#182;</a></h4><h4 id="There-is-a-significant-(alpha-=-0.05)-and-rather-large-main-effect-of-the-testStimulus-on-the-speech-quality-ratings-(F-statistic-value-of-around-105.5,-Greenhouse-Geisser-corrected-p-value-of-around-0-with-eta&#178;-effect-size-of-around-0.6064).">There is a significant (alpha = 0.05) and rather large main effect of the testStimulus on the speech quality ratings (F statistic value of around 105.5, Greenhouse-Geisser corrected p-value of around 0 with eta&#178; effect size of around 0.6064).<a class="anchor-link" href="#There-is-a-significant-(alpha-=-0.05)-and-rather-large-main-effect-of-the-testStimulus-on-the-speech-quality-ratings-(F-statistic-value-of-around-105.5,-Greenhouse-Geisser-corrected-p-value-of-around-0-with-eta&#178;-effect-size-of-around-0.6064).">&#182;</a></h4><h4 id="The-total-degrees-of-freedom-are-the-amount-of-total-observations---1-=&gt;-222---1-=-221-[37-samples-&amp;-36-df-for-each-distinct-testStimulus].">The total degrees of freedom are the amount of total observations - 1 =&gt; 222 - 1 = 221 [37 samples &amp; 36 df for each distinct testStimulus].<a class="anchor-link" href="#The-total-degrees-of-freedom-are-the-amount-of-total-observations---1-=&gt;-222---1-=-221-[37-samples-&amp;-36-df-for-each-distinct-testStimulus].">&#182;</a></h4><h4 id="Regarding-pairwise-comparisons-/-post-hoc-tests-(Tukey's-HSD),-a-statistically-significant-difference-of-ratings-occurs-each-time-we-alter-the-testStimulus,-EXCEPT-for-the-following-five-cases-(in-descending-order-of-p-values):">Regarding pairwise comparisons / post hoc tests (Tukey's HSD), a statistically significant difference of ratings occurs each time we alter the testStimulus, EXCEPT for the following five cases (in descending order of p values):<a class="anchor-link" href="#Regarding-pairwise-comparisons-/-post-hoc-tests-(Tukey's-HSD),-a-statistically-significant-difference-of-ratings-occurs-each-time-we-alter-the-testStimulus,-EXCEPT-for-the-following-five-cases-(in-descending-order-of-p-values):">&#182;</a></h4><h4 id="1.-Switching-between-maus_m_700normAsl-26-&amp;-haus_m_700normAsl-26">1. Switching between maus_m_700<em>normAsl</em>-26 &amp; haus_m_700<em>normAsl</em>-26<a class="anchor-link" href="#1.-Switching-between-maus_m_700normAsl-26-&amp;-haus_m_700normAsl-26">&#182;</a></h4><h4 id="2.-Switching-between-maus_m_700_bpf_200_2800normAsl-26-&amp;-haus_m_700_bpf_200_2800normAsl-26">2. Switching between maus_m_700_bpf_200_2800<em>normAsl</em>-26 &amp; haus_m_700_bpf_200_2800<em>normAsl</em>-26<a class="anchor-link" href="#2.-Switching-between-maus_m_700_bpf_200_2800normAsl-26-&amp;-haus_m_700_bpf_200_2800normAsl-26">&#182;</a></h4><h4 id="3.-Switching-between-maus_m_700_mnru_Q_14normAsl-26-&amp;-haus_m_700_mnru_Q_14normAsl-26">3. Switching between maus_m_700_mnru_Q_14<em>normAsl</em>-26 &amp; haus_m_700_mnru_Q_14<em>normAsl</em>-26<a class="anchor-link" href="#3.-Switching-between-maus_m_700_mnru_Q_14normAsl-26-&amp;-haus_m_700_mnru_Q_14normAsl-26">&#182;</a></h4><h4 id="4.-Switching-between-haus_m_700_mnru_Q_14normAsl-26-&amp;-haus_m_700_bpf_200_2800normAsl-26">4. Switching between haus_m_700_mnru_Q_14<em>normAsl</em>-26 &amp; haus_m_700_bpf_200_2800<em>normAsl</em>-26<a class="anchor-link" href="#4.-Switching-between-haus_m_700_mnru_Q_14normAsl-26-&amp;-haus_m_700_bpf_200_2800normAsl-26">&#182;</a></h4><h4 id="5.-Switching-between-maus_m_700_bpf_200_2800normAsl-26-&amp;-haus_m_700_mnru_Q_14normAsl-26">5. Switching between maus_m_700_bpf_200_2800<em>normAsl</em>-26 &amp; haus_m_700_mnru_Q_14<em>normAsl</em>-26<a class="anchor-link" href="#5.-Switching-between-maus_m_700_bpf_200_2800normAsl-26-&amp;-haus_m_700_mnru_Q_14normAsl-26">&#182;</a></h4><h4 id="All-other-alterings-of-the-testStimulus-lead-to-a-significant-difference-in-speech-quality-ratings.">All other alterings of the testStimulus lead to a significant difference in speech quality ratings.<a class="anchor-link" href="#All-other-alterings-of-the-testStimulus-lead-to-a-significant-difference-in-speech-quality-ratings.">&#182;</a></h4>
+<h4 id="Altering-the-testStimulus-aka-condition-does-have-a-significant-effect-on-the-speech-quality-ratings:">Altering the testStimulus aka condition does have a significant effect on the speech quality ratings:<a class="anchor-link" href="#Altering-the-testStimulus-aka-condition-does-have-a-significant-effect-on-the-speech-quality-ratings:">&#182;</a></h4><h4 id="There-is-a-significant-(alpha-=-0.05)-and-rather-large-main-effect-of-the-testStimulus-on-the-speech-quality-ratings-(F-statistic-value-of-around-66.5529,-p-value-of-around-0-with-eta&#178;-effect-size-of-around-0.6064).">There is a significant (alpha = 0.05) and rather large main effect of the testStimulus on the speech quality ratings (F statistic value of around 66.5529, p-value of around 0 with eta&#178; effect size of around 0.6064).<a class="anchor-link" href="#There-is-a-significant-(alpha-=-0.05)-and-rather-large-main-effect-of-the-testStimulus-on-the-speech-quality-ratings-(F-statistic-value-of-around-66.5529,-p-value-of-around-0-with-eta&#178;-effect-size-of-around-0.6064).">&#182;</a></h4><h4 id="The-total-degrees-of-freedom-are-the-amount-of-total-observations---1-=&gt;-222---1-=-221-[37-samples-&amp;-36-df-for-each-distinct-testStimulus].">The total degrees of freedom are the amount of total observations - 1 =&gt; 222 - 1 = 221 [37 samples &amp; 36 df for each distinct testStimulus].<a class="anchor-link" href="#The-total-degrees-of-freedom-are-the-amount-of-total-observations---1-=&gt;-222---1-=-221-[37-samples-&amp;-36-df-for-each-distinct-testStimulus].">&#182;</a></h4><h4 id="Regarding-pairwise-comparisons-/-post-hoc-tests-(Tukey's-HSD),-a-statistically-significant-difference-of-ratings-occurs-each-time-we-alter-the-testStimulus,-EXCEPT-for-the-following-five-cases-(in-descending-order-of-p-values):">Regarding pairwise comparisons / post hoc tests (Tukey's HSD), a statistically significant difference of ratings occurs each time we alter the testStimulus, EXCEPT for the following five cases (in descending order of p values):<a class="anchor-link" href="#Regarding-pairwise-comparisons-/-post-hoc-tests-(Tukey's-HSD),-a-statistically-significant-difference-of-ratings-occurs-each-time-we-alter-the-testStimulus,-EXCEPT-for-the-following-five-cases-(in-descending-order-of-p-values):">&#182;</a></h4><h4 id="1.-Switching-between-maus_m_700normAsl-26-&amp;-haus_m_700normAsl-26">1. Switching between maus_m_700<em>normAsl</em>-26 &amp; haus_m_700<em>normAsl</em>-26<a class="anchor-link" href="#1.-Switching-between-maus_m_700normAsl-26-&amp;-haus_m_700normAsl-26">&#182;</a></h4><h4 id="2.-Switching-between-maus_m_700_bpf_200_2800normAsl-26-&amp;-haus_m_700_bpf_200_2800normAsl-26">2. Switching between maus_m_700_bpf_200_2800<em>normAsl</em>-26 &amp; haus_m_700_bpf_200_2800<em>normAsl</em>-26<a class="anchor-link" href="#2.-Switching-between-maus_m_700_bpf_200_2800normAsl-26-&amp;-haus_m_700_bpf_200_2800normAsl-26">&#182;</a></h4><h4 id="3.-Switching-between-maus_m_700_mnru_Q_14normAsl-26-&amp;-haus_m_700_mnru_Q_14normAsl-26">3. Switching between maus_m_700_mnru_Q_14<em>normAsl</em>-26 &amp; haus_m_700_mnru_Q_14<em>normAsl</em>-26<a class="anchor-link" href="#3.-Switching-between-maus_m_700_mnru_Q_14normAsl-26-&amp;-haus_m_700_mnru_Q_14normAsl-26">&#182;</a></h4><h4 id="4.-Switching-between-haus_m_700_mnru_Q_14normAsl-26-&amp;-haus_m_700_bpf_200_2800normAsl-26">4. Switching between haus_m_700_mnru_Q_14<em>normAsl</em>-26 &amp; haus_m_700_bpf_200_2800<em>normAsl</em>-26<a class="anchor-link" href="#4.-Switching-between-haus_m_700_mnru_Q_14normAsl-26-&amp;-haus_m_700_bpf_200_2800normAsl-26">&#182;</a></h4><h4 id="5.-Switching-between-maus_m_700_bpf_200_2800normAsl-26-&amp;-haus_m_700_mnru_Q_14normAsl-26">5. Switching between maus_m_700_bpf_200_2800<em>normAsl</em>-26 &amp; haus_m_700_mnru_Q_14<em>normAsl</em>-26<a class="anchor-link" href="#5.-Switching-between-maus_m_700_bpf_200_2800normAsl-26-&amp;-haus_m_700_mnru_Q_14normAsl-26">&#182;</a></h4><h4 id="All-other-alterings-of-the-testStimulus-lead-to-a-significant-difference-in-speech-quality-ratings.">All other alterings of the testStimulus lead to a significant difference in speech quality ratings.<a class="anchor-link" href="#All-other-alterings-of-the-testStimulus-lead-to-a-significant-difference-in-speech-quality-ratings.">&#182;</a></h4>
 </div>
 </div>
 </div>
