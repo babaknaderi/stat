@@ -13077,7 +13077,7 @@ div#notebook {
 <div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
 </div><div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
-<h1 id="Task-2:-Does-the-test-Stimulus-(independent-variable)-have-a-significant-influence-on-speech-quality-ratings-(dependent-variable)?-If-yes,-for-which-cases?-Please-assume-that-each-of-the-six-files-was-assessed-by-a-different-set-of-participants.-Use-the-quality-ratings-provided-in.-the-data-set-speech_quality_repetition_dataset">Task 2: Does the test Stimulus (independent variable) have a significant influence on speech quality ratings (dependent variable)? If yes, for which cases? Please assume that each of the six files was assessed by a different set of participants. Use the quality ratings provided in. the data set speech_quality_repetition_dataset<a class="anchor-link" href="#Task-2:-Does-the-test-Stimulus-(independent-variable)-have-a-significant-influence-on-speech-quality-ratings-(dependent-variable)?-If-yes,-for-which-cases?-Please-assume-that-each-of-the-six-files-was-assessed-by-a-different-set-of-participants.-Use-the-quality-ratings-provided-in.-the-data-set-speech_quality_repetition_dataset">&#182;</a></h1>
+<h1 id="Task-2:-Does-the-test-Stimulus-(independent-variable)-have-a-significant-influence-on-speech-quality-ratings-(dependent-variable)?-If-yes,-for-which-cases?-Please-assume-that-each-of-the-six-files-was-assessed-by-a-different-set-of-participants-AND-ONLY-USE-RATINGS-OF-THE-FIRST-REPETITION-(repetition-=-1).-Use-the-quality-ratings-provided-in-the-data-set-speech_quality_repetition_dataset.">Task 2: Does the test Stimulus (independent variable) have a significant influence on speech quality ratings (dependent variable)? If yes, for which cases? Please assume that each of the six files was assessed by a different set of participants AND ONLY USE RATINGS OF THE FIRST REPETITION (repetition = 1). Use the quality ratings provided in the data set speech_quality_repetition_dataset.<a class="anchor-link" href="#Task-2:-Does-the-test-Stimulus-(independent-variable)-have-a-significant-influence-on-speech-quality-ratings-(dependent-variable)?-If-yes,-for-which-cases?-Please-assume-that-each-of-the-six-files-was-assessed-by-a-different-set-of-participants-AND-ONLY-USE-RATINGS-OF-THE-FIRST-REPETITION-(repetition-=-1).-Use-the-quality-ratings-provided-in-the-data-set-speech_quality_repetition_dataset.">&#182;</a></h1>
 </div>
 </div>
 </div>
@@ -13097,6 +13097,7 @@ div#notebook {
 <span class="c1"># install.packages(&#39;gdata&#39;)      # file reading</span>
 <span class="c1"># install.packages(&#39;car&#39;)        # homogenity of variances</span>
 <span class="c1"># install.packages(&#39;rstatix&#39;)    # ANOVA</span>
+<span class="c1"># install.packages(&#39;ez&#39;)         # ANOVA table</span>
 </pre></div>
 
     </div>
@@ -13113,6 +13114,7 @@ div#notebook {
 <span class="nf">library</span><span class="p">(</span><span class="n">readxl</span><span class="p">)</span>    <span class="c1"># reading in data</span>
 <span class="nf">library</span><span class="p">(</span><span class="n">car</span><span class="p">)</span>       <span class="c1"># homogenity of variances</span>
 <span class="nf">library</span><span class="p">(</span><span class="n">rstatix</span><span class="p">)</span>   <span class="c1"># ANOVA</span>
+<span class="nf">library</span><span class="p">(</span><span class="n">ez</span><span class="p">)</span>        <span class="c1"># ANOVA table</span>
 </pre></div>
 
     </div>
@@ -13131,35 +13133,15 @@ div#notebook {
 <div class="prompt input_prompt">In&nbsp;[3]:</div>
 <div class="inner_cell">
     <div class="input_area">
-<div class=" highlight hl-r"><pre><span></span><span class="n">use_ratings_mean</span> <span class="o">&lt;-</span> <span class="kc">TRUE</span>
-</pre></div>
-
-    </div>
-</div>
-</div>
-
-</div>
-<div class="cell border-box-sizing code_cell rendered">
-<div class="input">
-<div class="prompt input_prompt">In&nbsp;[4]:</div>
-<div class="inner_cell">
-    <div class="input_area">
-<div class=" highlight hl-r"><pre><span></span><span class="c1"># read in data sets</span>
+<div class=" highlight hl-r"><pre><span></span><span class="c1"># read in data set</span>
 <span class="n">get_quality_data</span> <span class="o">&lt;-</span> <span class="nf">function</span><span class="p">()</span> <span class="p">{</span>
     <span class="n">quality_data</span> <span class="o">&lt;-</span> <span class="nf">read.csv</span><span class="p">(</span><span class="s">&quot;datasets/DB03_speech_quality_repetition_dataset.csv&quot;</span><span class="p">)</span>
     <span class="c1"># use mean here as indicator of given rating per participant</span>
-    <span class="nf">if</span><span class="p">(</span><span class="n">use_ratings_mean</span><span class="p">)</span> <span class="p">{</span>
-        <span class="n">quality_data</span> <span class="o">&lt;-</span> <span class="n">quality_data</span> <span class="o">%&gt;%</span> 
-                        <span class="nf">rename</span><span class="p">(</span><span class="n">Rating</span> <span class="o">=</span> <span class="n">rating</span><span class="p">)</span> <span class="o">%&gt;%</span>
-                        <span class="nf">select</span><span class="p">(</span><span class="n">subjectCode</span><span class="p">,</span> <span class="n">testStimulus</span><span class="p">,</span> <span class="n">Rating</span><span class="p">,</span> <span class="n">repetition</span><span class="p">)</span> <span class="o">%&gt;%</span>
-                        <span class="nf">group_by</span><span class="p">(</span><span class="n">testStimulus</span><span class="p">,</span> <span class="n">subjectCode</span><span class="p">)</span> <span class="o">%&gt;%</span>
-                        <span class="nf">summarize</span><span class="p">(</span><span class="n">Rating</span> <span class="o">=</span> <span class="nf">mean</span><span class="p">(</span><span class="n">Rating</span><span class="p">))</span> <span class="o">%&gt;%</span>
-                        <span class="nf">select</span><span class="p">(</span><span class="n">testStimulus</span><span class="p">,</span> <span class="n">Rating</span><span class="p">)</span>
-    <span class="p">}</span> <span class="n">else</span> <span class="p">{</span>
-        <span class="n">quality_data</span> <span class="o">&lt;-</span> <span class="n">quality_data</span> <span class="o">%&gt;%</span> 
-                        <span class="nf">rename</span><span class="p">(</span><span class="n">Rating</span> <span class="o">=</span> <span class="n">rating</span><span class="p">)</span> <span class="o">%&gt;%</span>
-                        <span class="nf">select</span><span class="p">(</span><span class="n">subjectCode</span><span class="p">,</span> <span class="n">testStimulus</span><span class="p">,</span> <span class="n">Rating</span><span class="p">)</span> 
-    <span class="p">}</span>
+    <span class="n">quality_data</span> <span class="o">&lt;-</span> <span class="n">quality_data</span> <span class="o">%&gt;%</span> 
+                        <span class="nf">filter</span><span class="p">(</span><span class="n">repetition</span> <span class="o">==</span> <span class="m">1</span><span class="p">)</span> <span class="o">%&gt;%</span>
+                        <span class="nf">rename</span><span class="p">(</span><span class="n">Subject</span> <span class="o">=</span> <span class="n">subjectCode</span><span class="p">,</span> <span class="n">Stimulus</span> <span class="o">=</span> <span class="n">testStimulus</span><span class="p">,</span> <span class="n">Rating</span> <span class="o">=</span> <span class="n">rating</span><span class="p">)</span> <span class="o">%&gt;%</span>
+                        <span class="nf">select</span><span class="p">(</span><span class="n">Subject</span><span class="p">,</span> <span class="n">Stimulus</span><span class="p">,</span> <span class="n">Rating</span><span class="p">)</span> <span class="o">%&gt;%</span> 
+                        <span class="nf">arrange</span><span class="p">(</span><span class="n">Subject</span><span class="p">,</span> <span class="n">Stimulus</span><span class="p">)</span> 
     
     <span class="n">quality_data</span>
 <span class="p">}</span>
@@ -13184,14 +13166,14 @@ div#notebook {
 
 <div class="output_html rendered_html output_subarea ">
 <table>
-<thead><tr><th scope=col>testStimulus</th><th scope=col>Rating</th></tr></thead>
+<thead><tr><th scope=col>Subject</th><th scope=col>Stimulus</th><th scope=col>Rating</th></tr></thead>
 <tbody>
-	<tr><td>haus_m_700_bpf_200_2800_normAsl_-26</td><td>2.00                               </td></tr>
-	<tr><td>haus_m_700_bpf_200_2800_normAsl_-26</td><td>2.50                               </td></tr>
-	<tr><td>haus_m_700_bpf_200_2800_normAsl_-26</td><td>2.50                               </td></tr>
-	<tr><td>haus_m_700_bpf_200_2800_normAsl_-26</td><td>3.75                               </td></tr>
-	<tr><td>haus_m_700_bpf_200_2800_normAsl_-26</td><td>2.00                               </td></tr>
-	<tr><td>haus_m_700_bpf_200_2800_normAsl_-26</td><td>1.00                               </td></tr>
+	<tr><td>vp01                               </td><td>haus_m_700_bpf_200_2800_normAsl_-26</td><td>2                                  </td></tr>
+	<tr><td>vp01                               </td><td>haus_m_700_mnru_Q_14_normAsl_-26   </td><td>3                                  </td></tr>
+	<tr><td>vp01                               </td><td>haus_m_700_normAsl_-26             </td><td>4                                  </td></tr>
+	<tr><td>vp01                               </td><td>maus_m_700_bpf_200_2800_normAsl_-26</td><td>2                                  </td></tr>
+	<tr><td>vp01                               </td><td>maus_m_700_mnru_Q_14_normAsl_-26   </td><td>3                                  </td></tr>
+	<tr><td>vp01                               </td><td>maus_m_700_normAsl_-26             </td><td>5                                  </td></tr>
 </tbody>
 </table>
 
@@ -13213,7 +13195,7 @@ div#notebook {
 <div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
 </div><div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
-<h4 id="=&gt;-1-independent-input-variables-(testStimulus),-1-dependent-variable,-NOT-repeated-measures-/-independent-=&gt;-one-way-independent-measure-ANOVA">=&gt; 1 independent input variables (testStimulus), 1 dependent variable, NOT repeated measures / independent =&gt; one-way independent measure ANOVA<a class="anchor-link" href="#=&gt;-1-independent-input-variables-(testStimulus),-1-dependent-variable,-NOT-repeated-measures-/-independent-=&gt;-one-way-independent-measure-ANOVA">&#182;</a></h4>
+<h4 id="=&gt;-1-independent-input-variables-(testStimulus),-1-dependent-variable-(testStimulus),-NOT-repeated-measures-but-independent-ratings-=&gt;-one-way-independent-measure-ANOVA">=&gt; 1 independent input variables (testStimulus), 1 dependent variable (testStimulus), NOT repeated measures but independent ratings =&gt; one-way independent measure ANOVA<a class="anchor-link" href="#=&gt;-1-independent-input-variables-(testStimulus),-1-dependent-variable-(testStimulus),-NOT-repeated-measures-but-independent-ratings-=&gt;-one-way-independent-measure-ANOVA">&#182;</a></h4>
 </div>
 </div>
 </div>
@@ -13227,7 +13209,7 @@ div#notebook {
 <div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
 </div><div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
-<h4 id="1.-Dependent-variables-on-interval-or-ratio-scale-=&gt;-check,-because-rating-is-discrete-&amp;-on-interval-scale">1. Dependent variables on interval or ratio scale =&gt; check, because rating is discrete &amp; on interval scale<a class="anchor-link" href="#1.-Dependent-variables-on-interval-or-ratio-scale-=&gt;-check,-because-rating-is-discrete-&amp;-on-interval-scale">&#182;</a></h4><h4 id="2.-Independent-variables-with-two-or-more-groups-=&gt;-check,-because-testStimulus-has-multiple-different-values">2. Independent variables with two or more groups =&gt; check, because testStimulus has multiple different values<a class="anchor-link" href="#2.-Independent-variables-with-two-or-more-groups-=&gt;-check,-because-testStimulus-has-multiple-different-values">&#182;</a></h4><h4 id="3.-Indepenence-of-observation-=&gt;-check,-because-observations-come-from-different-people,-therefore-independence-can-be-assumed">3. Indepenence of observation =&gt; check, because observations come from different people, therefore independence can be assumed<a class="anchor-link" href="#3.-Indepenence-of-observation-=&gt;-check,-because-observations-come-from-different-people,-therefore-independence-can-be-assumed">&#182;</a></h4><h4 id="4.-No-significant-outliers-=&gt;-don't-know,-need-to-check-that-in-the-next-step!">4. No significant outliers =&gt; don't know, need to check that in the next step!<a class="anchor-link" href="#4.-No-significant-outliers-=&gt;-don't-know,-need-to-check-that-in-the-next-step!">&#182;</a></h4><h4 id="5.-Normally-distributed-population-for-every-single-group-=&gt;-don't-know,-need-to-check-that-in-the-next-step!">5. Normally distributed population for every single group =&gt; don't know, need to check that in the next step!<a class="anchor-link" href="#5.-Normally-distributed-population-for-every-single-group-=&gt;-don't-know,-need-to-check-that-in-the-next-step!">&#182;</a></h4><h4 id="6.-Homogenity-of-variances-=&gt;-don't-know,-need-to-check-that-in-the-next-step!">6. Homogenity of variances =&gt; don't know, need to check that in the next step!<a class="anchor-link" href="#6.-Homogenity-of-variances-=&gt;-don't-know,-need-to-check-that-in-the-next-step!">&#182;</a></h4>
+<h4 id="1.-Dependent-variables-on-interval-or-ratio-scale-=&gt;-check,-because-rating-is-discrete-&amp;-on-interval-scale">1. Dependent variables on interval or ratio scale =&gt; check, because rating is discrete &amp; on interval scale<a class="anchor-link" href="#1.-Dependent-variables-on-interval-or-ratio-scale-=&gt;-check,-because-rating-is-discrete-&amp;-on-interval-scale">&#182;</a></h4><h4 id="2.-Independent-variables-with-two-or-more-groups-=&gt;-check,-because-testStimulus-has-multiple-different-values-(6-in-total)">2. Independent variables with two or more groups =&gt; check, because testStimulus has multiple different values (6 in total)<a class="anchor-link" href="#2.-Independent-variables-with-two-or-more-groups-=&gt;-check,-because-testStimulus-has-multiple-different-values-(6-in-total)">&#182;</a></h4><h4 id="3.-Indepenence-of-observation-=&gt;-check,-because-observations-come-from-different-people-or-different-conditions,-i.e.-stimuli,-therefore-independence-can-be-assumed">3. Indepenence of observation =&gt; check, because observations come from different people or different conditions, i.e. stimuli, therefore independence can be assumed<a class="anchor-link" href="#3.-Indepenence-of-observation-=&gt;-check,-because-observations-come-from-different-people-or-different-conditions,-i.e.-stimuli,-therefore-independence-can-be-assumed">&#182;</a></h4><h4 id="4.-No-significant-outliers-=&gt;-don't-know,-need-to-check-that-in-the-next-step!">4. No significant outliers =&gt; don't know, need to check that in the next step!<a class="anchor-link" href="#4.-No-significant-outliers-=&gt;-don't-know,-need-to-check-that-in-the-next-step!">&#182;</a></h4><h4 id="5.-Normally-distributed-population-for-every-single-group-=&gt;-don't-know,-need-to-check-that-in-the-next-step!">5. Normally distributed population for every single group =&gt; don't know, need to check that in the next step!<a class="anchor-link" href="#5.-Normally-distributed-population-for-every-single-group-=&gt;-don't-know,-need-to-check-that-in-the-next-step!">&#182;</a></h4><h4 id="6.-Homogenity-of-variances-=&gt;-don't-know,-need-to-check-that-in-the-next-step!">6. Homogenity of variances =&gt; don't know, need to check that in the next step!<a class="anchor-link" href="#6.-Homogenity-of-variances-=&gt;-don't-know,-need-to-check-that-in-the-next-step!">&#182;</a></h4>
 </div>
 </div>
 </div>
@@ -13240,29 +13222,16 @@ div#notebook {
 </div>
 <div class="cell border-box-sizing code_cell rendered">
 <div class="input">
-<div class="prompt input_prompt">In&nbsp;[5]:</div>
+<div class="prompt input_prompt">In&nbsp;[4]:</div>
 <div class="inner_cell">
     <div class="input_area">
 <div class=" highlight hl-r"><pre><span></span><span class="c1"># z score method</span>
-<span class="nf">if</span><span class="p">(</span><span class="n">use_ratings_mean</span><span class="p">)</span> <span class="p">{</span>
-    <span class="n">z_scores</span> <span class="o">&lt;-</span> <span class="n">quality_data</span> <span class="o">%&gt;%</span> 
+<span class="n">z_scores</span> <span class="o">&lt;-</span> <span class="n">quality_data</span> <span class="o">%&gt;%</span> 
                     <span class="nf">mutate</span><span class="p">(</span><span class="n">Std_Dev_Rating</span> <span class="o">=</span> <span class="nf">sd</span><span class="p">(</span><span class="n">Rating</span><span class="p">),</span> 
                            <span class="n">Mean_Rating</span> <span class="o">=</span> <span class="nf">mean</span><span class="p">(</span><span class="n">Rating</span><span class="p">))</span> <span class="o">%&gt;%</span>
                     <span class="nf">mutate</span><span class="p">(</span><span class="n">Z_Score_Rating</span> <span class="o">=</span> <span class="p">(</span><span class="n">Rating</span> <span class="o">-</span> <span class="n">Mean_Rating</span><span class="p">)</span> <span class="o">/</span> <span class="n">Std_Dev_Rating</span><span class="p">)</span> <span class="o">%&gt;%</span>
-                    <span class="nf">select</span><span class="p">(</span><span class="n">testStimulus</span><span class="p">,</span> <span class="n">Rating</span><span class="p">,</span> <span class="n">Z_Score_Rating</span><span class="p">)</span> <span class="o">%&gt;%</span>
-                    <span class="nf">drop_na</span><span class="p">()</span> <span class="o">%&gt;%</span>
+                    <span class="nf">select</span><span class="p">(</span><span class="n">Subject</span><span class="p">,</span> <span class="n">Stimulus</span><span class="p">,</span> <span class="n">Rating</span><span class="p">,</span> <span class="n">Z_Score_Rating</span><span class="p">)</span> <span class="o">%&gt;%</span>
                     <span class="nf">arrange</span><span class="p">(</span><span class="nf">desc</span><span class="p">(</span><span class="n">Z_Score_Rating</span><span class="p">))</span>
-<span class="p">}</span> <span class="n">else</span> <span class="p">{</span>
-    <span class="n">z_scores</span> <span class="o">&lt;-</span> <span class="nf">merge</span><span class="p">(</span>
-                    <span class="n">quality_data</span> <span class="o">%&gt;%</span> 
-                                <span class="nf">group_by</span><span class="p">(</span><span class="n">testStimulus</span><span class="p">)</span> <span class="o">%&gt;%</span>
-                                <span class="nf">summarize</span><span class="p">(</span><span class="n">Std_Dev_Rating</span> <span class="o">=</span> <span class="nf">sd</span><span class="p">(</span><span class="n">Rating</span><span class="p">),</span> 
-                                       <span class="n">Mean_Rating</span> <span class="o">=</span> <span class="nf">mean</span><span class="p">(</span><span class="n">Rating</span><span class="p">)),</span> 
-                     <span class="p">(</span><span class="n">quality_data</span> <span class="o">%&gt;%</span> <span class="nf">select</span><span class="p">(</span><span class="n">testStimulus</span><span class="p">,</span> <span class="n">Rating</span><span class="p">)))</span> <span class="o">%&gt;%</span>
-                <span class="nf">drop_na</span><span class="p">()</span> <span class="o">%&gt;%</span>
-                <span class="nf">mutate</span><span class="p">(</span><span class="n">Z_Score_Rating</span> <span class="o">=</span> <span class="p">(</span><span class="n">Rating</span> <span class="o">-</span> <span class="n">Mean_Rating</span><span class="p">)</span> <span class="o">/</span> <span class="n">Std_Dev_Rating</span><span class="p">)</span> <span class="o">%&gt;%</span>
-                <span class="nf">arrange</span><span class="p">(</span><span class="nf">desc</span><span class="p">(</span><span class="n">Z_Score_Rating</span><span class="p">))</span>
-<span class="p">}</span>
 
 <span class="nf">head</span><span class="p">(</span><span class="n">z_scores</span><span class="p">)</span>
 </pre></div>
@@ -13283,14 +13252,14 @@ div#notebook {
 
 <div class="output_html rendered_html output_subarea ">
 <table>
-<thead><tr><th scope=col>testStimulus</th><th scope=col>Rating</th><th scope=col>Z_Score_Rating</th></tr></thead>
+<thead><tr><th scope=col>Subject</th><th scope=col>Stimulus</th><th scope=col>Rating</th><th scope=col>Z_Score_Rating</th></tr></thead>
 <tbody>
-	<tr><td>maus_m_700_bpf_200_2800_normAsl_-26</td><td>5.00                               </td><td>2.710246                           </td></tr>
-	<tr><td>haus_m_700_bpf_200_2800_normAsl_-26</td><td>5.00                               </td><td>2.472542                           </td></tr>
-	<tr><td>maus_m_700_bpf_200_2800_normAsl_-26</td><td>4.75                               </td><td>2.419582                           </td></tr>
-	<tr><td>haus_m_700_bpf_200_2800_normAsl_-26</td><td>4.75                               </td><td>2.209657                           </td></tr>
-	<tr><td>haus_m_700_mnru_Q_14_normAsl_-26   </td><td>3.75                               </td><td>2.159806                           </td></tr>
-	<tr><td>maus_m_700_mnru_Q_14_normAsl_-26   </td><td>3.50                               </td><td>2.068097                           </td></tr>
+	<tr><td>vp01                  </td><td>maus_m_700_normAsl_-26</td><td>5                     </td><td>1.435227              </td></tr>
+	<tr><td>vp02                  </td><td>maus_m_700_normAsl_-26</td><td>5                     </td><td>1.435227              </td></tr>
+	<tr><td>vp03                  </td><td>haus_m_700_normAsl_-26</td><td>5                     </td><td>1.435227              </td></tr>
+	<tr><td>vp03                  </td><td>maus_m_700_normAsl_-26</td><td>5                     </td><td>1.435227              </td></tr>
+	<tr><td>vp04                  </td><td>haus_m_700_normAsl_-26</td><td>5                     </td><td>1.435227              </td></tr>
+	<tr><td>vp04                  </td><td>maus_m_700_normAsl_-26</td><td>5                     </td><td>1.435227              </td></tr>
 </tbody>
 </table>
 
@@ -13318,15 +13287,14 @@ div#notebook {
 </div>
 <div class="cell border-box-sizing code_cell rendered">
 <div class="input">
-<div class="prompt input_prompt">In&nbsp;[6]:</div>
+<div class="prompt input_prompt">In&nbsp;[5]:</div>
 <div class="inner_cell">
     <div class="input_area">
 <div class=" highlight hl-r"><pre><span></span><span class="c1"># normality checking for groups</span>
 <span class="n">check_normality_for_group</span> <span class="o">&lt;-</span> <span class="nf">function</span><span class="p">(</span><span class="n">stimulus</span><span class="p">)</span> <span class="p">{</span>
-    <span class="n">data</span> <span class="o">&lt;-</span> <span class="n">quality_data</span> <span class="o">%&gt;%</span> <span class="n">dplyr</span><span class="o">::</span><span class="nf">filter</span><span class="p">(</span><span class="n">testStimulus</span> <span class="o">==</span> <span class="n">stimulus</span><span class="p">)</span> 
+    <span class="n">data</span> <span class="o">&lt;-</span> <span class="n">quality_data</span> <span class="o">%&gt;%</span> <span class="n">dplyr</span><span class="o">::</span><span class="nf">filter</span><span class="p">(</span><span class="n">Stimulus</span> <span class="o">==</span> <span class="n">stimulus</span><span class="p">)</span> 
     <span class="n">test_result</span> <span class="o">&lt;-</span> <span class="nf">ks.test</span><span class="p">(</span><span class="n">data[[</span><span class="s">&#39;Rating&#39;</span><span class="n">]]</span><span class="p">,</span> <span class="s">&quot;pnorm&quot;</span><span class="p">,</span> <span class="n">mean</span><span class="o">=</span><span class="nf">mean</span><span class="p">(</span><span class="n">data[[</span><span class="s">&#39;Rating&#39;</span><span class="n">]]</span><span class="p">),</span> <span class="n">sd</span><span class="o">=</span><span class="nf">sd</span><span class="p">(</span><span class="n">data[[</span><span class="s">&#39;Rating&#39;</span><span class="n">]]</span><span class="p">))</span>
-    <span class="n">result_string</span> <span class="o">&lt;-</span> <span class="nf">paste0</span><span class="p">(</span><span class="s">&#39;Normality for testStimulus &#39;</span><span class="p">,</span> <span class="n">stimulus</span><span class="p">,</span> <span class="s">&#39;: &#39;</span><span class="p">)</span>
-    <span class="n">test_result[[</span><span class="s">&#39;p.value&#39;</span><span class="n">]]</span>
+    <span class="n">result_string</span> <span class="o">&lt;-</span> <span class="nf">paste0</span><span class="p">(</span><span class="s">&#39;Normality for Stimulus &#39;</span><span class="p">,</span> <span class="n">stimulus</span><span class="p">,</span> <span class="s">&#39;: &#39;</span><span class="p">)</span>
     
     <span class="nf">if</span><span class="p">(</span><span class="n">test_result[[</span><span class="s">&#39;p.value&#39;</span><span class="n">]]</span> <span class="o">&lt;</span> <span class="m">0.05</span><span class="p">)</span> <span class="p">{</span>
         <span class="n">result_string</span> <span class="o">&lt;-</span> <span class="nf">paste0</span><span class="p">(</span><span class="n">result_string</span><span class="p">,</span> <span class="nf">as.character</span><span class="p">(</span><span class="nf">round</span><span class="p">(</span><span class="n">test_result[[</span><span class="s">&#39;p.value&#39;</span><span class="n">]]</span><span class="p">,</span> <span class="n">digits</span><span class="o">=</span><span class="m">7</span><span class="p">)),</span> 
@@ -13345,7 +13313,8 @@ div#notebook {
                                 <span class="s">&#39; p-value (Kolmogrov-Smirnov) == YES!&#39;</span><span class="p">)</span>
     <span class="p">}</span>
     
-    <span class="n">result_string</span>
+    <span class="c1"># print</span>
+    <span class="nf">cat</span><span class="p">(</span><span class="n">result_string</span><span class="p">)</span>
 <span class="p">}</span>
 </pre></div>
 
@@ -13356,14 +13325,14 @@ div#notebook {
 </div>
 <div class="cell border-box-sizing code_cell rendered">
 <div class="input">
-<div class="prompt input_prompt">In&nbsp;[7]:</div>
+<div class="prompt input_prompt">In&nbsp;[6]:</div>
 <div class="inner_cell">
     <div class="input_area">
 <div class=" highlight hl-r"><pre><span></span><span class="c1"># print normality tests</span>
-<span class="n">stimuli</span> <span class="o">&lt;-</span> <span class="p">(</span><span class="n">quality_data</span> <span class="o">%&gt;%</span> <span class="nf">distinct</span><span class="p">(</span><span class="n">testStimulus</span><span class="p">))</span><span class="n">[[</span><span class="s">&#39;testStimulus&#39;</span><span class="n">]]</span>
+<span class="n">stimuli</span> <span class="o">&lt;-</span> <span class="p">(</span><span class="n">quality_data</span> <span class="o">%&gt;%</span> <span class="nf">distinct</span><span class="p">(</span><span class="n">Stimulus</span><span class="p">))</span><span class="n">[[</span><span class="s">&#39;Stimulus&#39;</span><span class="n">]]</span>
 
 <span class="nf">for </span><span class="p">(</span><span class="n">stimulus</span> <span class="n">in</span> <span class="n">stimuli</span><span class="p">)</span> <span class="p">{</span>
-    <span class="nf">print</span><span class="p">(</span><span class="nf">check_normality_for_group</span><span class="p">(</span><span class="n">stimulus</span><span class="p">))</span>
+    <span class="nf">check_normality_for_group</span><span class="p">(</span><span class="n">stimulus</span><span class="p">)</span>
 <span class="p">}</span>
 </pre></div>
 
@@ -13380,8 +13349,7 @@ div#notebook {
 
 
 <div class="output_subarea output_stream output_stdout output_text">
-<pre>[1] &#34;Normality for testStimulus haus_m_700_bpf_200_2800_normAsl_-26: 0.7356822 p-value (Kolmogrov-Smirnov) == YES, 0.2041441 p-value (Kolmogrov-Smirnov) == YES!&#34;
-</pre>
+<pre>Normality for Stimulus haus_m_700_bpf_200_2800_normAsl_-26: 0.0657124 p-value (Kolmogrov-Smirnov) == YES, 0.0013676 p-value (Shapiro-Wilk) == NO!</pre>
 </div>
 </div>
 
@@ -13391,8 +13359,7 @@ div#notebook {
 
 
 <div class="output_subarea output_stream output_stdout output_text">
-<pre>[1] &#34;Normality for testStimulus haus_m_700_mnru_Q_14_normAsl_-26: 0.2304167 p-value (Kolmogrov-Smirnov) == YES, 0.084306 p-value (Kolmogrov-Smirnov) == YES!&#34;
-</pre>
+<pre>Normality for Stimulus haus_m_700_mnru_Q_14_normAsl_-26: 0.0028569 p-value (Kolmogrov-Smirnov) == NO, 0.0001636 p-value (Shapiro-Wilk) == NO!</pre>
 </div>
 </div>
 
@@ -13402,18 +13369,7 @@ div#notebook {
 
 
 <div class="output_subarea output_stream output_stdout output_text">
-<pre>[1] &#34;Normality for testStimulus haus_m_700_normAsl_-26: 0.072033 p-value (Kolmogrov-Smirnov) == YES, 0.000147 p-value (Shapiro-Wilk) == NO!&#34;
-</pre>
-</div>
-</div>
-<div class="output_area">
-
-    <div class="prompt"></div>
-
-
-<div class="output_subarea output_stream output_stdout output_text">
-<pre>[1] &#34;Normality for testStimulus maus_m_700_bpf_200_2800_normAsl_-26: 0.5205064 p-value (Kolmogrov-Smirnov) == YES, 0.0851928 p-value (Kolmogrov-Smirnov) == YES!&#34;
-</pre>
+<pre>Normality for Stimulus haus_m_700_normAsl_-26: 0.0002495 p-value (Kolmogrov-Smirnov) == NO, 2e-07 p-value (Shapiro-Wilk) == NO!</pre>
 </div>
 </div>
 
@@ -13423,8 +13379,7 @@ div#notebook {
 
 
 <div class="output_subarea output_stream output_stdout output_text">
-<pre>[1] &#34;Normality for testStimulus maus_m_700_mnru_Q_14_normAsl_-26: 0.1511504 p-value (Kolmogrov-Smirnov) == YES, 0.0208674 p-value (Shapiro-Wilk) == NO!&#34;
-</pre>
+<pre>Normality for Stimulus maus_m_700_bpf_200_2800_normAsl_-26: 0.0406415 p-value (Kolmogrov-Smirnov) == NO, 0.0002901 p-value (Shapiro-Wilk) == NO!</pre>
 </div>
 </div>
 
@@ -13434,8 +13389,17 @@ div#notebook {
 
 
 <div class="output_subarea output_stream output_stdout output_text">
-<pre>[1] &#34;Normality for testStimulus maus_m_700_normAsl_-26: 0.0280163 p-value (Kolmogrov-Smirnov) == NO, 2e-07 p-value (Shapiro-Wilk) == NO!&#34;
-</pre>
+<pre>Normality for Stimulus maus_m_700_mnru_Q_14_normAsl_-26: 0.0052889 p-value (Kolmogrov-Smirnov) == NO, 0.0001113 p-value (Shapiro-Wilk) == NO!</pre>
+</div>
+</div>
+
+<div class="output_area">
+
+    <div class="prompt"></div>
+
+
+<div class="output_subarea output_stream output_stdout output_text">
+<pre>Normality for Stimulus maus_m_700_normAsl_-26: 0.0001038 p-value (Kolmogrov-Smirnov) == NO, 0 p-value (Shapiro-Wilk) == NO!</pre>
 </div>
 </div>
 
@@ -13446,7 +13410,7 @@ div#notebook {
 <div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
 </div><div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
-<h4 id="Normality-is-hence-likely-to-not-exist-within-all-groups---we-are-still-going-to-continue-though.">Normality is hence likely to not exist within all groups - we are still going to continue though.<a class="anchor-link" href="#Normality-is-hence-likely-to-not-exist-within-all-groups---we-are-still-going-to-continue-though.">&#182;</a></h4>
+<h4 id="Normality-does-NOT-exist-within-all-groups---we-are-still-going-to-continue-though.">Normality does NOT exist within all groups - we are still going to continue though.<a class="anchor-link" href="#Normality-does-NOT-exist-within-all-groups---we-are-still-going-to-continue-though.">&#182;</a></h4>
 </div>
 </div>
 </div>
@@ -13459,23 +13423,23 @@ div#notebook {
 </div>
 <div class="cell border-box-sizing code_cell rendered">
 <div class="input">
-<div class="prompt input_prompt">In&nbsp;[8]:</div>
+<div class="prompt input_prompt">In&nbsp;[7]:</div>
 <div class="inner_cell">
     <div class="input_area">
 <div class=" highlight hl-r"><pre><span></span><span class="c1"># Check for homogenity of groups&#39; VQ ratings</span>
 <span class="n">get_levene_test_results</span> <span class="o">&lt;-</span> <span class="nf">function</span><span class="p">()</span> <span class="p">{</span>
 
-    <span class="n">test_results</span> <span class="o">&lt;-</span> <span class="nf">leveneTest</span><span class="p">(</span><span class="n">Rating</span> <span class="o">~</span> <span class="n">testStimulus</span><span class="p">,</span> <span class="n">data</span> <span class="o">=</span> <span class="n">quality_data</span><span class="p">,</span> <span class="n">center</span> <span class="o">=</span> <span class="n">mean</span><span class="p">)</span>
+    <span class="n">test_results</span> <span class="o">&lt;-</span> <span class="nf">leveneTest</span><span class="p">(</span><span class="n">Rating</span> <span class="o">~</span> <span class="n">Stimulus</span><span class="p">,</span> <span class="n">data</span> <span class="o">=</span> <span class="n">quality_data</span><span class="p">,</span> <span class="n">center</span> <span class="o">=</span> <span class="n">mean</span><span class="p">)</span>
     <span class="n">test_results</span>
 
-    <span class="n">stimuli</span> <span class="o">&lt;-</span> <span class="p">(</span><span class="n">quality_data</span> <span class="o">%&gt;%</span> <span class="nf">distinct</span><span class="p">(</span><span class="n">testStimulus</span><span class="p">))</span><span class="n">[[</span><span class="s">&#39;testStimulus&#39;</span><span class="n">]]</span>
+    <span class="n">stimuli</span> <span class="o">&lt;-</span> <span class="p">(</span><span class="n">quality_data</span> <span class="o">%&gt;%</span> <span class="nf">distinct</span><span class="p">(</span><span class="n">Stimulus</span><span class="p">))</span><span class="n">[[</span><span class="s">&#39;Stimulus&#39;</span><span class="n">]]</span>
     <span class="n">result</span> <span class="o">&lt;-</span> <span class="s">&#39;F(&#39;</span>
     <span class="nf">for </span><span class="p">(</span><span class="n">stimulus</span> <span class="n">in</span> <span class="n">stimuli</span><span class="p">)</span> <span class="p">{</span>
-        <span class="n">df</span> <span class="o">&lt;-</span> <span class="p">(</span><span class="n">quality_data</span> <span class="o">%&gt;%</span> <span class="n">dplyr</span><span class="o">::</span><span class="nf">filter</span><span class="p">(</span><span class="n">testStimulus</span> <span class="o">==</span> <span class="n">stimulus</span><span class="p">)</span> <span class="o">%&gt;%</span> 
+        <span class="n">df</span> <span class="o">&lt;-</span> <span class="p">(</span><span class="n">quality_data</span> <span class="o">%&gt;%</span> <span class="n">dplyr</span><span class="o">::</span><span class="nf">filter</span><span class="p">(</span><span class="n">Stimulus</span> <span class="o">==</span> <span class="n">stimulus</span><span class="p">)</span> <span class="o">%&gt;%</span> 
                <span class="nf">mutate</span><span class="p">(</span><span class="n">df</span> <span class="o">=</span> <span class="nf">n</span><span class="p">()</span> <span class="o">-</span> <span class="m">1</span><span class="p">))</span><span class="n">[1</span><span class="p">,</span><span class="n">][[</span><span class="s">&#39;df&#39;</span><span class="n">]]</span>
-        <span class="n">result</span> <span class="o">&lt;-</span> <span class="nf">paste0</span><span class="p">(</span><span class="n">result</span><span class="p">,</span> <span class="s">&#39; df_{&#39;</span><span class="p">,</span> <span class="n">stimulus</span><span class="p">,</span> <span class="s">&#39;} = &#39;</span><span class="p">,</span> <span class="n">df</span><span class="p">,</span> <span class="s">&#39;;&#39;</span><span class="p">)</span>
+        <span class="n">result</span> <span class="o">&lt;-</span> <span class="nf">paste0</span><span class="p">(</span><span class="n">result</span><span class="p">,</span> <span class="s">&#39; df_{&#39;</span><span class="p">,</span> <span class="n">stimulus</span><span class="p">,</span> <span class="s">&#39;} = &#39;</span><span class="p">,</span> <span class="n">df</span><span class="p">,</span> <span class="s">&#39;;\n&#39;</span><span class="p">)</span>
     <span class="p">}</span>
-    <span class="n">result</span> <span class="o">&lt;-</span> <span class="nf">paste0</span><span class="p">(</span><span class="n">result</span><span class="p">,</span> <span class="s">&#39; ) = &#39;</span><span class="p">,</span> 
+    <span class="n">result</span> <span class="o">&lt;-</span> <span class="nf">paste0</span><span class="p">(</span><span class="nf">substr</span><span class="p">(</span><span class="n">result</span><span class="p">,</span><span class="m">1</span><span class="p">,</span><span class="nf">nchar</span><span class="p">(</span><span class="n">result</span><span class="p">)</span><span class="m">-2</span><span class="p">),</span> <span class="s">&#39; ) = &#39;</span><span class="p">,</span> 
                      <span class="nf">round</span><span class="p">(</span><span class="n">test_results[1</span><span class="p">,</span><span class="m">2</span><span class="n">]</span><span class="p">,</span> <span class="n">digits</span><span class="o">=</span><span class="m">7</span><span class="p">),</span> 
                 <span class="s">&#39; | p-value = &#39;</span><span class="p">,</span> 
                 <span class="nf">round</span><span class="p">(</span><span class="n">test_results[1</span><span class="p">,</span><span class="m">3</span><span class="n">]</span><span class="p">,</span> <span class="n">digits</span><span class="o">=</span><span class="m">7</span><span class="p">))</span>
@@ -13486,7 +13450,8 @@ div#notebook {
         <span class="n">result</span> <span class="o">&lt;-</span> <span class="nf">paste0</span><span class="p">(</span><span class="n">result</span><span class="p">,</span> <span class="s">&#39; =&gt; homogenity of variance CANNOT be assumed&#39;</span><span class="p">)</span>
     <span class="p">}</span>
     
-    <span class="n">result</span>
+    <span class="c1"># print</span>
+    <span class="nf">cat</span><span class="p">(</span><span class="n">result</span><span class="p">)</span>
 <span class="p">}</span>
 
 <span class="nf">get_levene_test_results</span><span class="p">()</span>
@@ -13505,11 +13470,14 @@ div#notebook {
     <div class="prompt"></div>
 
 
-
-<div class="output_html rendered_html output_subarea ">
-'F( df_{haus_m_700_bpf_200_2800_normAsl_-26} = 36; df_{haus_m_700_mnru_Q_14_normAsl_-26} = 36; df_{haus_m_700_normAsl_-26} = 36; df_{maus_m_700_bpf_200_2800_normAsl_-26} = 36; df_{maus_m_700_mnru_Q_14_normAsl_-26} = 36; df_{maus_m_700_normAsl_-26} = 36; ) = 2.7341014 | p-value = 0.0203379 =&gt; homogenity of variance CANNOT be assumed'
+<div class="output_subarea output_stream output_stdout output_text">
+<pre>F( df_{haus_m_700_bpf_200_2800_normAsl_-26} = 36;
+ df_{haus_m_700_mnru_Q_14_normAsl_-26} = 36;
+ df_{haus_m_700_normAsl_-26} = 36;
+ df_{maus_m_700_bpf_200_2800_normAsl_-26} = 36;
+ df_{maus_m_700_mnru_Q_14_normAsl_-26} = 36;
+ df_{maus_m_700_normAsl_-26} = 36 ) = 1.5042309 | p-value = 0.1896423 =&gt; homogenity of variance CAN be assumed</pre>
 </div>
-
 </div>
 
 </div>
@@ -13519,7 +13487,7 @@ div#notebook {
 <div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
 </div><div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
-<h4 id="As-Levene's-test-delivers-p-value-&lt;-0.05-=&gt;-homogenity-of-variance-can-NOT-be-assumed,-but-we-are-going-to-continue-anyways!">As Levene's test delivers p-value &lt; 0.05 =&gt; homogenity of variance can NOT be assumed, but we are going to continue anyways!<a class="anchor-link" href="#As-Levene's-test-delivers-p-value-&lt;-0.05-=&gt;-homogenity-of-variance-can-NOT-be-assumed,-but-we-are-going-to-continue-anyways!">&#182;</a></h4>
+<h4 id="As-Levene's-test-delivers-p-value-&gt;-0.05-=&gt;-homogenity-of-variances-CAN-be-assumed!">As Levene's test delivers p-value &gt; 0.05 =&gt; homogenity of variances CAN be assumed!<a class="anchor-link" href="#As-Levene's-test-delivers-p-value-&gt;-0.05-=&gt;-homogenity-of-variances-CAN-be-assumed!">&#182;</a></h4>
 </div>
 </div>
 </div>
@@ -13532,15 +13500,18 @@ div#notebook {
 </div>
 <div class="cell border-box-sizing code_cell rendered">
 <div class="input">
-<div class="prompt input_prompt">In&nbsp;[9]:</div>
+<div class="prompt input_prompt">In&nbsp;[8]:</div>
 <div class="inner_cell">
     <div class="input_area">
 <div class=" highlight hl-r"><pre><span></span><span class="c1"># conduct one-way independent measure ANOVA</span>
-<span class="n">anova_res</span> <span class="o">&lt;-</span> <span class="nf">aov</span><span class="p">(</span><span class="n">Rating</span> <span class="o">~</span> <span class="n">testStimulus</span><span class="p">,</span> <span class="n">data</span> <span class="o">=</span> <span class="n">quality_data</span><span class="p">)</span>
-<span class="n">anova_res</span>
+<span class="n">anova_res</span> <span class="o">=</span> <span class="nf">ezANOVA</span><span class="p">(</span>
+    <span class="n">data</span> <span class="o">=</span> <span class="n">quality_data</span><span class="p">,</span> 
+    <span class="n">dv</span> <span class="o">=</span> <span class="n">.(Rating</span><span class="p">),</span> 
+    <span class="n">wid</span> <span class="o">=</span> <span class="n">.(Subject</span><span class="p">),</span> 
+    <span class="n">within</span> <span class="o">=</span> <span class="n">.(Stimulus</span><span class="p">)</span>
+<span class="p">)</span>
 
-<span class="n">anova_summarized</span> <span class="o">&lt;-</span> <span class="nf">anova_summary</span><span class="p">(</span><span class="n">anova_res</span><span class="p">,</span> <span class="n">detailed</span> <span class="o">=</span> <span class="kc">TRUE</span><span class="p">)</span>
-<span class="n">anova_summarized</span>
+<span class="n">anova_res</span>
 </pre></div>
 
     </div>
@@ -13557,35 +13528,33 @@ div#notebook {
 
 
 
-
-<div class="output_text output_subarea ">
-<pre>Call:
-   aov(formula = Rating ~ testStimulus, data = quality_data)
-
-Terms:
-                testStimulus Residuals
-Sum of Squares      235.6737  117.5980
-Deg. of Freedom            5       216
-
-Residual standard error: 0.7378584
-Estimated effects may be unbalanced</pre>
-</div>
-
-</div>
-
-<div class="output_area">
-
-    <div class="prompt"></div>
-
-
-
 <div class="output_html rendered_html output_subarea ">
-<table>
-<thead><tr><th scope=col>Effect</th><th scope=col>DFn</th><th scope=col>DFd</th><th scope=col>SSn</th><th scope=col>SSd</th><th scope=col>F</th><th scope=col>p</th><th scope=col>p&lt;.05</th><th scope=col>ges</th></tr></thead>
+<dl>
+	<dt>$ANOVA</dt>
+		<dd><table>
+<thead><tr><th></th><th scope=col>Effect</th><th scope=col>DFn</th><th scope=col>DFd</th><th scope=col>F</th><th scope=col>p</th><th scope=col>p&lt;.05</th><th scope=col>ges</th></tr></thead>
 <tbody>
-	<tr><td>testStimulus</td><td>5           </td><td>216         </td><td>235.674     </td><td>117.598     </td><td>86.576      </td><td>1.2e-49     </td><td>*           </td><td>0.667       </td></tr>
+	<tr><th scope=row>2</th><td>Stimulus    </td><td>5           </td><td>180         </td><td>105.5003    </td><td>1.339507e-51</td><td>*           </td><td>0.6063881   </td></tr>
 </tbody>
 </table>
+</dd>
+	<dt>$`Mauchly's Test for Sphericity`</dt>
+		<dd><table>
+<thead><tr><th></th><th scope=col>Effect</th><th scope=col>W</th><th scope=col>p</th><th scope=col>p&lt;.05</th></tr></thead>
+<tbody>
+	<tr><th scope=row>2</th><td>Stimulus  </td><td>0.4784972 </td><td>0.03362589</td><td>*         </td></tr>
+</tbody>
+</table>
+</dd>
+	<dt>$`Sphericity Corrections`</dt>
+		<dd><table>
+<thead><tr><th></th><th scope=col>Effect</th><th scope=col>GGe</th><th scope=col>p[GG]</th><th scope=col>p[GG]&lt;.05</th><th scope=col>HFe</th><th scope=col>p[HF]</th><th scope=col>p[HF]&lt;.05</th></tr></thead>
+<tbody>
+	<tr><th scope=row>2</th><td>Stimulus    </td><td>0.7675274   </td><td>3.394932e-40</td><td>*           </td><td>0.8705365   </td><td>2.993396e-45</td><td>*           </td></tr>
+</tbody>
+</table>
+</dd>
+</dl>
 
 </div>
 
@@ -13598,7 +13567,7 @@ Estimated effects may be unbalanced</pre>
 <div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
 </div><div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
-<h4 id="Note:-testStimulus-has-significant-effect-on-speech-quality-ratings-(more-on-that-later)">Note: testStimulus has significant effect on speech quality ratings (more on that later)<a class="anchor-link" href="#Note:-testStimulus-has-significant-effect-on-speech-quality-ratings-(more-on-that-later)">&#182;</a></h4>
+<h4 id="Based-on-the-results-of-the-Mauchly's-sphericity-test,-we-need-to-apply-the-Greenhouse-Geisser-correction-on-our-p-value,-however,-this-does-not-make-a-huge-difference-here-as-the-p-value-of-the-stimulus-main-effect-still-remains-at-around-0">Based on the results of the Mauchly's sphericity test, we need to apply the Greenhouse-Geisser correction on our p value, however, this does not make a huge difference here as the p value of the stimulus main effect still remains at around 0<a class="anchor-link" href="#Based-on-the-results-of-the-Mauchly's-sphericity-test,-we-need-to-apply-the-Greenhouse-Geisser-correction-on-our-p-value,-however,-this-does-not-make-a-huge-difference-here-as-the-p-value-of-the-stimulus-main-effect-still-remains-at-around-0">&#182;</a></h4><h4 id="Therefore:-Stimulus-has-significant-effect-on-speech-quality-ratings-with-p-value-of-around-0-(more-on-that-later)!">Therefore: Stimulus has significant effect on speech quality ratings with p value of around 0 (more on that later)!<a class="anchor-link" href="#Therefore:-Stimulus-has-significant-effect-on-speech-quality-ratings-with-p-value-of-around-0-(more-on-that-later)!">&#182;</a></h4>
 </div>
 </div>
 </div>
@@ -13611,21 +13580,12 @@ Estimated effects may be unbalanced</pre>
 </div>
 <div class="cell border-box-sizing code_cell rendered">
 <div class="input">
-<div class="prompt input_prompt">In&nbsp;[10]:</div>
+<div class="prompt input_prompt">In&nbsp;[9]:</div>
 <div class="inner_cell">
     <div class="input_area">
 <div class=" highlight hl-r"><pre><span></span><span class="c1"># as equal sample sizes (each n=148) and Tukey most widely used: Tukey [&quot;Cramming Sam&#39;s tips&quot; for post hoc tests (from lecture)]</span>
-<span class="n">post_hoc</span> <span class="o">&lt;-</span> <span class="nf">TukeyHSD</span><span class="p">(</span><span class="n">anova_res</span><span class="p">)</span>
-<span class="n">comparisons</span> <span class="o">&lt;-</span> <span class="n">tibble</span><span class="o">::</span><span class="nf">rownames_to_column</span><span class="p">(</span><span class="nf">as.data.frame</span><span class="p">(</span><span class="n">post_hoc</span><span class="o">$</span><span class="n">testStimulus</span><span class="p">),</span> <span class="s">&quot;pairwise comparison&quot;</span><span class="p">)</span> <span class="o">%&gt;%</span> 
-                <span class="nf">select</span><span class="p">(</span><span class="n">`pairwise comparison`</span><span class="p">,</span> <span class="n">`p adj`</span><span class="p">)</span> <span class="o">%&gt;%</span>
-                <span class="nf">arrange</span><span class="p">(</span><span class="nf">desc</span><span class="p">(</span><span class="n">`p adj`</span><span class="p">))</span>
-<span class="nf">paste0</span><span class="p">(</span><span class="s">&#39;Tukey:&#39;</span><span class="p">)</span>
-<span class="n">comparisons</span>
-
-<span class="c1"># BONUS: Bonferroni because we want to control Type I error</span>
-<span class="nf">paste0</span><span class="p">(</span><span class="s">&#39;Bonferroni (bonus):&#39;</span><span class="p">)</span>
-<span class="n">x</span> <span class="o">&lt;-</span> <span class="nf">pairwise.t.test</span><span class="p">(</span><span class="n">quality_data</span><span class="o">$</span><span class="n">Rating</span><span class="p">,</span> <span class="n">quality_data</span><span class="o">$</span><span class="n">testStimulus</span><span class="p">,</span> <span class="n">p.adj</span><span class="o">=</span><span class="s">&quot;bonferroni&quot;</span><span class="p">)</span>
-<span class="n">x</span><span class="o">$</span><span class="n">p.value</span>
+<span class="n">post_hoc</span> <span class="o">&lt;-</span> <span class="nf">TukeyHSD</span><span class="p">(</span><span class="nf">aov</span><span class="p">(</span><span class="n">Rating</span> <span class="o">~</span> <span class="n">Stimulus</span><span class="p">,</span> <span class="n">data</span> <span class="o">=</span> <span class="n">quality_data</span><span class="p">))</span>
+<span class="n">tibble</span><span class="o">::</span><span class="nf">rownames_to_column</span><span class="p">(</span><span class="nf">as.data.frame</span><span class="p">(</span><span class="n">post_hoc</span><span class="o">$</span><span class="n">Stimulus</span><span class="p">),</span> <span class="s">&#39;Compared Stimuli&#39;</span><span class="p">)</span> <span class="o">%&gt;%</span> <span class="nf">arrange</span><span class="p">(</span><span class="nf">desc</span><span class="p">(</span><span class="n">`p adj`</span><span class="p">))</span>
 </pre></div>
 
     </div>
@@ -13643,70 +13603,24 @@ Estimated effects may be unbalanced</pre>
 
 
 <div class="output_html rendered_html output_subarea ">
-'Tukey:'
-</div>
-
-</div>
-
-<div class="output_area">
-
-    <div class="prompt"></div>
-
-
-
-<div class="output_html rendered_html output_subarea ">
 <table>
-<thead><tr><th scope=col>pairwise comparison</th><th scope=col>p adj</th></tr></thead>
+<thead><tr><th scope=col>Compared Stimuli</th><th scope=col>diff</th><th scope=col>lwr</th><th scope=col>upr</th><th scope=col>p adj</th></tr></thead>
 <tbody>
-	<tr><td>maus_m_700_bpf_200_2800_normAsl_-26-haus_m_700_bpf_200_2800_normAsl_-26</td><td>0.999996745                                                            </td></tr>
-	<tr><td>maus_m_700_normAsl_-26-haus_m_700_normAsl_-26                          </td><td>0.985074924                                                            </td></tr>
-	<tr><td>maus_m_700_mnru_Q_14_normAsl_-26-haus_m_700_mnru_Q_14_normAsl_-26      </td><td>0.985074924                                                            </td></tr>
-	<tr><td>haus_m_700_mnru_Q_14_normAsl_-26-haus_m_700_bpf_200_2800_normAsl_-26   </td><td>0.083836735                                                            </td></tr>
-	<tr><td>maus_m_700_bpf_200_2800_normAsl_-26-haus_m_700_mnru_Q_14_normAsl_-26   </td><td>0.061835383                                                            </td></tr>
-	<tr><td>maus_m_700_mnru_Q_14_normAsl_-26-haus_m_700_bpf_200_2800_normAsl_-26   </td><td>0.012192289                                                            </td></tr>
-	<tr><td>maus_m_700_mnru_Q_14_normAsl_-26-maus_m_700_bpf_200_2800_normAsl_-26   </td><td>0.008264769                                                            </td></tr>
-	<tr><td>haus_m_700_normAsl_-26-haus_m_700_bpf_200_2800_normAsl_-26             </td><td>0.000000000                                                            </td></tr>
-	<tr><td>maus_m_700_normAsl_-26-haus_m_700_bpf_200_2800_normAsl_-26             </td><td>0.000000000                                                            </td></tr>
-	<tr><td>haus_m_700_normAsl_-26-haus_m_700_mnru_Q_14_normAsl_-26                </td><td>0.000000000                                                            </td></tr>
-	<tr><td>maus_m_700_normAsl_-26-haus_m_700_mnru_Q_14_normAsl_-26                </td><td>0.000000000                                                            </td></tr>
-	<tr><td>maus_m_700_bpf_200_2800_normAsl_-26-haus_m_700_normAsl_-26             </td><td>0.000000000                                                            </td></tr>
-	<tr><td>maus_m_700_mnru_Q_14_normAsl_-26-haus_m_700_normAsl_-26                </td><td>0.000000000                                                            </td></tr>
-	<tr><td>maus_m_700_normAsl_-26-maus_m_700_bpf_200_2800_normAsl_-26             </td><td>0.000000000                                                            </td></tr>
-	<tr><td>maus_m_700_normAsl_-26-maus_m_700_mnru_Q_14_normAsl_-26                </td><td>0.000000000                                                            </td></tr>
-</tbody>
-</table>
-
-</div>
-
-</div>
-
-<div class="output_area">
-
-    <div class="prompt"></div>
-
-
-
-<div class="output_html rendered_html output_subarea ">
-'Bonferroni (bonus):'
-</div>
-
-</div>
-
-<div class="output_area">
-
-    <div class="prompt"></div>
-
-
-
-<div class="output_html rendered_html output_subarea ">
-<table>
-<thead><tr><th></th><th scope=col>haus_m_700_bpf_200_2800_normAsl_-26</th><th scope=col>haus_m_700_mnru_Q_14_normAsl_-26</th><th scope=col>haus_m_700_normAsl_-26</th><th scope=col>maus_m_700_bpf_200_2800_normAsl_-26</th><th scope=col>maus_m_700_mnru_Q_14_normAsl_-26</th></tr></thead>
-<tbody>
-	<tr><th scope=row>haus_m_700_mnru_Q_14_normAsl_-26</th><td>1.195297e-01</td><td>          NA</td><td>          NA</td><td>          NA</td><td>          NA</td></tr>
-	<tr><th scope=row>haus_m_700_normAsl_-26</th><td>2.450942e-20</td><td>9.554508e-29</td><td>          NA</td><td>          NA</td><td>          NA</td></tr>
-	<tr><th scope=row>maus_m_700_bpf_200_2800_normAsl_-26</th><td>1.000000e+00</td><td>8.448747e-02</td><td>5.623455e-20</td><td>          NA</td><td>          NA</td></tr>
-	<tr><th scope=row>maus_m_700_mnru_Q_14_normAsl_-26</th><td>1.440882e-02</td><td>1.000000e+00</td><td>6.889294e-31</td><td>9.556395e-03</td><td>          NA</td></tr>
-	<tr><th scope=row>maus_m_700_normAsl_-26</th><td>2.110953e-22</td><td>6.889294e-31</td><td>1.000000e+00</td><td>4.912038e-22</td><td>4.920252e-33</td></tr>
+	<tr><td>maus_m_700_normAsl_-26-haus_m_700_normAsl_-26                          </td><td> 0.02702703                                                            </td><td>-0.5308884                                                             </td><td> 0.584942486                                                           </td><td>0.99999261                                                             </td></tr>
+	<tr><td>maus_m_700_bpf_200_2800_normAsl_-26-haus_m_700_bpf_200_2800_normAsl_-26</td><td> 0.05405405                                                            </td><td>-0.5038614                                                             </td><td> 0.611969513                                                           </td><td>0.99977121                                                             </td></tr>
+	<tr><td>maus_m_700_mnru_Q_14_normAsl_-26-haus_m_700_mnru_Q_14_normAsl_-26      </td><td>-0.21621622                                                            </td><td>-0.7741317                                                             </td><td> 0.341699242                                                           </td><td>0.87505663                                                             </td></tr>
+	<tr><td>haus_m_700_mnru_Q_14_normAsl_-26-haus_m_700_bpf_200_2800_normAsl_-26   </td><td>-0.35135135                                                            </td><td>-0.9092668                                                             </td><td> 0.206564107                                                           </td><td>0.46094084                                                             </td></tr>
+	<tr><td>maus_m_700_bpf_200_2800_normAsl_-26-haus_m_700_mnru_Q_14_normAsl_-26   </td><td> 0.40540541                                                            </td><td>-0.1525101                                                             </td><td> 0.963320864                                                           </td><td>0.29669465                                                             </td></tr>
+	<tr><td>maus_m_700_mnru_Q_14_normAsl_-26-haus_m_700_bpf_200_2800_normAsl_-26   </td><td>-0.56756757                                                            </td><td>-1.1254830                                                             </td><td>-0.009652109                                                           </td><td>0.04358349                                                             </td></tr>
+	<tr><td>maus_m_700_mnru_Q_14_normAsl_-26-maus_m_700_bpf_200_2800_normAsl_-26   </td><td>-0.62162162                                                            </td><td>-1.1795371                                                             </td><td>-0.063706163                                                           </td><td>0.01921988                                                             </td></tr>
+	<tr><td>haus_m_700_normAsl_-26-haus_m_700_bpf_200_2800_normAsl_-26             </td><td> 1.89189189                                                            </td><td> 1.3339764                                                             </td><td> 2.449807351                                                           </td><td>0.00000000                                                             </td></tr>
+	<tr><td>maus_m_700_normAsl_-26-haus_m_700_bpf_200_2800_normAsl_-26             </td><td> 1.91891892                                                            </td><td> 1.3610035                                                             </td><td> 2.476834378                                                           </td><td>0.00000000                                                             </td></tr>
+	<tr><td>haus_m_700_normAsl_-26-haus_m_700_mnru_Q_14_normAsl_-26                </td><td> 2.24324324                                                            </td><td> 1.6853278                                                             </td><td> 2.801158702                                                           </td><td>0.00000000                                                             </td></tr>
+	<tr><td>maus_m_700_normAsl_-26-haus_m_700_mnru_Q_14_normAsl_-26                </td><td> 2.27027027                                                            </td><td> 1.7123548                                                             </td><td> 2.828185729                                                           </td><td>0.00000000                                                             </td></tr>
+	<tr><td>maus_m_700_bpf_200_2800_normAsl_-26-haus_m_700_normAsl_-26             </td><td>-1.83783784                                                            </td><td>-2.3957533                                                             </td><td>-1.279922379                                                           </td><td>0.00000000                                                             </td></tr>
+	<tr><td>maus_m_700_mnru_Q_14_normAsl_-26-haus_m_700_normAsl_-26                </td><td>-2.45945946                                                            </td><td>-3.0173749                                                             </td><td>-1.901544001                                                           </td><td>0.00000000                                                             </td></tr>
+	<tr><td>maus_m_700_normAsl_-26-maus_m_700_bpf_200_2800_normAsl_-26             </td><td> 1.86486486                                                            </td><td> 1.3069494                                                             </td><td> 2.422780324                                                           </td><td>0.00000000                                                             </td></tr>
+	<tr><td>maus_m_700_normAsl_-26-maus_m_700_mnru_Q_14_normAsl_-26                </td><td> 2.48648649                                                            </td><td> 1.9285710                                                             </td><td> 3.044401945                                                           </td><td>0.00000000                                                             </td></tr>
 </tbody>
 </table>
 
@@ -13728,23 +13642,25 @@ Estimated effects may be unbalanced</pre>
 <div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
 </div><div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
-<h3 id="Step-5:-Interpretation">Step 6: Interpretation<a class="anchor-link" href="#Step-5:-Interpretation">&#182;</a></h3>
+<h3 id="Step-6:-Interpretation">Step 6: Interpretation<a class="anchor-link" href="#Step-6:-Interpretation">&#182;</a></h3>
 </div>
 </div>
 </div>
 <div class="cell border-box-sizing code_cell rendered">
 <div class="input">
-<div class="prompt input_prompt">In&nbsp;[11]:</div>
+<div class="prompt input_prompt">In&nbsp;[10]:</div>
 <div class="inner_cell">
     <div class="input_area">
 <div class=" highlight hl-r"><pre><span></span><span class="c1"># compute individual degrees of freedom for groups</span>
 <span class="n">get_df_of</span> <span class="o">&lt;-</span> <span class="nf">function</span><span class="p">(</span><span class="n">stimulus</span><span class="p">)</span> <span class="p">{</span>
-    <span class="n">df</span> <span class="o">&lt;-</span> <span class="p">(</span><span class="n">quality_data</span> <span class="o">%&gt;%</span> <span class="n">dplyr</span><span class="o">::</span><span class="nf">filter</span><span class="p">(</span><span class="n">testStimulus</span> <span class="o">==</span> <span class="n">stimulus</span><span class="p">)</span> <span class="o">%&gt;%</span> 
+    <span class="n">df</span> <span class="o">&lt;-</span> <span class="p">(</span><span class="n">quality_data</span> <span class="o">%&gt;%</span> <span class="n">dplyr</span><span class="o">::</span><span class="nf">filter</span><span class="p">(</span><span class="n">Stimulus</span> <span class="o">==</span> <span class="n">stimulus</span><span class="p">)</span> <span class="o">%&gt;%</span> 
             <span class="nf">mutate</span><span class="p">(</span><span class="n">df</span> <span class="o">=</span> <span class="nf">n</span><span class="p">()</span> <span class="o">-</span> <span class="m">1</span><span class="p">))</span><span class="n">[1</span><span class="p">,</span><span class="n">][[</span><span class="s">&#39;df&#39;</span><span class="n">]]</span>
-    <span class="nf">paste0</span><span class="p">(</span><span class="s">&#39;df_{&#39;</span><span class="p">,</span> <span class="n">stimulus</span><span class="p">,</span> <span class="s">&#39;} = &#39;</span><span class="p">,</span> <span class="n">df</span><span class="p">,</span> <span class="s">&#39;; &#39;</span><span class="p">)</span>
+    
+    <span class="c1"># print</span>
+    <span class="nf">paste0</span><span class="p">(</span><span class="s">&#39;df_{&#39;</span><span class="p">,</span> <span class="n">stimulus</span><span class="p">,</span> <span class="s">&#39;} = &#39;</span><span class="p">,</span> <span class="n">df</span><span class="p">)</span>
 <span class="p">}</span>
 
-<span class="nf">paste0</span><span class="p">(</span><span class="s">&#39;Total amount of samples: &#39;</span><span class="p">,</span> <span class="nf">nrow</span><span class="p">(</span><span class="n">quality_data</span><span class="p">))</span>
+<span class="nf">cat</span><span class="p">(</span><span class="nf">paste0</span><span class="p">(</span><span class="s">&#39;Total amount of samples: &#39;</span><span class="p">,</span> <span class="nf">nrow</span><span class="p">(</span><span class="n">quality_data</span><span class="p">)))</span>
 </pre></div>
 
     </div>
@@ -13760,11 +13676,9 @@ Estimated effects may be unbalanced</pre>
     <div class="prompt"></div>
 
 
-
-<div class="output_html rendered_html output_subarea ">
-'Total amount of samples: 222'
+<div class="output_subarea output_stream output_stdout output_text">
+<pre>Total amount of samples: 222</pre>
 </div>
-
 </div>
 
 </div>
@@ -13773,16 +13687,16 @@ Estimated effects may be unbalanced</pre>
 </div>
 <div class="cell border-box-sizing code_cell rendered">
 <div class="input">
-<div class="prompt input_prompt">In&nbsp;[12]:</div>
+<div class="prompt input_prompt">In&nbsp;[11]:</div>
 <div class="inner_cell">
     <div class="input_area">
 <div class=" highlight hl-r"><pre><span></span><span class="c1"># compute statistics for independent variables&#39; values</span>
 <span class="nf">for </span><span class="p">(</span><span class="n">stimulus</span> <span class="n">in</span> <span class="n">stimuli</span><span class="p">)</span> <span class="p">{</span>
     <span class="n">statistics</span> <span class="o">&lt;-</span> <span class="n">quality_data</span> <span class="o">%&gt;%</span> 
-                    <span class="nf">filter</span><span class="p">(</span><span class="n">testStimulus</span> <span class="o">==</span> <span class="n">stimulus</span><span class="p">)</span> <span class="o">%&gt;%</span>
-                    <span class="nf">group_by</span><span class="p">(</span><span class="n">testStimulus</span><span class="p">)</span> <span class="o">%&gt;%</span>
+                    <span class="nf">filter</span><span class="p">(</span><span class="n">Stimulus</span> <span class="o">==</span> <span class="n">stimulus</span><span class="p">)</span> <span class="o">%&gt;%</span>
+                    <span class="nf">group_by</span><span class="p">(</span><span class="n">Stimulus</span><span class="p">)</span> <span class="o">%&gt;%</span>
                     <span class="nf">summarize</span><span class="p">(</span><span class="n">mean</span> <span class="o">=</span> <span class="nf">mean</span><span class="p">(</span><span class="n">Rating</span><span class="p">),</span> <span class="n">sd</span> <span class="o">=</span> <span class="nf">sd</span><span class="p">(</span><span class="n">Rating</span><span class="p">))</span>
-    <span class="nf">print</span><span class="p">(</span><span class="nf">paste0</span><span class="p">(</span><span class="n">stimulus</span><span class="p">,</span> <span class="s">&#39; (&#39;</span><span class="p">,</span> <span class="nf">get_df_of</span><span class="p">(</span><span class="n">stimulus</span><span class="p">),</span> <span class="s">&#39;): mean around &#39;</span><span class="p">,</span> <span class="nf">round</span><span class="p">(</span><span class="n">statistics[[</span><span class="s">&#39;mean&#39;</span><span class="n">]]</span><span class="p">,</span> <span class="n">digits</span><span class="o">=</span><span class="m">3</span><span class="p">),</span> <span class="s">&#39;, standard deviation around &#39;</span><span class="p">,</span> <span class="nf">round</span><span class="p">(</span><span class="n">statistics[[</span><span class="s">&#39;sd&#39;</span><span class="n">]]</span><span class="p">,</span> <span class="n">digits</span><span class="o">=</span><span class="m">3</span><span class="p">)))</span>
+    <span class="nf">cat</span><span class="p">(</span><span class="nf">paste0</span><span class="p">(</span><span class="n">stimulus</span><span class="p">,</span> <span class="s">&#39; (&#39;</span><span class="p">,</span> <span class="nf">get_df_of</span><span class="p">(</span><span class="n">stimulus</span><span class="p">),</span> <span class="s">&#39;): mean around &#39;</span><span class="p">,</span> <span class="nf">round</span><span class="p">(</span><span class="n">statistics[[</span><span class="s">&#39;mean&#39;</span><span class="n">]]</span><span class="p">,</span> <span class="n">digits</span><span class="o">=</span><span class="m">3</span><span class="p">),</span> <span class="s">&#39;, standard deviation around &#39;</span><span class="p">,</span> <span class="nf">round</span><span class="p">(</span><span class="n">statistics[[</span><span class="s">&#39;sd&#39;</span><span class="n">]]</span><span class="p">,</span> <span class="n">digits</span><span class="o">=</span><span class="m">3</span><span class="p">),</span> <span class="s">&#39;\n&#39;</span><span class="p">))</span>
 <span class="p">}</span>
 </pre></div>
 
@@ -13800,12 +13714,12 @@ Estimated effects may be unbalanced</pre>
 
 
 <div class="output_subarea output_stream output_stdout output_text">
-<pre>[1] &#34;haus_m_700_bpf_200_2800_normAsl_-26 (df_{haus_m_700_bpf_200_2800_normAsl_-26} = 36; ): mean around 2.649, standard deviation around 0.951&#34;
-[1] &#34;haus_m_700_mnru_Q_14_normAsl_-26 (df_{haus_m_700_mnru_Q_14_normAsl_-26} = 36; ): mean around 2.189, standard deviation around 0.723&#34;
-[1] &#34;haus_m_700_normAsl_-26 (df_{haus_m_700_normAsl_-26} = 36; ): mean around 4.473, standard deviation around 0.533&#34;
-[1] &#34;maus_m_700_bpf_200_2800_normAsl_-26 (df_{maus_m_700_bpf_200_2800_normAsl_-26} = 36; ): mean around 2.669, standard deviation around 0.86&#34;
-[1] &#34;maus_m_700_mnru_Q_14_normAsl_-26 (df_{maus_m_700_mnru_Q_14_normAsl_-26} = 36; ): mean around 2.074, standard deviation around 0.689&#34;
-[1] &#34;maus_m_700_normAsl_-26 (df_{maus_m_700_normAsl_-26} = 36; ): mean around 4.588, standard deviation around 0.584&#34;
+<pre>haus_m_700_bpf_200_2800_normAsl_-26 (df_{haus_m_700_bpf_200_2800_normAsl_-26} = 36): mean around 2.622, standard deviation around 0.982
+haus_m_700_mnru_Q_14_normAsl_-26 (df_{haus_m_700_mnru_Q_14_normAsl_-26} = 36): mean around 2.27, standard deviation around 0.871
+haus_m_700_normAsl_-26 (df_{haus_m_700_normAsl_-26} = 36): mean around 4.514, standard deviation around 0.559
+maus_m_700_bpf_200_2800_normAsl_-26 (df_{maus_m_700_bpf_200_2800_normAsl_-26} = 36): mean around 2.676, standard deviation around 0.915
+maus_m_700_mnru_Q_14_normAsl_-26 (df_{maus_m_700_mnru_Q_14_normAsl_-26} = 36): mean around 2.054, standard deviation around 0.815
+maus_m_700_normAsl_-26 (df_{maus_m_700_normAsl_-26} = 36): mean around 4.541, standard deviation around 0.803
 </pre>
 </div>
 </div>
@@ -13817,7 +13731,7 @@ Estimated effects may be unbalanced</pre>
 <div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
 </div><div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
-<h4 id="Altering-the-testStimulus-does-have-a-significant-effect-on-the-speech-quality-ratings:">Altering the testStimulus does have a significant effect on the speech quality ratings:<a class="anchor-link" href="#Altering-the-testStimulus-does-have-a-significant-effect-on-the-speech-quality-ratings:">&#182;</a></h4><h4 id="There-is-a-significant-(alpha-value-=-0.05)-and-rather-large-main-effect-of-the-testStimulus-on-the-speech-quality-ratings-(F-statistic-value-of-around-86.576,-p-value-of-around-1.2e-49-with-eta&#178;-effect-size-of-around-0.667).">There is a significant (alpha value = 0.05) and rather large main effect of the testStimulus on the speech quality ratings (F statistic value of around 86.576, p-value of around 1.2e-49 with eta&#178; effect size of around 0.667).<a class="anchor-link" href="#There-is-a-significant-(alpha-value-=-0.05)-and-rather-large-main-effect-of-the-testStimulus-on-the-speech-quality-ratings-(F-statistic-value-of-around-86.576,-p-value-of-around-1.2e-49-with-eta&#178;-effect-size-of-around-0.667).">&#182;</a></h4><h4 id="Overall-residual-standard-error-around-0.738-with-sum-of-squares-around-117.6.">Overall residual standard error around 0.738 with sum of squares around 117.6.<a class="anchor-link" href="#Overall-residual-standard-error-around-0.738-with-sum-of-squares-around-117.6.">&#182;</a></h4><h4 id="The-total-degrees-of-freedom-are-the-amount-of-total-observations---1-=&gt;-222---1-=-221-[37-samples-&amp;-36-df-for-each-distinct-testStimulus].">The total degrees of freedom are the amount of total observations - 1 =&gt; 222 - 1 = 221 [37 samples &amp; 36 df for each distinct testStimulus].<a class="anchor-link" href="#The-total-degrees-of-freedom-are-the-amount-of-total-observations---1-=&gt;-222---1-=-221-[37-samples-&amp;-36-df-for-each-distinct-testStimulus].">&#182;</a></h4><h4 id="Regarding-pairwise-comparisons-/-post-hoc-tests,-there-is-a-significant-statistical-difference-of-ratings-[with-p-value-&lt;-0.05]-between-every-pair-of-different-testStimuli-except-for-5-cases:">Regarding pairwise comparisons / post hoc tests, there is a significant statistical difference of ratings [with p-value &lt; 0.05] between every pair of different testStimuli except for 5 cases:<a class="anchor-link" href="#Regarding-pairwise-comparisons-/-post-hoc-tests,-there-is-a-significant-statistical-difference-of-ratings-[with-p-value-&lt;-0.05]-between-every-pair-of-different-testStimuli-except-for-5-cases:">&#182;</a></h4><h4 id="maus_m_700_bpf_200_2800normAsl-26-to-haus_m_700_bpf_200_2800normAsl-26">maus_m_700_bpf_200_2800<em>normAsl</em>-26 to haus_m_700_bpf_200_2800<em>normAsl</em>-26<a class="anchor-link" href="#maus_m_700_bpf_200_2800normAsl-26-to-haus_m_700_bpf_200_2800normAsl-26">&#182;</a></h4><h4 id="maus_m_700normAsl-26-to-haus_m_700normAsl-26">maus_m_700<em>normAsl</em>-26 to haus_m_700<em>normAsl</em>-26<a class="anchor-link" href="#maus_m_700normAsl-26-to-haus_m_700normAsl-26">&#182;</a></h4><h4 id="maus_m_700_mnru_Q_14normAsl-26-to-haus_m_700_mnru_Q_14normAsl-26">maus_m_700_mnru_Q_14<em>normAsl</em>-26 to haus_m_700_mnru_Q_14<em>normAsl</em>-26<a class="anchor-link" href="#maus_m_700_mnru_Q_14normAsl-26-to-haus_m_700_mnru_Q_14normAsl-26">&#182;</a></h4><h4 id="haus_m_700_mnru_Q_14normAsl-26-to-haus_m_700_bpf_200_2800normAsl-26">haus_m_700_mnru_Q_14<em>normAsl</em>-26 to haus_m_700_bpf_200_2800<em>normAsl</em>-26<a class="anchor-link" href="#haus_m_700_mnru_Q_14normAsl-26-to-haus_m_700_bpf_200_2800normAsl-26">&#182;</a></h4><h4 id="maus_m_700_bpf_200_2800normAsl-26-to-haus_m_700_mnru_Q_14normAsl-26">maus_m_700_bpf_200_2800<em>normAsl</em>-26 to haus_m_700_mnru_Q_14<em>normAsl</em>-26<a class="anchor-link" href="#maus_m_700_bpf_200_2800normAsl-26-to-haus_m_700_mnru_Q_14normAsl-26">&#182;</a></h4>
+<h4 id="Altering-the-testStimulus-aka-condition-does-have-a-significant-effect-on-the-speech-quality-ratings:">Altering the testStimulus aka condition does have a significant effect on the speech quality ratings:<a class="anchor-link" href="#Altering-the-testStimulus-aka-condition-does-have-a-significant-effect-on-the-speech-quality-ratings:">&#182;</a></h4><h4 id="There-is-a-significant-(alpha-=-0.05)-and-rather-large-main-effect-of-the-testStimulus-on-the-speech-quality-ratings-(F-statistic-value-of-around-105.5,-Greenhouse-Geisser-corrected-p-value-of-around-0-with-eta&#178;-effect-size-of-around-0.6064).">There is a significant (alpha = 0.05) and rather large main effect of the testStimulus on the speech quality ratings (F statistic value of around 105.5, Greenhouse-Geisser corrected p-value of around 0 with eta&#178; effect size of around 0.6064).<a class="anchor-link" href="#There-is-a-significant-(alpha-=-0.05)-and-rather-large-main-effect-of-the-testStimulus-on-the-speech-quality-ratings-(F-statistic-value-of-around-105.5,-Greenhouse-Geisser-corrected-p-value-of-around-0-with-eta&#178;-effect-size-of-around-0.6064).">&#182;</a></h4><h4 id="The-total-degrees-of-freedom-are-the-amount-of-total-observations---1-=&gt;-222---1-=-221-[37-samples-&amp;-36-df-for-each-distinct-testStimulus].">The total degrees of freedom are the amount of total observations - 1 =&gt; 222 - 1 = 221 [37 samples &amp; 36 df for each distinct testStimulus].<a class="anchor-link" href="#The-total-degrees-of-freedom-are-the-amount-of-total-observations---1-=&gt;-222---1-=-221-[37-samples-&amp;-36-df-for-each-distinct-testStimulus].">&#182;</a></h4><h4 id="Regarding-pairwise-comparisons-/-post-hoc-tests-(Tukey's-HSD),-a-statistically-significant-difference-of-ratings-occurs-each-time-we-alter-the-testStimulus,-EXCEPT-for-the-following-five-cases-(in-descending-order-of-p-values):">Regarding pairwise comparisons / post hoc tests (Tukey's HSD), a statistically significant difference of ratings occurs each time we alter the testStimulus, EXCEPT for the following five cases (in descending order of p values):<a class="anchor-link" href="#Regarding-pairwise-comparisons-/-post-hoc-tests-(Tukey's-HSD),-a-statistically-significant-difference-of-ratings-occurs-each-time-we-alter-the-testStimulus,-EXCEPT-for-the-following-five-cases-(in-descending-order-of-p-values):">&#182;</a></h4><h4 id="1.-Switching-between-maus_m_700normAsl-26-&amp;-haus_m_700normAsl-26">1. Switching between maus_m_700<em>normAsl</em>-26 &amp; haus_m_700<em>normAsl</em>-26<a class="anchor-link" href="#1.-Switching-between-maus_m_700normAsl-26-&amp;-haus_m_700normAsl-26">&#182;</a></h4><h4 id="2.-Switching-between-maus_m_700_bpf_200_2800normAsl-26-&amp;-haus_m_700_bpf_200_2800normAsl-26">2. Switching between maus_m_700_bpf_200_2800<em>normAsl</em>-26 &amp; haus_m_700_bpf_200_2800<em>normAsl</em>-26<a class="anchor-link" href="#2.-Switching-between-maus_m_700_bpf_200_2800normAsl-26-&amp;-haus_m_700_bpf_200_2800normAsl-26">&#182;</a></h4><h4 id="3.-Switching-between-maus_m_700_mnru_Q_14normAsl-26-&amp;-haus_m_700_mnru_Q_14normAsl-26">3. Switching between maus_m_700_mnru_Q_14<em>normAsl</em>-26 &amp; haus_m_700_mnru_Q_14<em>normAsl</em>-26<a class="anchor-link" href="#3.-Switching-between-maus_m_700_mnru_Q_14normAsl-26-&amp;-haus_m_700_mnru_Q_14normAsl-26">&#182;</a></h4><h4 id="4.-Switching-between-haus_m_700_mnru_Q_14normAsl-26-&amp;-haus_m_700_bpf_200_2800normAsl-26">4. Switching between haus_m_700_mnru_Q_14<em>normAsl</em>-26 &amp; haus_m_700_bpf_200_2800<em>normAsl</em>-26<a class="anchor-link" href="#4.-Switching-between-haus_m_700_mnru_Q_14normAsl-26-&amp;-haus_m_700_bpf_200_2800normAsl-26">&#182;</a></h4><h4 id="5.-Switching-between-maus_m_700_bpf_200_2800normAsl-26-&amp;-haus_m_700_mnru_Q_14normAsl-26">5. Switching between maus_m_700_bpf_200_2800<em>normAsl</em>-26 &amp; haus_m_700_mnru_Q_14<em>normAsl</em>-26<a class="anchor-link" href="#5.-Switching-between-maus_m_700_bpf_200_2800normAsl-26-&amp;-haus_m_700_mnru_Q_14normAsl-26">&#182;</a></h4><h4 id="All-other-alterings-of-the-testStimulus-lead-to-a-significant-difference-in-speech-quality-ratings.">All other alterings of the testStimulus lead to a significant difference in speech quality ratings.<a class="anchor-link" href="#All-other-alterings-of-the-testStimulus-lead-to-a-significant-difference-in-speech-quality-ratings.">&#182;</a></h4>
 </div>
 </div>
 </div>
