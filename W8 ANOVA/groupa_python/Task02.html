@@ -2,7 +2,7 @@
 <html>
 <head><meta charset="utf-8" />
 
-<title>Task02</title>
+<title>Task02-Olivia</title>
 
 <script src="https://cdnjs.cloudflare.com/ajax/libs/require.js/2.1.10/require.min.js"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/2.0.3/jquery.min.js"></script>
@@ -13136,7 +13136,7 @@ value as well as pairwise comparisions.</p>
 <div class="text_cell_render border-box-sizing rendered_html">
 <p>Does the testStimulus (independent variable) have a significant influence on
 speech quality ratings (dependent variable)? If yes, for which cases?</p>
-<p>Please assume that each of the six files was assessed by a different set of test participants.
+<p>Please assume that each of the six files was assessed by a different set of test participants and only use the rating of the first repetition (<code>repetition = 1</code>).
 Use the quality ratings provided in the dataset “speech_quality_repetition_dataset”.</p>
 
 </div>
@@ -13173,6 +13173,26 @@ Use the quality ratings provided in the dataset “speech_quality_repetition_dat
 </div>
 </div>
 
+<div class="output_wrapper">
+<div class="output">
+
+
+<div class="output_area">
+
+    <div class="prompt"></div>
+
+
+<div class="output_subarea output_stream output_stderr output_text">
+<pre>/home/jupyter-groupa/.local/lib/python3.6/site-packages/outdated/utils.py:18: OutdatedPackageWarning: The package pingouin is out of date. Your version is 0.3.2, the latest is 0.3.3.
+Set the environment variable OUTDATED_IGNORE=1 to disable these warnings.
+  **kwargs
+</pre>
+</div>
+</div>
+
+</div>
+</div>
+
 </div>
 <div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
 </div><div class="inner_cell">
@@ -13188,6 +13208,8 @@ Use the quality ratings provided in the dataset “speech_quality_repetition_dat
     <div class="input_area">
 <div class=" highlight hl-ipython3"><pre><span></span><span class="n">df</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">read_csv</span><span class="p">(</span><span class="s2">&quot;../datasets/DB03_speech_quality_repetition_dataset.csv&quot;</span><span class="p">)</span>
 
+<span class="n">mask</span> <span class="o">=</span> <span class="p">(</span><span class="n">df</span><span class="p">[</span><span class="s1">&#39;repetition&#39;</span><span class="p">]</span> <span class="o">==</span> <span class="mi">1</span><span class="p">)</span>
+<span class="n">df</span> <span class="o">=</span> <span class="n">df</span><span class="o">.</span><span class="n">loc</span><span class="p">[</span><span class="n">mask</span><span class="p">]</span>
 <span class="nb">print</span><span class="p">(</span><span class="n">df</span><span class="o">.</span><span class="n">testStimulus</span><span class="o">.</span><span class="n">unique</span><span class="p">())</span>
 
 <span class="n">df</span>
@@ -13254,29 +13276,29 @@ Use the quality ratings provided in the dataset “speech_quality_repetition_dat
       <td>2</td>
     </tr>
     <tr>
-      <th>1</th>
-      <td>vp01</td>
-      <td>haus_m_700_bpf_200_2800_normAsl_-26</td>
-      <td>2</td>
-      <td>2</td>
-    </tr>
-    <tr>
-      <th>2</th>
-      <td>vp01</td>
-      <td>haus_m_700_bpf_200_2800_normAsl_-26</td>
-      <td>3</td>
-      <td>2</td>
-    </tr>
-    <tr>
-      <th>3</th>
-      <td>vp01</td>
-      <td>haus_m_700_bpf_200_2800_normAsl_-26</td>
-      <td>4</td>
-      <td>2</td>
-    </tr>
-    <tr>
       <th>4</th>
       <td>vp02</td>
+      <td>haus_m_700_bpf_200_2800_normAsl_-26</td>
+      <td>1</td>
+      <td>2</td>
+    </tr>
+    <tr>
+      <th>8</th>
+      <td>vp03</td>
+      <td>haus_m_700_bpf_200_2800_normAsl_-26</td>
+      <td>1</td>
+      <td>3</td>
+    </tr>
+    <tr>
+      <th>12</th>
+      <td>vp04</td>
+      <td>haus_m_700_bpf_200_2800_normAsl_-26</td>
+      <td>1</td>
+      <td>3</td>
+    </tr>
+    <tr>
+      <th>16</th>
+      <td>vp05</td>
       <td>haus_m_700_bpf_200_2800_normAsl_-26</td>
       <td>1</td>
       <td>2</td>
@@ -13289,10 +13311,31 @@ Use the quality ratings provided in the dataset “speech_quality_repetition_dat
       <td>...</td>
     </tr>
     <tr>
-      <th>883</th>
+      <th>868</th>
+      <td>vp33</td>
+      <td>maus_m_700_normAsl_-26</td>
+      <td>1</td>
+      <td>4</td>
+    </tr>
+    <tr>
+      <th>872</th>
+      <td>vp34</td>
+      <td>maus_m_700_normAsl_-26</td>
+      <td>1</td>
+      <td>5</td>
+    </tr>
+    <tr>
+      <th>876</th>
+      <td>vp35</td>
+      <td>maus_m_700_normAsl_-26</td>
+      <td>1</td>
+      <td>5</td>
+    </tr>
+    <tr>
+      <th>880</th>
       <td>vp36</td>
       <td>maus_m_700_normAsl_-26</td>
-      <td>4</td>
+      <td>1</td>
       <td>5</td>
     </tr>
     <tr>
@@ -13302,30 +13345,9 @@ Use the quality ratings provided in the dataset “speech_quality_repetition_dat
       <td>1</td>
       <td>5</td>
     </tr>
-    <tr>
-      <th>885</th>
-      <td>vp37</td>
-      <td>maus_m_700_normAsl_-26</td>
-      <td>2</td>
-      <td>5</td>
-    </tr>
-    <tr>
-      <th>886</th>
-      <td>vp37</td>
-      <td>maus_m_700_normAsl_-26</td>
-      <td>3</td>
-      <td>4</td>
-    </tr>
-    <tr>
-      <th>887</th>
-      <td>vp37</td>
-      <td>maus_m_700_normAsl_-26</td>
-      <td>4</td>
-      <td>5</td>
-    </tr>
   </tbody>
 </table>
-<p>888 rows × 4 columns</p>
+<p>222 rows × 4 columns</p>
 </div>
 </div>
 
@@ -13338,7 +13360,7 @@ Use the quality ratings provided in the dataset “speech_quality_repetition_dat
 <div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
 </div><div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
-<h1 id="One-way-ANOVA">One-way ANOVA<a class="anchor-link" href="#One-way-ANOVA">&#182;</a></h1><p><img src="https://pingouin-stats.org/_images/flowchart_one_way_ANOVA.svg" alt="flowchart_one_way_ANOVA">
+<h2 id="One-way-ANOVA">One-way ANOVA<a class="anchor-link" href="#One-way-ANOVA">&#182;</a></h2><p><img src="https://pingouin-stats.org/_images/flowchart_one_way_ANOVA.svg" alt="flowchart_one_way_ANOVA">
 Source: <a href="https://pingouin-stats.org/guidelines.html#id5">https://pingouin-stats.org/guidelines.html#id5</a></p>
 
 </div>
@@ -13368,12 +13390,10 @@ Source: <a href="https://pingouin-stats.org/guidelines.html#id5">https://pingoui
 </div>
 <div class="cell border-box-sizing code_cell rendered">
 <div class="input">
-<div class="prompt input_prompt">In&nbsp;[3]:</div>
+<div class="prompt input_prompt">In&nbsp;[10]:</div>
 <div class="inner_cell">
     <div class="input_area">
-<div class=" highlight hl-ipython3"><pre><span></span><span class="n">groups</span> <span class="o">=</span> <span class="n">df</span><span class="o">.</span><span class="n">groupby</span><span class="p">(</span><span class="s2">&quot;testStimulus&quot;</span><span class="p">)</span><span class="o">.</span><span class="n">rating</span>
-<span class="n">group_dfs</span> <span class="o">=</span> <span class="p">[</span><span class="n">g</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span><span class="o">.</span><span class="n">values</span> <span class="k">for</span> <span class="n">g</span> <span class="ow">in</span> <span class="n">groups</span><span class="p">]</span>
-<span class="n">pg</span><span class="o">.</span><span class="n">homoscedasticity</span><span class="p">(</span><span class="n">group_dfs</span><span class="p">)</span>
+<div class=" highlight hl-ipython3"><pre><span></span><span class="n">pg</span><span class="o">.</span><span class="n">homoscedasticity</span><span class="p">(</span><span class="n">data</span><span class="o">=</span><span class="n">df</span><span class="p">,</span> <span class="n">dv</span><span class="o">=</span><span class="s2">&quot;rating&quot;</span><span class="p">,</span> <span class="n">group</span><span class="o">=</span><span class="s2">&quot;testStimulus&quot;</span><span class="p">)</span>
 </pre></div>
 
     </div>
@@ -13386,7 +13406,7 @@ Source: <a href="https://pingouin-stats.org/guidelines.html#id5">https://pingoui
 
 <div class="output_area">
 
-    <div class="prompt output_prompt">Out[3]:</div>
+    <div class="prompt output_prompt">Out[10]:</div>
 
 
 
@@ -13417,9 +13437,9 @@ Source: <a href="https://pingouin-stats.org/guidelines.html#id5">https://pingoui
   <tbody>
     <tr>
       <th>levene</th>
-      <td>7.029</td>
-      <td>0.000002</td>
-      <td>False</td>
+      <td>1.141</td>
+      <td>0.339636</td>
+      <td>True</td>
     </tr>
   </tbody>
 </table>
@@ -13436,7 +13456,7 @@ Source: <a href="https://pingouin-stats.org/guidelines.html#id5">https://pingoui
 </div><div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
 <ul>
-<li>No homogeneity of variances -&gt; Welch ANOVA</li>
+<li>homogeneity of variances -&gt; classic ANOVA</li>
 </ul>
 
 </div>
@@ -13454,7 +13474,7 @@ Source: <a href="https://pingouin-stats.org/guidelines.html#id5">https://pingoui
 <div class="prompt input_prompt">In&nbsp;[4]:</div>
 <div class="inner_cell">
     <div class="input_area">
-<div class=" highlight hl-ipython3"><pre><span></span><span class="n">result</span> <span class="o">=</span> <span class="n">df</span><span class="o">.</span><span class="n">welch_anova</span><span class="p">(</span><span class="n">dv</span><span class="o">=</span><span class="s2">&quot;rating&quot;</span><span class="p">,</span> <span class="n">between</span><span class="o">=</span><span class="s2">&quot;testStimulus&quot;</span><span class="p">)</span>
+<div class=" highlight hl-ipython3"><pre><span></span><span class="n">result</span> <span class="o">=</span> <span class="n">df</span><span class="o">.</span><span class="n">anova</span><span class="p">(</span><span class="n">dv</span><span class="o">=</span><span class="s2">&quot;rating&quot;</span><span class="p">,</span> <span class="n">between</span><span class="o">=</span><span class="s2">&quot;testStimulus&quot;</span><span class="p">)</span>
 <span class="n">result</span><span class="o">.</span><span class="n">style</span><span class="o">.</span><span class="n">background_gradient</span><span class="p">(</span><span class="n">cmap</span><span class="o">=</span><span class="n">cm</span><span class="p">,</span> <span class="n">subset</span><span class="o">=</span><span class="p">[</span><span class="s2">&quot;p-unc&quot;</span><span class="p">])</span>
 </pre></div>
 
@@ -13474,17 +13494,18 @@ Source: <a href="https://pingouin-stats.org/guidelines.html#id5">https://pingoui
 
 <div class="output_html rendered_html output_subarea output_execute_result">
 <style  type="text/css" >
-    #T_567b91d2_46a6_11ea_9133_aa0000b0ab3arow0_col4 {
+    #T_48f90d2c_4c3d_11ea_9dca_aa0000b0ab3arow0_col4 {
             background-color:  #169906;
             color:  #000000;
-        }</style><table id="T_567b91d2_46a6_11ea_9133_aa0000b0ab3a" ><thead>    <tr>        <th class="blank level0" ></th>        <th class="col_heading level0 col0" >Source</th>        <th class="col_heading level0 col1" >ddof1</th>        <th class="col_heading level0 col2" >ddof2</th>        <th class="col_heading level0 col3" >F</th>        <th class="col_heading level0 col4" >p-unc</th>    </tr></thead><tbody>
+        }</style><table id="T_48f90d2c_4c3d_11ea_9dca_aa0000b0ab3a" ><thead>    <tr>        <th class="blank level0" ></th>        <th class="col_heading level0 col0" >Source</th>        <th class="col_heading level0 col1" >ddof1</th>        <th class="col_heading level0 col2" >ddof2</th>        <th class="col_heading level0 col3" >F</th>        <th class="col_heading level0 col4" >p-unc</th>        <th class="col_heading level0 col5" >np2</th>    </tr></thead><tbody>
                 <tr>
-                        <th id="T_567b91d2_46a6_11ea_9133_aa0000b0ab3alevel0_row0" class="row_heading level0 row0" >0</th>
-                        <td id="T_567b91d2_46a6_11ea_9133_aa0000b0ab3arow0_col0" class="data row0 col0" >testStimulus</td>
-                        <td id="T_567b91d2_46a6_11ea_9133_aa0000b0ab3arow0_col1" class="data row0 col1" >5</td>
-                        <td id="T_567b91d2_46a6_11ea_9133_aa0000b0ab3arow0_col2" class="data row0 col2" >410.455000</td>
-                        <td id="T_567b91d2_46a6_11ea_9133_aa0000b0ab3arow0_col3" class="data row0 col3" >326.083000</td>
-                        <td id="T_567b91d2_46a6_11ea_9133_aa0000b0ab3arow0_col4" class="data row0 col4" >0.000000</td>
+                        <th id="T_48f90d2c_4c3d_11ea_9dca_aa0000b0ab3alevel0_row0" class="row_heading level0 row0" >0</th>
+                        <td id="T_48f90d2c_4c3d_11ea_9dca_aa0000b0ab3arow0_col0" class="data row0 col0" >testStimulus</td>
+                        <td id="T_48f90d2c_4c3d_11ea_9dca_aa0000b0ab3arow0_col1" class="data row0 col1" >5</td>
+                        <td id="T_48f90d2c_4c3d_11ea_9dca_aa0000b0ab3arow0_col2" class="data row0 col2" >216</td>
+                        <td id="T_48f90d2c_4c3d_11ea_9dca_aa0000b0ab3arow0_col3" class="data row0 col3" >66.553000</td>
+                        <td id="T_48f90d2c_4c3d_11ea_9dca_aa0000b0ab3arow0_col4" class="data row0 col4" >0.000000</td>
+                        <td id="T_48f90d2c_4c3d_11ea_9dca_aa0000b0ab3arow0_col5" class="data row0 col5" >0.606000</td>
             </tr>
     </tbody></table>
 </div>
@@ -13500,8 +13521,8 @@ Source: <a href="https://pingouin-stats.org/guidelines.html#id5">https://pingoui
 <div class="prompt input_prompt">In&nbsp;[5]:</div>
 <div class="inner_cell">
     <div class="input_area">
-<div class=" highlight hl-ipython3"><pre><span></span><span class="n">result</span> <span class="o">=</span> <span class="n">pg</span><span class="o">.</span><span class="n">pairwise_gameshowell</span><span class="p">(</span><span class="n">df</span><span class="p">,</span> <span class="n">dv</span><span class="o">=</span><span class="s2">&quot;rating&quot;</span><span class="p">,</span> <span class="n">between</span><span class="o">=</span><span class="s2">&quot;testStimulus&quot;</span><span class="p">)</span>
-<span class="n">result</span><span class="o">.</span><span class="n">style</span><span class="o">.</span><span class="n">background_gradient</span><span class="p">(</span><span class="n">cmap</span><span class="o">=</span><span class="n">cm</span><span class="p">,</span> <span class="n">subset</span><span class="o">=</span><span class="p">[</span><span class="s2">&quot;pval&quot;</span><span class="p">])</span>
+<div class=" highlight hl-ipython3"><pre><span></span><span class="n">result</span> <span class="o">=</span> <span class="n">pg</span><span class="o">.</span><span class="n">pairwise_tukey</span><span class="p">(</span><span class="n">df</span><span class="p">,</span> <span class="n">dv</span><span class="o">=</span><span class="s2">&quot;rating&quot;</span><span class="p">,</span> <span class="n">between</span><span class="o">=</span><span class="s2">&quot;testStimulus&quot;</span><span class="p">)</span>
+<span class="n">result</span><span class="o">.</span><span class="n">style</span><span class="o">.</span><span class="n">background_gradient</span><span class="p">(</span><span class="n">cmap</span><span class="o">=</span><span class="n">cm</span><span class="p">,</span> <span class="n">subset</span><span class="o">=</span><span class="p">[</span><span class="s2">&quot;p-tukey&quot;</span><span class="p">])</span>
 </pre></div>
 
     </div>
@@ -13520,280 +13541,252 @@ Source: <a href="https://pingouin-stats.org/guidelines.html#id5">https://pingoui
 
 <div class="output_html rendered_html output_subarea output_execute_result">
 <style  type="text/css" >
-    #T_56c6cf4e_46a6_11ea_9133_aa0000b0ab3arow0_col9 {
+    #T_491359e8_4c3d_11ea_9dca_aa0000b0ab3arow0_col8 {
+            background-color:  #ffbdb1;
+            color:  #000000;
+        }    #T_491359e8_4c3d_11ea_9dca_aa0000b0ab3arow1_col8 {
             background-color:  #169906;
             color:  #000000;
-        }    #T_56c6cf4e_46a6_11ea_9133_aa0000b0ab3arow1_col9 {
-            background-color:  #169906;
-            color:  #000000;
-        }    #T_56c6cf4e_46a6_11ea_9133_aa0000b0ab3arow2_col9 {
+        }    #T_491359e8_4c3d_11ea_9dca_aa0000b0ab3arow2_col8 {
             background-color:  #fe2d07;
             color:  #f1f1f1;
-        }    #T_56c6cf4e_46a6_11ea_9133_aa0000b0ab3arow3_col9 {
+        }    #T_491359e8_4c3d_11ea_9dca_aa0000b0ab3arow3_col8 {
+            background-color:  #29a21b;
+            color:  #000000;
+        }    #T_491359e8_4c3d_11ea_9dca_aa0000b0ab3arow4_col8 {
             background-color:  #169906;
             color:  #000000;
-        }    #T_56c6cf4e_46a6_11ea_9133_aa0000b0ab3arow4_col9 {
+        }    #T_491359e8_4c3d_11ea_9dca_aa0000b0ab3arow5_col8 {
             background-color:  #169906;
             color:  #000000;
-        }    #T_56c6cf4e_46a6_11ea_9133_aa0000b0ab3arow5_col9 {
-            background-color:  #169906;
+        }    #T_491359e8_4c3d_11ea_9dca_aa0000b0ab3arow6_col8 {
+            background-color:  #a6de9f;
             color:  #000000;
-        }    #T_56c6cf4e_46a6_11ea_9133_aa0000b0ab3arow6_col9 {
-            background-color:  #169906;
-            color:  #000000;
-        }    #T_56c6cf4e_46a6_11ea_9133_aa0000b0ab3arow7_col9 {
-            background-color:  #fe3c18;
+        }    #T_491359e8_4c3d_11ea_9dca_aa0000b0ab3arow7_col8 {
+            background-color:  #fe330e;
             color:  #f1f1f1;
-        }    #T_56c6cf4e_46a6_11ea_9133_aa0000b0ab3arow8_col9 {
+        }    #T_491359e8_4c3d_11ea_9dca_aa0000b0ab3arow8_col8 {
             background-color:  #169906;
             color:  #000000;
-        }    #T_56c6cf4e_46a6_11ea_9133_aa0000b0ab3arow9_col9 {
+        }    #T_491359e8_4c3d_11ea_9dca_aa0000b0ab3arow9_col8 {
             background-color:  #169906;
             color:  #000000;
-        }    #T_56c6cf4e_46a6_11ea_9133_aa0000b0ab3arow10_col9 {
+        }    #T_491359e8_4c3d_11ea_9dca_aa0000b0ab3arow10_col8 {
             background-color:  #169906;
             color:  #000000;
-        }    #T_56c6cf4e_46a6_11ea_9133_aa0000b0ab3arow11_col9 {
-            background-color:  #fe4b2b;
+        }    #T_491359e8_4c3d_11ea_9dca_aa0000b0ab3arow11_col8 {
+            background-color:  #fe2d07;
+            color:  #f1f1f1;
+        }    #T_491359e8_4c3d_11ea_9dca_aa0000b0ab3arow12_col8 {
+            background-color:  #1d9c0d;
             color:  #000000;
-        }    #T_56c6cf4e_46a6_11ea_9133_aa0000b0ab3arow12_col9 {
+        }    #T_491359e8_4c3d_11ea_9dca_aa0000b0ab3arow13_col8 {
             background-color:  #169906;
             color:  #000000;
-        }    #T_56c6cf4e_46a6_11ea_9133_aa0000b0ab3arow13_col9 {
+        }    #T_491359e8_4c3d_11ea_9dca_aa0000b0ab3arow14_col8 {
             background-color:  #169906;
             color:  #000000;
-        }    #T_56c6cf4e_46a6_11ea_9133_aa0000b0ab3arow14_col9 {
-            background-color:  #169906;
-            color:  #000000;
-        }</style><table id="T_56c6cf4e_46a6_11ea_9133_aa0000b0ab3a" ><thead>    <tr>        <th class="blank level0" ></th>        <th class="col_heading level0 col0" >A</th>        <th class="col_heading level0 col1" >B</th>        <th class="col_heading level0 col2" >mean(A)</th>        <th class="col_heading level0 col3" >mean(B)</th>        <th class="col_heading level0 col4" >diff</th>        <th class="col_heading level0 col5" >se</th>        <th class="col_heading level0 col6" >tail</th>        <th class="col_heading level0 col7" >T</th>        <th class="col_heading level0 col8" >df</th>        <th class="col_heading level0 col9" >pval</th>        <th class="col_heading level0 col10" >hedges</th>    </tr></thead><tbody>
+        }</style><table id="T_491359e8_4c3d_11ea_9dca_aa0000b0ab3a" ><thead>    <tr>        <th class="blank level0" ></th>        <th class="col_heading level0 col0" >A</th>        <th class="col_heading level0 col1" >B</th>        <th class="col_heading level0 col2" >mean(A)</th>        <th class="col_heading level0 col3" >mean(B)</th>        <th class="col_heading level0 col4" >diff</th>        <th class="col_heading level0 col5" >se</th>        <th class="col_heading level0 col6" >tail</th>        <th class="col_heading level0 col7" >T</th>        <th class="col_heading level0 col8" >p-tukey</th>        <th class="col_heading level0 col9" >hedges</th>    </tr></thead><tbody>
                 <tr>
-                        <th id="T_56c6cf4e_46a6_11ea_9133_aa0000b0ab3alevel0_row0" class="row_heading level0 row0" >0</th>
-                        <td id="T_56c6cf4e_46a6_11ea_9133_aa0000b0ab3arow0_col0" class="data row0 col0" >haus_m_700_bpf_200_2800_normAsl_-26</td>
-                        <td id="T_56c6cf4e_46a6_11ea_9133_aa0000b0ab3arow0_col1" class="data row0 col1" >haus_m_700_mnru_Q_14_normAsl_-26</td>
-                        <td id="T_56c6cf4e_46a6_11ea_9133_aa0000b0ab3arow0_col2" class="data row0 col2" >2.649000</td>
-                        <td id="T_56c6cf4e_46a6_11ea_9133_aa0000b0ab3arow0_col3" class="data row0 col3" >2.189000</td>
-                        <td id="T_56c6cf4e_46a6_11ea_9133_aa0000b0ab3arow0_col4" class="data row0 col4" >0.459000</td>
-                        <td id="T_56c6cf4e_46a6_11ea_9133_aa0000b0ab3arow0_col5" class="data row0 col5" >0.076000</td>
-                        <td id="T_56c6cf4e_46a6_11ea_9133_aa0000b0ab3arow0_col6" class="data row0 col6" >two-sided</td>
-                        <td id="T_56c6cf4e_46a6_11ea_9133_aa0000b0ab3arow0_col7" class="data row0 col7" >4.300000</td>
-                        <td id="T_56c6cf4e_46a6_11ea_9133_aa0000b0ab3arow0_col8" class="data row0 col8" >280.251000</td>
-                        <td id="T_56c6cf4e_46a6_11ea_9133_aa0000b0ab3arow0_col9" class="data row0 col9" >0.001000</td>
-                        <td id="T_56c6cf4e_46a6_11ea_9133_aa0000b0ab3arow0_col10" class="data row0 col10" >0.499000</td>
+                        <th id="T_491359e8_4c3d_11ea_9dca_aa0000b0ab3alevel0_row0" class="row_heading level0 row0" >0</th>
+                        <td id="T_491359e8_4c3d_11ea_9dca_aa0000b0ab3arow0_col0" class="data row0 col0" >haus_m_700_bpf_200_2800_normAsl_-26</td>
+                        <td id="T_491359e8_4c3d_11ea_9dca_aa0000b0ab3arow0_col1" class="data row0 col1" >haus_m_700_mnru_Q_14_normAsl_-26</td>
+                        <td id="T_491359e8_4c3d_11ea_9dca_aa0000b0ab3arow0_col2" class="data row0 col2" >2.622000</td>
+                        <td id="T_491359e8_4c3d_11ea_9dca_aa0000b0ab3arow0_col3" class="data row0 col3" >2.270000</td>
+                        <td id="T_491359e8_4c3d_11ea_9dca_aa0000b0ab3arow0_col4" class="data row0 col4" >0.351000</td>
+                        <td id="T_491359e8_4c3d_11ea_9dca_aa0000b0ab3arow0_col5" class="data row0 col5" >0.194000</td>
+                        <td id="T_491359e8_4c3d_11ea_9dca_aa0000b0ab3arow0_col6" class="data row0 col6" >two-sided</td>
+                        <td id="T_491359e8_4c3d_11ea_9dca_aa0000b0ab3arow0_col7" class="data row0 col7" >1.811000</td>
+                        <td id="T_491359e8_4c3d_11ea_9dca_aa0000b0ab3arow0_col8" class="data row0 col8" >0.570087</td>
+                        <td id="T_491359e8_4c3d_11ea_9dca_aa0000b0ab3arow0_col9" class="data row0 col9" >0.417000</td>
             </tr>
             <tr>
-                        <th id="T_56c6cf4e_46a6_11ea_9133_aa0000b0ab3alevel0_row1" class="row_heading level0 row1" >1</th>
-                        <td id="T_56c6cf4e_46a6_11ea_9133_aa0000b0ab3arow1_col0" class="data row1 col0" >haus_m_700_bpf_200_2800_normAsl_-26</td>
-                        <td id="T_56c6cf4e_46a6_11ea_9133_aa0000b0ab3arow1_col1" class="data row1 col1" >haus_m_700_normAsl_-26</td>
-                        <td id="T_56c6cf4e_46a6_11ea_9133_aa0000b0ab3arow1_col2" class="data row1 col2" >2.649000</td>
-                        <td id="T_56c6cf4e_46a6_11ea_9133_aa0000b0ab3arow1_col3" class="data row1 col3" >4.473000</td>
-                        <td id="T_56c6cf4e_46a6_11ea_9133_aa0000b0ab3arow1_col4" class="data row1 col4" >-1.824000</td>
-                        <td id="T_56c6cf4e_46a6_11ea_9133_aa0000b0ab3arow1_col5" class="data row1 col5" >0.072000</td>
-                        <td id="T_56c6cf4e_46a6_11ea_9133_aa0000b0ab3arow1_col6" class="data row1 col6" >two-sided</td>
-                        <td id="T_56c6cf4e_46a6_11ea_9133_aa0000b0ab3arow1_col7" class="data row1 col7" >-18.035000</td>
-                        <td id="T_56c6cf4e_46a6_11ea_9133_aa0000b0ab3arow1_col8" class="data row1 col8" >259.751000</td>
-                        <td id="T_56c6cf4e_46a6_11ea_9133_aa0000b0ab3arow1_col9" class="data row1 col9" >0.001000</td>
-                        <td id="T_56c6cf4e_46a6_11ea_9133_aa0000b0ab3arow1_col10" class="data row1 col10" >-2.091000</td>
+                        <th id="T_491359e8_4c3d_11ea_9dca_aa0000b0ab3alevel0_row1" class="row_heading level0 row1" >1</th>
+                        <td id="T_491359e8_4c3d_11ea_9dca_aa0000b0ab3arow1_col0" class="data row1 col0" >haus_m_700_bpf_200_2800_normAsl_-26</td>
+                        <td id="T_491359e8_4c3d_11ea_9dca_aa0000b0ab3arow1_col1" class="data row1 col1" >haus_m_700_normAsl_-26</td>
+                        <td id="T_491359e8_4c3d_11ea_9dca_aa0000b0ab3arow1_col2" class="data row1 col2" >2.622000</td>
+                        <td id="T_491359e8_4c3d_11ea_9dca_aa0000b0ab3arow1_col3" class="data row1 col3" >4.514000</td>
+                        <td id="T_491359e8_4c3d_11ea_9dca_aa0000b0ab3arow1_col4" class="data row1 col4" >-1.892000</td>
+                        <td id="T_491359e8_4c3d_11ea_9dca_aa0000b0ab3arow1_col5" class="data row1 col5" >0.194000</td>
+                        <td id="T_491359e8_4c3d_11ea_9dca_aa0000b0ab3arow1_col6" class="data row1 col6" >two-sided</td>
+                        <td id="T_491359e8_4c3d_11ea_9dca_aa0000b0ab3arow1_col7" class="data row1 col7" >-9.754000</td>
+                        <td id="T_491359e8_4c3d_11ea_9dca_aa0000b0ab3arow1_col8" class="data row1 col8" >0.001000</td>
+                        <td id="T_491359e8_4c3d_11ea_9dca_aa0000b0ab3arow1_col9" class="data row1 col9" >-2.244000</td>
             </tr>
             <tr>
-                        <th id="T_56c6cf4e_46a6_11ea_9133_aa0000b0ab3alevel0_row2" class="row_heading level0 row2" >2</th>
-                        <td id="T_56c6cf4e_46a6_11ea_9133_aa0000b0ab3arow2_col0" class="data row2 col0" >haus_m_700_bpf_200_2800_normAsl_-26</td>
-                        <td id="T_56c6cf4e_46a6_11ea_9133_aa0000b0ab3arow2_col1" class="data row2 col1" >maus_m_700_bpf_200_2800_normAsl_-26</td>
-                        <td id="T_56c6cf4e_46a6_11ea_9133_aa0000b0ab3arow2_col2" class="data row2 col2" >2.649000</td>
-                        <td id="T_56c6cf4e_46a6_11ea_9133_aa0000b0ab3arow2_col3" class="data row2 col3" >2.669000</td>
-                        <td id="T_56c6cf4e_46a6_11ea_9133_aa0000b0ab3arow2_col4" class="data row2 col4" >-0.020000</td>
-                        <td id="T_56c6cf4e_46a6_11ea_9133_aa0000b0ab3arow2_col5" class="data row2 col5" >0.082000</td>
-                        <td id="T_56c6cf4e_46a6_11ea_9133_aa0000b0ab3arow2_col6" class="data row2 col6" >two-sided</td>
-                        <td id="T_56c6cf4e_46a6_11ea_9133_aa0000b0ab3arow2_col7" class="data row2 col7" >-0.175000</td>
-                        <td id="T_56c6cf4e_46a6_11ea_9133_aa0000b0ab3arow2_col8" class="data row2 col8" >293.417000</td>
-                        <td id="T_56c6cf4e_46a6_11ea_9133_aa0000b0ab3arow2_col9" class="data row2 col9" >0.900000</td>
-                        <td id="T_56c6cf4e_46a6_11ea_9133_aa0000b0ab3arow2_col10" class="data row2 col10" >-0.020000</td>
+                        <th id="T_491359e8_4c3d_11ea_9dca_aa0000b0ab3alevel0_row2" class="row_heading level0 row2" >2</th>
+                        <td id="T_491359e8_4c3d_11ea_9dca_aa0000b0ab3arow2_col0" class="data row2 col0" >haus_m_700_bpf_200_2800_normAsl_-26</td>
+                        <td id="T_491359e8_4c3d_11ea_9dca_aa0000b0ab3arow2_col1" class="data row2 col1" >maus_m_700_bpf_200_2800_normAsl_-26</td>
+                        <td id="T_491359e8_4c3d_11ea_9dca_aa0000b0ab3arow2_col2" class="data row2 col2" >2.622000</td>
+                        <td id="T_491359e8_4c3d_11ea_9dca_aa0000b0ab3arow2_col3" class="data row2 col3" >2.676000</td>
+                        <td id="T_491359e8_4c3d_11ea_9dca_aa0000b0ab3arow2_col4" class="data row2 col4" >-0.054000</td>
+                        <td id="T_491359e8_4c3d_11ea_9dca_aa0000b0ab3arow2_col5" class="data row2 col5" >0.194000</td>
+                        <td id="T_491359e8_4c3d_11ea_9dca_aa0000b0ab3arow2_col6" class="data row2 col6" >two-sided</td>
+                        <td id="T_491359e8_4c3d_11ea_9dca_aa0000b0ab3arow2_col7" class="data row2 col7" >-0.279000</td>
+                        <td id="T_491359e8_4c3d_11ea_9dca_aa0000b0ab3arow2_col8" class="data row2 col8" >0.900000</td>
+                        <td id="T_491359e8_4c3d_11ea_9dca_aa0000b0ab3arow2_col9" class="data row2 col9" >-0.064000</td>
             </tr>
             <tr>
-                        <th id="T_56c6cf4e_46a6_11ea_9133_aa0000b0ab3alevel0_row3" class="row_heading level0 row3" >3</th>
-                        <td id="T_56c6cf4e_46a6_11ea_9133_aa0000b0ab3arow3_col0" class="data row3 col0" >haus_m_700_bpf_200_2800_normAsl_-26</td>
-                        <td id="T_56c6cf4e_46a6_11ea_9133_aa0000b0ab3arow3_col1" class="data row3 col1" >maus_m_700_mnru_Q_14_normAsl_-26</td>
-                        <td id="T_56c6cf4e_46a6_11ea_9133_aa0000b0ab3arow3_col2" class="data row3 col2" >2.649000</td>
-                        <td id="T_56c6cf4e_46a6_11ea_9133_aa0000b0ab3arow3_col3" class="data row3 col3" >2.074000</td>
-                        <td id="T_56c6cf4e_46a6_11ea_9133_aa0000b0ab3arow3_col4" class="data row3 col4" >0.574000</td>
-                        <td id="T_56c6cf4e_46a6_11ea_9133_aa0000b0ab3arow3_col5" class="data row3 col5" >0.075000</td>
-                        <td id="T_56c6cf4e_46a6_11ea_9133_aa0000b0ab3arow3_col6" class="data row3 col6" >two-sided</td>
-                        <td id="T_56c6cf4e_46a6_11ea_9133_aa0000b0ab3arow3_col7" class="data row3 col7" >5.424000</td>
-                        <td id="T_56c6cf4e_46a6_11ea_9133_aa0000b0ab3arow3_col8" class="data row3 col8" >277.463000</td>
-                        <td id="T_56c6cf4e_46a6_11ea_9133_aa0000b0ab3arow3_col9" class="data row3 col9" >0.001000</td>
-                        <td id="T_56c6cf4e_46a6_11ea_9133_aa0000b0ab3arow3_col10" class="data row3 col10" >0.629000</td>
+                        <th id="T_491359e8_4c3d_11ea_9dca_aa0000b0ab3alevel0_row3" class="row_heading level0 row3" >3</th>
+                        <td id="T_491359e8_4c3d_11ea_9dca_aa0000b0ab3arow3_col0" class="data row3 col0" >haus_m_700_bpf_200_2800_normAsl_-26</td>
+                        <td id="T_491359e8_4c3d_11ea_9dca_aa0000b0ab3arow3_col1" class="data row3 col1" >maus_m_700_mnru_Q_14_normAsl_-26</td>
+                        <td id="T_491359e8_4c3d_11ea_9dca_aa0000b0ab3arow3_col2" class="data row3 col2" >2.622000</td>
+                        <td id="T_491359e8_4c3d_11ea_9dca_aa0000b0ab3arow3_col3" class="data row3 col3" >2.054000</td>
+                        <td id="T_491359e8_4c3d_11ea_9dca_aa0000b0ab3arow3_col4" class="data row3 col4" >0.568000</td>
+                        <td id="T_491359e8_4c3d_11ea_9dca_aa0000b0ab3arow3_col5" class="data row3 col5" >0.194000</td>
+                        <td id="T_491359e8_4c3d_11ea_9dca_aa0000b0ab3arow3_col6" class="data row3 col6" >two-sided</td>
+                        <td id="T_491359e8_4c3d_11ea_9dca_aa0000b0ab3arow3_col7" class="data row3 col7" >2.926000</td>
+                        <td id="T_491359e8_4c3d_11ea_9dca_aa0000b0ab3arow3_col8" class="data row3 col8" >0.041411</td>
+                        <td id="T_491359e8_4c3d_11ea_9dca_aa0000b0ab3arow3_col9" class="data row3 col9" >0.673000</td>
             </tr>
             <tr>
-                        <th id="T_56c6cf4e_46a6_11ea_9133_aa0000b0ab3alevel0_row4" class="row_heading level0 row4" >4</th>
-                        <td id="T_56c6cf4e_46a6_11ea_9133_aa0000b0ab3arow4_col0" class="data row4 col0" >haus_m_700_bpf_200_2800_normAsl_-26</td>
-                        <td id="T_56c6cf4e_46a6_11ea_9133_aa0000b0ab3arow4_col1" class="data row4 col1" >maus_m_700_normAsl_-26</td>
-                        <td id="T_56c6cf4e_46a6_11ea_9133_aa0000b0ab3arow4_col2" class="data row4 col2" >2.649000</td>
-                        <td id="T_56c6cf4e_46a6_11ea_9133_aa0000b0ab3arow4_col3" class="data row4 col3" >4.588000</td>
-                        <td id="T_56c6cf4e_46a6_11ea_9133_aa0000b0ab3arow4_col4" class="data row4 col4" >-1.939000</td>
-                        <td id="T_56c6cf4e_46a6_11ea_9133_aa0000b0ab3arow4_col5" class="data row4 col5" >0.073000</td>
-                        <td id="T_56c6cf4e_46a6_11ea_9133_aa0000b0ab3arow4_col6" class="data row4 col6" >two-sided</td>
-                        <td id="T_56c6cf4e_46a6_11ea_9133_aa0000b0ab3arow4_col7" class="data row4 col7" >-18.877000</td>
-                        <td id="T_56c6cf4e_46a6_11ea_9133_aa0000b0ab3arow4_col8" class="data row4 col8" >266.418000</td>
-                        <td id="T_56c6cf4e_46a6_11ea_9133_aa0000b0ab3arow4_col9" class="data row4 col9" >0.001000</td>
-                        <td id="T_56c6cf4e_46a6_11ea_9133_aa0000b0ab3arow4_col10" class="data row4 col10" >-2.189000</td>
+                        <th id="T_491359e8_4c3d_11ea_9dca_aa0000b0ab3alevel0_row4" class="row_heading level0 row4" >4</th>
+                        <td id="T_491359e8_4c3d_11ea_9dca_aa0000b0ab3arow4_col0" class="data row4 col0" >haus_m_700_bpf_200_2800_normAsl_-26</td>
+                        <td id="T_491359e8_4c3d_11ea_9dca_aa0000b0ab3arow4_col1" class="data row4 col1" >maus_m_700_normAsl_-26</td>
+                        <td id="T_491359e8_4c3d_11ea_9dca_aa0000b0ab3arow4_col2" class="data row4 col2" >2.622000</td>
+                        <td id="T_491359e8_4c3d_11ea_9dca_aa0000b0ab3arow4_col3" class="data row4 col3" >4.541000</td>
+                        <td id="T_491359e8_4c3d_11ea_9dca_aa0000b0ab3arow4_col4" class="data row4 col4" >-1.919000</td>
+                        <td id="T_491359e8_4c3d_11ea_9dca_aa0000b0ab3arow4_col5" class="data row4 col5" >0.194000</td>
+                        <td id="T_491359e8_4c3d_11ea_9dca_aa0000b0ab3arow4_col6" class="data row4 col6" >two-sided</td>
+                        <td id="T_491359e8_4c3d_11ea_9dca_aa0000b0ab3arow4_col7" class="data row4 col7" >-9.893000</td>
+                        <td id="T_491359e8_4c3d_11ea_9dca_aa0000b0ab3arow4_col8" class="data row4 col8" >0.001000</td>
+                        <td id="T_491359e8_4c3d_11ea_9dca_aa0000b0ab3arow4_col9" class="data row4 col9" >-2.276000</td>
             </tr>
             <tr>
-                        <th id="T_56c6cf4e_46a6_11ea_9133_aa0000b0ab3alevel0_row5" class="row_heading level0 row5" >5</th>
-                        <td id="T_56c6cf4e_46a6_11ea_9133_aa0000b0ab3arow5_col0" class="data row5 col0" >haus_m_700_mnru_Q_14_normAsl_-26</td>
-                        <td id="T_56c6cf4e_46a6_11ea_9133_aa0000b0ab3arow5_col1" class="data row5 col1" >haus_m_700_normAsl_-26</td>
-                        <td id="T_56c6cf4e_46a6_11ea_9133_aa0000b0ab3arow5_col2" class="data row5 col2" >2.189000</td>
-                        <td id="T_56c6cf4e_46a6_11ea_9133_aa0000b0ab3arow5_col3" class="data row5 col3" >4.473000</td>
-                        <td id="T_56c6cf4e_46a6_11ea_9133_aa0000b0ab3arow5_col4" class="data row5 col4" >-2.284000</td>
-                        <td id="T_56c6cf4e_46a6_11ea_9133_aa0000b0ab3arow5_col5" class="data row5 col5" >0.062000</td>
-                        <td id="T_56c6cf4e_46a6_11ea_9133_aa0000b0ab3arow5_col6" class="data row5 col6" >two-sided</td>
-                        <td id="T_56c6cf4e_46a6_11ea_9133_aa0000b0ab3arow5_col7" class="data row5 col7" >-26.020000</td>
-                        <td id="T_56c6cf4e_46a6_11ea_9133_aa0000b0ab3arow5_col8" class="data row5 col8" >287.188000</td>
-                        <td id="T_56c6cf4e_46a6_11ea_9133_aa0000b0ab3arow5_col9" class="data row5 col9" >0.001000</td>
-                        <td id="T_56c6cf4e_46a6_11ea_9133_aa0000b0ab3arow5_col10" class="data row5 col10" >-3.017000</td>
+                        <th id="T_491359e8_4c3d_11ea_9dca_aa0000b0ab3alevel0_row5" class="row_heading level0 row5" >5</th>
+                        <td id="T_491359e8_4c3d_11ea_9dca_aa0000b0ab3arow5_col0" class="data row5 col0" >haus_m_700_mnru_Q_14_normAsl_-26</td>
+                        <td id="T_491359e8_4c3d_11ea_9dca_aa0000b0ab3arow5_col1" class="data row5 col1" >haus_m_700_normAsl_-26</td>
+                        <td id="T_491359e8_4c3d_11ea_9dca_aa0000b0ab3arow5_col2" class="data row5 col2" >2.270000</td>
+                        <td id="T_491359e8_4c3d_11ea_9dca_aa0000b0ab3arow5_col3" class="data row5 col3" >4.514000</td>
+                        <td id="T_491359e8_4c3d_11ea_9dca_aa0000b0ab3arow5_col4" class="data row5 col4" >-2.243000</td>
+                        <td id="T_491359e8_4c3d_11ea_9dca_aa0000b0ab3arow5_col5" class="data row5 col5" >0.194000</td>
+                        <td id="T_491359e8_4c3d_11ea_9dca_aa0000b0ab3arow5_col6" class="data row5 col6" >two-sided</td>
+                        <td id="T_491359e8_4c3d_11ea_9dca_aa0000b0ab3arow5_col7" class="data row5 col7" >-11.565000</td>
+                        <td id="T_491359e8_4c3d_11ea_9dca_aa0000b0ab3arow5_col8" class="data row5 col8" >0.001000</td>
+                        <td id="T_491359e8_4c3d_11ea_9dca_aa0000b0ab3arow5_col9" class="data row5 col9" >-2.661000</td>
             </tr>
             <tr>
-                        <th id="T_56c6cf4e_46a6_11ea_9133_aa0000b0ab3alevel0_row6" class="row_heading level0 row6" >6</th>
-                        <td id="T_56c6cf4e_46a6_11ea_9133_aa0000b0ab3arow6_col0" class="data row6 col0" >haus_m_700_mnru_Q_14_normAsl_-26</td>
-                        <td id="T_56c6cf4e_46a6_11ea_9133_aa0000b0ab3arow6_col1" class="data row6 col1" >maus_m_700_bpf_200_2800_normAsl_-26</td>
-                        <td id="T_56c6cf4e_46a6_11ea_9133_aa0000b0ab3arow6_col2" class="data row6 col2" >2.189000</td>
-                        <td id="T_56c6cf4e_46a6_11ea_9133_aa0000b0ab3arow6_col3" class="data row6 col3" >2.669000</td>
-                        <td id="T_56c6cf4e_46a6_11ea_9133_aa0000b0ab3arow6_col4" class="data row6 col4" >-0.480000</td>
-                        <td id="T_56c6cf4e_46a6_11ea_9133_aa0000b0ab3arow6_col5" class="data row6 col5" >0.074000</td>
-                        <td id="T_56c6cf4e_46a6_11ea_9133_aa0000b0ab3arow6_col6" class="data row6 col6" >two-sided</td>
-                        <td id="T_56c6cf4e_46a6_11ea_9133_aa0000b0ab3arow6_col7" class="data row6 col7" >-4.611000</td>
-                        <td id="T_56c6cf4e_46a6_11ea_9133_aa0000b0ab3arow6_col8" class="data row6 col8" >284.905000</td>
-                        <td id="T_56c6cf4e_46a6_11ea_9133_aa0000b0ab3arow6_col9" class="data row6 col9" >0.001000</td>
-                        <td id="T_56c6cf4e_46a6_11ea_9133_aa0000b0ab3arow6_col10" class="data row6 col10" >-0.535000</td>
+                        <th id="T_491359e8_4c3d_11ea_9dca_aa0000b0ab3alevel0_row6" class="row_heading level0 row6" >6</th>
+                        <td id="T_491359e8_4c3d_11ea_9dca_aa0000b0ab3arow6_col0" class="data row6 col0" >haus_m_700_mnru_Q_14_normAsl_-26</td>
+                        <td id="T_491359e8_4c3d_11ea_9dca_aa0000b0ab3arow6_col1" class="data row6 col1" >maus_m_700_bpf_200_2800_normAsl_-26</td>
+                        <td id="T_491359e8_4c3d_11ea_9dca_aa0000b0ab3arow6_col2" class="data row6 col2" >2.270000</td>
+                        <td id="T_491359e8_4c3d_11ea_9dca_aa0000b0ab3arow6_col3" class="data row6 col3" >2.676000</td>
+                        <td id="T_491359e8_4c3d_11ea_9dca_aa0000b0ab3arow6_col4" class="data row6 col4" >-0.405000</td>
+                        <td id="T_491359e8_4c3d_11ea_9dca_aa0000b0ab3arow6_col5" class="data row6 col5" >0.194000</td>
+                        <td id="T_491359e8_4c3d_11ea_9dca_aa0000b0ab3arow6_col6" class="data row6 col6" >two-sided</td>
+                        <td id="T_491359e8_4c3d_11ea_9dca_aa0000b0ab3arow6_col7" class="data row6 col7" >-2.090000</td>
+                        <td id="T_491359e8_4c3d_11ea_9dca_aa0000b0ab3arow6_col8" class="data row6 col8" >0.293761</td>
+                        <td id="T_491359e8_4c3d_11ea_9dca_aa0000b0ab3arow6_col9" class="data row6 col9" >-0.481000</td>
             </tr>
             <tr>
-                        <th id="T_56c6cf4e_46a6_11ea_9133_aa0000b0ab3alevel0_row7" class="row_heading level0 row7" >7</th>
-                        <td id="T_56c6cf4e_46a6_11ea_9133_aa0000b0ab3arow7_col0" class="data row7 col0" >haus_m_700_mnru_Q_14_normAsl_-26</td>
-                        <td id="T_56c6cf4e_46a6_11ea_9133_aa0000b0ab3arow7_col1" class="data row7 col1" >maus_m_700_mnru_Q_14_normAsl_-26</td>
-                        <td id="T_56c6cf4e_46a6_11ea_9133_aa0000b0ab3arow7_col2" class="data row7 col2" >2.189000</td>
-                        <td id="T_56c6cf4e_46a6_11ea_9133_aa0000b0ab3arow7_col3" class="data row7 col3" >2.074000</td>
-                        <td id="T_56c6cf4e_46a6_11ea_9133_aa0000b0ab3arow7_col4" class="data row7 col4" >0.115000</td>
-                        <td id="T_56c6cf4e_46a6_11ea_9133_aa0000b0ab3arow7_col5" class="data row7 col5" >0.066000</td>
-                        <td id="T_56c6cf4e_46a6_11ea_9133_aa0000b0ab3arow7_col6" class="data row7 col6" >two-sided</td>
-                        <td id="T_56c6cf4e_46a6_11ea_9133_aa0000b0ab3arow7_col7" class="data row7 col7" >1.233000</td>
-                        <td id="T_56c6cf4e_46a6_11ea_9133_aa0000b0ab3arow7_col8" class="data row7 col8" >293.832000</td>
-                        <td id="T_56c6cf4e_46a6_11ea_9133_aa0000b0ab3arow7_col9" class="data row7 col9" >0.863160</td>
-                        <td id="T_56c6cf4e_46a6_11ea_9133_aa0000b0ab3arow7_col10" class="data row7 col10" >0.143000</td>
+                        <th id="T_491359e8_4c3d_11ea_9dca_aa0000b0ab3alevel0_row7" class="row_heading level0 row7" >7</th>
+                        <td id="T_491359e8_4c3d_11ea_9dca_aa0000b0ab3arow7_col0" class="data row7 col0" >haus_m_700_mnru_Q_14_normAsl_-26</td>
+                        <td id="T_491359e8_4c3d_11ea_9dca_aa0000b0ab3arow7_col1" class="data row7 col1" >maus_m_700_mnru_Q_14_normAsl_-26</td>
+                        <td id="T_491359e8_4c3d_11ea_9dca_aa0000b0ab3arow7_col2" class="data row7 col2" >2.270000</td>
+                        <td id="T_491359e8_4c3d_11ea_9dca_aa0000b0ab3arow7_col3" class="data row7 col3" >2.054000</td>
+                        <td id="T_491359e8_4c3d_11ea_9dca_aa0000b0ab3arow7_col4" class="data row7 col4" >0.216000</td>
+                        <td id="T_491359e8_4c3d_11ea_9dca_aa0000b0ab3arow7_col5" class="data row7 col5" >0.194000</td>
+                        <td id="T_491359e8_4c3d_11ea_9dca_aa0000b0ab3arow7_col6" class="data row7 col6" >two-sided</td>
+                        <td id="T_491359e8_4c3d_11ea_9dca_aa0000b0ab3arow7_col7" class="data row7 col7" >1.115000</td>
+                        <td id="T_491359e8_4c3d_11ea_9dca_aa0000b0ab3arow7_col8" class="data row7 col8" >0.884023</td>
+                        <td id="T_491359e8_4c3d_11ea_9dca_aa0000b0ab3arow7_col9" class="data row7 col9" >0.256000</td>
             </tr>
             <tr>
-                        <th id="T_56c6cf4e_46a6_11ea_9133_aa0000b0ab3alevel0_row8" class="row_heading level0 row8" >8</th>
-                        <td id="T_56c6cf4e_46a6_11ea_9133_aa0000b0ab3arow8_col0" class="data row8 col0" >haus_m_700_mnru_Q_14_normAsl_-26</td>
-                        <td id="T_56c6cf4e_46a6_11ea_9133_aa0000b0ab3arow8_col1" class="data row8 col1" >maus_m_700_normAsl_-26</td>
-                        <td id="T_56c6cf4e_46a6_11ea_9133_aa0000b0ab3arow8_col2" class="data row8 col2" >2.189000</td>
-                        <td id="T_56c6cf4e_46a6_11ea_9133_aa0000b0ab3arow8_col3" class="data row8 col3" >4.588000</td>
-                        <td id="T_56c6cf4e_46a6_11ea_9133_aa0000b0ab3arow8_col4" class="data row8 col4" >-2.399000</td>
-                        <td id="T_56c6cf4e_46a6_11ea_9133_aa0000b0ab3arow8_col5" class="data row8 col5" >0.063000</td>
-                        <td id="T_56c6cf4e_46a6_11ea_9133_aa0000b0ab3arow8_col6" class="data row8 col6" >two-sided</td>
-                        <td id="T_56c6cf4e_46a6_11ea_9133_aa0000b0ab3arow8_col7" class="data row8 col7" >-26.778000</td>
-                        <td id="T_56c6cf4e_46a6_11ea_9133_aa0000b0ab3arow8_col8" class="data row8 col8" >290.613000</td>
-                        <td id="T_56c6cf4e_46a6_11ea_9133_aa0000b0ab3arow8_col9" class="data row8 col9" >0.001000</td>
-                        <td id="T_56c6cf4e_46a6_11ea_9133_aa0000b0ab3arow8_col10" class="data row8 col10" >-3.105000</td>
+                        <th id="T_491359e8_4c3d_11ea_9dca_aa0000b0ab3alevel0_row8" class="row_heading level0 row8" >8</th>
+                        <td id="T_491359e8_4c3d_11ea_9dca_aa0000b0ab3arow8_col0" class="data row8 col0" >haus_m_700_mnru_Q_14_normAsl_-26</td>
+                        <td id="T_491359e8_4c3d_11ea_9dca_aa0000b0ab3arow8_col1" class="data row8 col1" >maus_m_700_normAsl_-26</td>
+                        <td id="T_491359e8_4c3d_11ea_9dca_aa0000b0ab3arow8_col2" class="data row8 col2" >2.270000</td>
+                        <td id="T_491359e8_4c3d_11ea_9dca_aa0000b0ab3arow8_col3" class="data row8 col3" >4.541000</td>
+                        <td id="T_491359e8_4c3d_11ea_9dca_aa0000b0ab3arow8_col4" class="data row8 col4" >-2.270000</td>
+                        <td id="T_491359e8_4c3d_11ea_9dca_aa0000b0ab3arow8_col5" class="data row8 col5" >0.194000</td>
+                        <td id="T_491359e8_4c3d_11ea_9dca_aa0000b0ab3arow8_col6" class="data row8 col6" >two-sided</td>
+                        <td id="T_491359e8_4c3d_11ea_9dca_aa0000b0ab3arow8_col7" class="data row8 col7" >-11.705000</td>
+                        <td id="T_491359e8_4c3d_11ea_9dca_aa0000b0ab3arow8_col8" class="data row8 col8" >0.001000</td>
+                        <td id="T_491359e8_4c3d_11ea_9dca_aa0000b0ab3arow8_col9" class="data row8 col9" >-2.693000</td>
             </tr>
             <tr>
-                        <th id="T_56c6cf4e_46a6_11ea_9133_aa0000b0ab3alevel0_row9" class="row_heading level0 row9" >9</th>
-                        <td id="T_56c6cf4e_46a6_11ea_9133_aa0000b0ab3arow9_col0" class="data row9 col0" >haus_m_700_normAsl_-26</td>
-                        <td id="T_56c6cf4e_46a6_11ea_9133_aa0000b0ab3arow9_col1" class="data row9 col1" >maus_m_700_bpf_200_2800_normAsl_-26</td>
-                        <td id="T_56c6cf4e_46a6_11ea_9133_aa0000b0ab3arow9_col2" class="data row9 col2" >4.473000</td>
-                        <td id="T_56c6cf4e_46a6_11ea_9133_aa0000b0ab3arow9_col3" class="data row9 col3" >2.669000</td>
-                        <td id="T_56c6cf4e_46a6_11ea_9133_aa0000b0ab3arow9_col4" class="data row9 col4" >1.804000</td>
-                        <td id="T_56c6cf4e_46a6_11ea_9133_aa0000b0ab3arow9_col5" class="data row9 col5" >0.069000</td>
-                        <td id="T_56c6cf4e_46a6_11ea_9133_aa0000b0ab3arow9_col6" class="data row9 col6" >two-sided</td>
-                        <td id="T_56c6cf4e_46a6_11ea_9133_aa0000b0ab3arow9_col7" class="data row9 col7" >18.377000</td>
-                        <td id="T_56c6cf4e_46a6_11ea_9133_aa0000b0ab3arow9_col8" class="data row9 col8" >266.105000</td>
-                        <td id="T_56c6cf4e_46a6_11ea_9133_aa0000b0ab3arow9_col9" class="data row9 col9" >0.001000</td>
-                        <td id="T_56c6cf4e_46a6_11ea_9133_aa0000b0ab3arow9_col10" class="data row9 col10" >2.131000</td>
+                        <th id="T_491359e8_4c3d_11ea_9dca_aa0000b0ab3alevel0_row9" class="row_heading level0 row9" >9</th>
+                        <td id="T_491359e8_4c3d_11ea_9dca_aa0000b0ab3arow9_col0" class="data row9 col0" >haus_m_700_normAsl_-26</td>
+                        <td id="T_491359e8_4c3d_11ea_9dca_aa0000b0ab3arow9_col1" class="data row9 col1" >maus_m_700_bpf_200_2800_normAsl_-26</td>
+                        <td id="T_491359e8_4c3d_11ea_9dca_aa0000b0ab3arow9_col2" class="data row9 col2" >4.514000</td>
+                        <td id="T_491359e8_4c3d_11ea_9dca_aa0000b0ab3arow9_col3" class="data row9 col3" >2.676000</td>
+                        <td id="T_491359e8_4c3d_11ea_9dca_aa0000b0ab3arow9_col4" class="data row9 col4" >1.838000</td>
+                        <td id="T_491359e8_4c3d_11ea_9dca_aa0000b0ab3arow9_col5" class="data row9 col5" >0.194000</td>
+                        <td id="T_491359e8_4c3d_11ea_9dca_aa0000b0ab3arow9_col6" class="data row9 col6" >two-sided</td>
+                        <td id="T_491359e8_4c3d_11ea_9dca_aa0000b0ab3arow9_col7" class="data row9 col7" >9.475000</td>
+                        <td id="T_491359e8_4c3d_11ea_9dca_aa0000b0ab3arow9_col8" class="data row9 col8" >0.001000</td>
+                        <td id="T_491359e8_4c3d_11ea_9dca_aa0000b0ab3arow9_col9" class="data row9 col9" >2.180000</td>
             </tr>
             <tr>
-                        <th id="T_56c6cf4e_46a6_11ea_9133_aa0000b0ab3alevel0_row10" class="row_heading level0 row10" >10</th>
-                        <td id="T_56c6cf4e_46a6_11ea_9133_aa0000b0ab3arow10_col0" class="data row10 col0" >haus_m_700_normAsl_-26</td>
-                        <td id="T_56c6cf4e_46a6_11ea_9133_aa0000b0ab3arow10_col1" class="data row10 col1" >maus_m_700_mnru_Q_14_normAsl_-26</td>
-                        <td id="T_56c6cf4e_46a6_11ea_9133_aa0000b0ab3arow10_col2" class="data row10 col2" >4.473000</td>
-                        <td id="T_56c6cf4e_46a6_11ea_9133_aa0000b0ab3arow10_col3" class="data row10 col3" >2.074000</td>
-                        <td id="T_56c6cf4e_46a6_11ea_9133_aa0000b0ab3arow10_col4" class="data row10 col4" >2.399000</td>
-                        <td id="T_56c6cf4e_46a6_11ea_9133_aa0000b0ab3arow10_col5" class="data row10 col5" >0.061000</td>
-                        <td id="T_56c6cf4e_46a6_11ea_9133_aa0000b0ab3arow10_col6" class="data row10 col6" >two-sided</td>
-                        <td id="T_56c6cf4e_46a6_11ea_9133_aa0000b0ab3arow10_col7" class="data row10 col7" >27.705000</td>
-                        <td id="T_56c6cf4e_46a6_11ea_9133_aa0000b0ab3arow10_col8" class="data row10 col8" >289.073000</td>
-                        <td id="T_56c6cf4e_46a6_11ea_9133_aa0000b0ab3arow10_col9" class="data row10 col9" >0.001000</td>
-                        <td id="T_56c6cf4e_46a6_11ea_9133_aa0000b0ab3arow10_col10" class="data row10 col10" >3.212000</td>
+                        <th id="T_491359e8_4c3d_11ea_9dca_aa0000b0ab3alevel0_row10" class="row_heading level0 row10" >10</th>
+                        <td id="T_491359e8_4c3d_11ea_9dca_aa0000b0ab3arow10_col0" class="data row10 col0" >haus_m_700_normAsl_-26</td>
+                        <td id="T_491359e8_4c3d_11ea_9dca_aa0000b0ab3arow10_col1" class="data row10 col1" >maus_m_700_mnru_Q_14_normAsl_-26</td>
+                        <td id="T_491359e8_4c3d_11ea_9dca_aa0000b0ab3arow10_col2" class="data row10 col2" >4.514000</td>
+                        <td id="T_491359e8_4c3d_11ea_9dca_aa0000b0ab3arow10_col3" class="data row10 col3" >2.054000</td>
+                        <td id="T_491359e8_4c3d_11ea_9dca_aa0000b0ab3arow10_col4" class="data row10 col4" >2.459000</td>
+                        <td id="T_491359e8_4c3d_11ea_9dca_aa0000b0ab3arow10_col5" class="data row10 col5" >0.194000</td>
+                        <td id="T_491359e8_4c3d_11ea_9dca_aa0000b0ab3arow10_col6" class="data row10 col6" >two-sided</td>
+                        <td id="T_491359e8_4c3d_11ea_9dca_aa0000b0ab3arow10_col7" class="data row10 col7" >12.680000</td>
+                        <td id="T_491359e8_4c3d_11ea_9dca_aa0000b0ab3arow10_col8" class="data row10 col8" >0.001000</td>
+                        <td id="T_491359e8_4c3d_11ea_9dca_aa0000b0ab3arow10_col9" class="data row10 col9" >2.917000</td>
             </tr>
             <tr>
-                        <th id="T_56c6cf4e_46a6_11ea_9133_aa0000b0ab3alevel0_row11" class="row_heading level0 row11" >11</th>
-                        <td id="T_56c6cf4e_46a6_11ea_9133_aa0000b0ab3arow11_col0" class="data row11 col0" >haus_m_700_normAsl_-26</td>
-                        <td id="T_56c6cf4e_46a6_11ea_9133_aa0000b0ab3arow11_col1" class="data row11 col1" >maus_m_700_normAsl_-26</td>
-                        <td id="T_56c6cf4e_46a6_11ea_9133_aa0000b0ab3arow11_col2" class="data row11 col2" >4.473000</td>
-                        <td id="T_56c6cf4e_46a6_11ea_9133_aa0000b0ab3arow11_col3" class="data row11 col3" >4.588000</td>
-                        <td id="T_56c6cf4e_46a6_11ea_9133_aa0000b0ab3arow11_col4" class="data row11 col4" >-0.115000</td>
-                        <td id="T_56c6cf4e_46a6_11ea_9133_aa0000b0ab3arow11_col5" class="data row11 col5" >0.058000</td>
-                        <td id="T_56c6cf4e_46a6_11ea_9133_aa0000b0ab3arow11_col6" class="data row11 col6" >two-sided</td>
-                        <td id="T_56c6cf4e_46a6_11ea_9133_aa0000b0ab3arow11_col7" class="data row11 col7" >-1.389000</td>
-                        <td id="T_56c6cf4e_46a6_11ea_9133_aa0000b0ab3arow11_col8" class="data row11 col8" >293.357000</td>
-                        <td id="T_56c6cf4e_46a6_11ea_9133_aa0000b0ab3arow11_col9" class="data row11 col9" >0.827965</td>
-                        <td id="T_56c6cf4e_46a6_11ea_9133_aa0000b0ab3arow11_col10" class="data row11 col10" >-0.161000</td>
+                        <th id="T_491359e8_4c3d_11ea_9dca_aa0000b0ab3alevel0_row11" class="row_heading level0 row11" >11</th>
+                        <td id="T_491359e8_4c3d_11ea_9dca_aa0000b0ab3arow11_col0" class="data row11 col0" >haus_m_700_normAsl_-26</td>
+                        <td id="T_491359e8_4c3d_11ea_9dca_aa0000b0ab3arow11_col1" class="data row11 col1" >maus_m_700_normAsl_-26</td>
+                        <td id="T_491359e8_4c3d_11ea_9dca_aa0000b0ab3arow11_col2" class="data row11 col2" >4.514000</td>
+                        <td id="T_491359e8_4c3d_11ea_9dca_aa0000b0ab3arow11_col3" class="data row11 col3" >4.541000</td>
+                        <td id="T_491359e8_4c3d_11ea_9dca_aa0000b0ab3arow11_col4" class="data row11 col4" >-0.027000</td>
+                        <td id="T_491359e8_4c3d_11ea_9dca_aa0000b0ab3arow11_col5" class="data row11 col5" >0.194000</td>
+                        <td id="T_491359e8_4c3d_11ea_9dca_aa0000b0ab3arow11_col6" class="data row11 col6" >two-sided</td>
+                        <td id="T_491359e8_4c3d_11ea_9dca_aa0000b0ab3arow11_col7" class="data row11 col7" >-0.139000</td>
+                        <td id="T_491359e8_4c3d_11ea_9dca_aa0000b0ab3arow11_col8" class="data row11 col8" >0.900000</td>
+                        <td id="T_491359e8_4c3d_11ea_9dca_aa0000b0ab3arow11_col9" class="data row11 col9" >-0.032000</td>
             </tr>
             <tr>
-                        <th id="T_56c6cf4e_46a6_11ea_9133_aa0000b0ab3alevel0_row12" class="row_heading level0 row12" >12</th>
-                        <td id="T_56c6cf4e_46a6_11ea_9133_aa0000b0ab3arow12_col0" class="data row12 col0" >maus_m_700_bpf_200_2800_normAsl_-26</td>
-                        <td id="T_56c6cf4e_46a6_11ea_9133_aa0000b0ab3arow12_col1" class="data row12 col1" >maus_m_700_mnru_Q_14_normAsl_-26</td>
-                        <td id="T_56c6cf4e_46a6_11ea_9133_aa0000b0ab3arow12_col2" class="data row12 col2" >2.669000</td>
-                        <td id="T_56c6cf4e_46a6_11ea_9133_aa0000b0ab3arow12_col3" class="data row12 col3" >2.074000</td>
-                        <td id="T_56c6cf4e_46a6_11ea_9133_aa0000b0ab3arow12_col4" class="data row12 col4" >0.595000</td>
-                        <td id="T_56c6cf4e_46a6_11ea_9133_aa0000b0ab3arow12_col5" class="data row12 col5" >0.073000</td>
-                        <td id="T_56c6cf4e_46a6_11ea_9133_aa0000b0ab3arow12_col6" class="data row12 col6" >two-sided</td>
-                        <td id="T_56c6cf4e_46a6_11ea_9133_aa0000b0ab3arow12_col7" class="data row12 col7" >5.771000</td>
-                        <td id="T_56c6cf4e_46a6_11ea_9133_aa0000b0ab3arow12_col8" class="data row12 col8" >282.502000</td>
-                        <td id="T_56c6cf4e_46a6_11ea_9133_aa0000b0ab3arow12_col9" class="data row12 col9" >0.001000</td>
-                        <td id="T_56c6cf4e_46a6_11ea_9133_aa0000b0ab3arow12_col10" class="data row12 col10" >0.669000</td>
+                        <th id="T_491359e8_4c3d_11ea_9dca_aa0000b0ab3alevel0_row12" class="row_heading level0 row12" >12</th>
+                        <td id="T_491359e8_4c3d_11ea_9dca_aa0000b0ab3arow12_col0" class="data row12 col0" >maus_m_700_bpf_200_2800_normAsl_-26</td>
+                        <td id="T_491359e8_4c3d_11ea_9dca_aa0000b0ab3arow12_col1" class="data row12 col1" >maus_m_700_mnru_Q_14_normAsl_-26</td>
+                        <td id="T_491359e8_4c3d_11ea_9dca_aa0000b0ab3arow12_col2" class="data row12 col2" >2.676000</td>
+                        <td id="T_491359e8_4c3d_11ea_9dca_aa0000b0ab3arow12_col3" class="data row12 col3" >2.054000</td>
+                        <td id="T_491359e8_4c3d_11ea_9dca_aa0000b0ab3arow12_col4" class="data row12 col4" >0.622000</td>
+                        <td id="T_491359e8_4c3d_11ea_9dca_aa0000b0ab3arow12_col5" class="data row12 col5" >0.194000</td>
+                        <td id="T_491359e8_4c3d_11ea_9dca_aa0000b0ab3arow12_col6" class="data row12 col6" >two-sided</td>
+                        <td id="T_491359e8_4c3d_11ea_9dca_aa0000b0ab3arow12_col7" class="data row12 col7" >3.205000</td>
+                        <td id="T_491359e8_4c3d_11ea_9dca_aa0000b0ab3arow12_col8" class="data row12 col8" >0.017742</td>
+                        <td id="T_491359e8_4c3d_11ea_9dca_aa0000b0ab3arow12_col9" class="data row12 col9" >0.737000</td>
             </tr>
             <tr>
-                        <th id="T_56c6cf4e_46a6_11ea_9133_aa0000b0ab3alevel0_row13" class="row_heading level0 row13" >13</th>
-                        <td id="T_56c6cf4e_46a6_11ea_9133_aa0000b0ab3arow13_col0" class="data row13 col0" >maus_m_700_bpf_200_2800_normAsl_-26</td>
-                        <td id="T_56c6cf4e_46a6_11ea_9133_aa0000b0ab3arow13_col1" class="data row13 col1" >maus_m_700_normAsl_-26</td>
-                        <td id="T_56c6cf4e_46a6_11ea_9133_aa0000b0ab3arow13_col2" class="data row13 col2" >2.669000</td>
-                        <td id="T_56c6cf4e_46a6_11ea_9133_aa0000b0ab3arow13_col3" class="data row13 col3" >4.588000</td>
-                        <td id="T_56c6cf4e_46a6_11ea_9133_aa0000b0ab3arow13_col4" class="data row13 col4" >-1.919000</td>
-                        <td id="T_56c6cf4e_46a6_11ea_9133_aa0000b0ab3arow13_col5" class="data row13 col5" >0.071000</td>
-                        <td id="T_56c6cf4e_46a6_11ea_9133_aa0000b0ab3arow13_col6" class="data row13 col6" >two-sided</td>
-                        <td id="T_56c6cf4e_46a6_11ea_9133_aa0000b0ab3arow13_col7" class="data row13 col7" >-19.230000</td>
-                        <td id="T_56c6cf4e_46a6_11ea_9133_aa0000b0ab3arow13_col8" class="data row13 col8" >272.455000</td>
-                        <td id="T_56c6cf4e_46a6_11ea_9133_aa0000b0ab3arow13_col9" class="data row13 col9" >0.001000</td>
-                        <td id="T_56c6cf4e_46a6_11ea_9133_aa0000b0ab3arow13_col10" class="data row13 col10" >-2.230000</td>
+                        <th id="T_491359e8_4c3d_11ea_9dca_aa0000b0ab3alevel0_row13" class="row_heading level0 row13" >13</th>
+                        <td id="T_491359e8_4c3d_11ea_9dca_aa0000b0ab3arow13_col0" class="data row13 col0" >maus_m_700_bpf_200_2800_normAsl_-26</td>
+                        <td id="T_491359e8_4c3d_11ea_9dca_aa0000b0ab3arow13_col1" class="data row13 col1" >maus_m_700_normAsl_-26</td>
+                        <td id="T_491359e8_4c3d_11ea_9dca_aa0000b0ab3arow13_col2" class="data row13 col2" >2.676000</td>
+                        <td id="T_491359e8_4c3d_11ea_9dca_aa0000b0ab3arow13_col3" class="data row13 col3" >4.541000</td>
+                        <td id="T_491359e8_4c3d_11ea_9dca_aa0000b0ab3arow13_col4" class="data row13 col4" >-1.865000</td>
+                        <td id="T_491359e8_4c3d_11ea_9dca_aa0000b0ab3arow13_col5" class="data row13 col5" >0.194000</td>
+                        <td id="T_491359e8_4c3d_11ea_9dca_aa0000b0ab3arow13_col6" class="data row13 col6" >two-sided</td>
+                        <td id="T_491359e8_4c3d_11ea_9dca_aa0000b0ab3arow13_col7" class="data row13 col7" >-9.615000</td>
+                        <td id="T_491359e8_4c3d_11ea_9dca_aa0000b0ab3arow13_col8" class="data row13 col8" >0.001000</td>
+                        <td id="T_491359e8_4c3d_11ea_9dca_aa0000b0ab3arow13_col9" class="data row13 col9" >-2.212000</td>
             </tr>
             <tr>
-                        <th id="T_56c6cf4e_46a6_11ea_9133_aa0000b0ab3alevel0_row14" class="row_heading level0 row14" >14</th>
-                        <td id="T_56c6cf4e_46a6_11ea_9133_aa0000b0ab3arow14_col0" class="data row14 col0" >maus_m_700_mnru_Q_14_normAsl_-26</td>
-                        <td id="T_56c6cf4e_46a6_11ea_9133_aa0000b0ab3arow14_col1" class="data row14 col1" >maus_m_700_normAsl_-26</td>
-                        <td id="T_56c6cf4e_46a6_11ea_9133_aa0000b0ab3arow14_col2" class="data row14 col2" >2.074000</td>
-                        <td id="T_56c6cf4e_46a6_11ea_9133_aa0000b0ab3arow14_col3" class="data row14 col3" >4.588000</td>
-                        <td id="T_56c6cf4e_46a6_11ea_9133_aa0000b0ab3arow14_col4" class="data row14 col4" >-2.514000</td>
-                        <td id="T_56c6cf4e_46a6_11ea_9133_aa0000b0ab3arow14_col5" class="data row14 col5" >0.063000</td>
-                        <td id="T_56c6cf4e_46a6_11ea_9133_aa0000b0ab3arow14_col6" class="data row14 col6" >two-sided</td>
-                        <td id="T_56c6cf4e_46a6_11ea_9133_aa0000b0ab3arow14_col7" class="data row14 col7" >-28.431000</td>
-                        <td id="T_56c6cf4e_46a6_11ea_9133_aa0000b0ab3arow14_col8" class="data row14 col8" >291.928000</td>
-                        <td id="T_56c6cf4e_46a6_11ea_9133_aa0000b0ab3arow14_col9" class="data row14 col9" >0.001000</td>
-                        <td id="T_56c6cf4e_46a6_11ea_9133_aa0000b0ab3arow14_col10" class="data row14 col10" >-3.297000</td>
+                        <th id="T_491359e8_4c3d_11ea_9dca_aa0000b0ab3alevel0_row14" class="row_heading level0 row14" >14</th>
+                        <td id="T_491359e8_4c3d_11ea_9dca_aa0000b0ab3arow14_col0" class="data row14 col0" >maus_m_700_mnru_Q_14_normAsl_-26</td>
+                        <td id="T_491359e8_4c3d_11ea_9dca_aa0000b0ab3arow14_col1" class="data row14 col1" >maus_m_700_normAsl_-26</td>
+                        <td id="T_491359e8_4c3d_11ea_9dca_aa0000b0ab3arow14_col2" class="data row14 col2" >2.054000</td>
+                        <td id="T_491359e8_4c3d_11ea_9dca_aa0000b0ab3arow14_col3" class="data row14 col3" >4.541000</td>
+                        <td id="T_491359e8_4c3d_11ea_9dca_aa0000b0ab3arow14_col4" class="data row14 col4" >-2.486000</td>
+                        <td id="T_491359e8_4c3d_11ea_9dca_aa0000b0ab3arow14_col5" class="data row14 col5" >0.194000</td>
+                        <td id="T_491359e8_4c3d_11ea_9dca_aa0000b0ab3arow14_col6" class="data row14 col6" >two-sided</td>
+                        <td id="T_491359e8_4c3d_11ea_9dca_aa0000b0ab3arow14_col7" class="data row14 col7" >-12.819000</td>
+                        <td id="T_491359e8_4c3d_11ea_9dca_aa0000b0ab3arow14_col8" class="data row14 col8" >0.001000</td>
+                        <td id="T_491359e8_4c3d_11ea_9dca_aa0000b0ab3arow14_col9" class="data row14 col9" >-2.949000</td>
             </tr>
     </tbody></table>
 </div>
 
 </div>
 
-</div>
-</div>
-
-</div>
-<div class="cell border-box-sizing code_cell rendered">
-<div class="input">
-<div class="prompt input_prompt">In&nbsp;[&nbsp;]:</div>
-<div class="inner_cell">
-    <div class="input_area">
-<div class=" highlight hl-ipython3"><pre><span></span> 
-</pre></div>
-
-    </div>
 </div>
 </div>
 
