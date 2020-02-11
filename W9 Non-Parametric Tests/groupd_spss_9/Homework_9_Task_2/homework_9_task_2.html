@@ -1,0 +1,200 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <title>Template</title>
+
+	<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
+	<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+	<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+	<meta content="text/html;charset=utf-8" http-equiv="Content-Type">
+	<meta content="utf-8" http-equiv="encoding">
+</head>
+
+<body>
+<style type="text/css">
+	body{font-family:Tahoma,"Times New Roman", Times, serif;}
+	p{	margin:20px; }
+	.center {
+    display: block;
+    margin-left: auto;
+    margin-right: auto;
+    width: 40%;
+}
+fieldset { padding: 10px; background:#fbfbfb; border-radius:5px; margin-bottom:5px; }
+</style>
+
+
+<section class="container" >
+	<div class="panel panel-primary">
+		<div class="panel-heading">
+			<h3 class="panel-title">
+				<a data-target="#instruction" data-toggle="collapse" >Example</a>
+			</h3>
+		</div>
+		<div  class="panel-collapse collapse in" id="instruction">
+			<div class="panel-body" >
+				<p>Does the <i>testStimulus</i> have a significant influence on speech quality ratings and if yes, for which cases.
+				Please assume that each of the six files was assessed by a different set of test participants and only use
+				the rating of the first repetition. Use the quality ratings provided in the data set
+				<i>speech_quality_repetition_dataset</i>.
+				</p>
+			</div>
+		</div>
+
+	</div>
+</section>
+
+<section class="container" >
+	<div class="panel panel-primary">
+		<div class="panel-heading">
+			<h3 class="panel-title">
+				<a data-target="#setup" data-toggle="collapse" >Setup and transfering data format</a>
+			</h3>
+		</div>
+		<div  class="panel-collapse collapse in" id="setup">
+			<div class="panel-body" >
+				<fieldset><label>Import the data in SPSS. Select the ratings of the first repetition.</label>
+				<p>
+					<b>Data</b> > <b>Select Cases...</b>
+				</p>
+				<p>The sample size for each group is 37.</p>
+				</fieldset>
+			</div>
+		</div>
+
+	</div>
+</section> 
+
+<section class="container" >
+	<div class="panel panel-primary">
+		<div class="panel-heading">
+			<h3 class="panel-title">
+				<a data-target="#process" data-toggle="collapse" >Test Requirements</a>
+			</h3>
+		</div>
+		<div  class="panel-collapse collapse in" id="process">
+			<div class="panel-body" >
+		  	<fieldset><label>To answer the question, we want to conduct a simple ANOVA where the independent variable consists of six categorical, independent stimulus types. 
+				  In order to decide, if a paramteric or non-parametric test should be conducted, it is required to check for normal distribution of the dependent variable in each group.</label>
+				<p>
+					<b>Analyze</b> > <b>Descriptive Statistics</b> > <b>Explore…</b> > Add “<b>rating</b>” to the "Depemdemt List" and “<b>testStimulus</b>” to the “Factor List”
+				</p>
+				<div style="display: inline-flex;">
+					<img src="imgs/path_descriptives.png" alt="Explore Path" style="width:auto;height:150px;margin-left: 20px;">
+					<img src="imgs/explore_modal.png" alt="Explore Modal" style="width:auto;height:150px;margin-left: 20px;">								
+				</div>
+				<p>
+					Click on “<b>Statistics…</b>” button > In the “Statistics” modal, check the option “<b>Descriptives</b>”. 
+				</p>
+				<div style="display: inline-flex;">
+					<img src="imgs/statistics_modal.png" alt="Statistics Modal" style="width:auto;height:200px;margin-left: 20px;">				
+				</div>
+				<p>
+					Click on “<b>Plots…</b>” button > In the “Plots” modal check the option “<b>Normality plots with tests</b>” and under the “Descriptive”-section uncheck “Stem-and-leaf”.
+				</p>
+				<div style="display: inline-flex;">
+					<img src="imgs/plot_modal.png" alt="Plots Modal" style="width:auto;height:200px;margin-left: 20px;">				
+				</div>
+				<p>
+					<label>Output Normality Test</label>
+					<div style="display: inline-flex;">
+						<img src="imgs/output_normality_test.png" alt="Plots Modal" style="width:auto;height:200px;margin-left: 20px;">				
+					</div>
+					<p>The Shapiro-Wilk Test showed a significant departure from normality for all groups.</p>
+				</p>
+			</fieldset>
+			</div>
+		</div>
+	</div>
+</section> 
+
+<section class="container" >
+	<div class="panel panel-primary">
+		<div class="panel-heading">
+			<h3 class="panel-title">
+				<a data-target="#process" data-toggle="collapse" >Kruskal-Wallis Non-Parametric Test</a>
+			</h3>
+		</div>
+		<div  class="panel-collapse collapse in" id="process">
+			<div class="panel-body" >
+		  	<fieldset><label>Since the data is not normal distributed in the groups, we use the non-paramteric alternative to ANOVA, a Kruskal-Wallis Test.</label>
+				<p>
+					Conduct the test.
+				</p>
+				<p>
+					<b>Analyze</b> > <b>Nonparametric Tests</b> > <b>Independent Samples...</b>
+				</p>
+				<div style="display: inline-flex;">
+					<img src="imgs/kruskal_wallis_test_path.png" alt="T Test Path" style="width:auto;height:300px;margin-left: 20px;">
+				</div>
+				<p>In the <b>Nonparametric Tests</b> modal, check the option "<b>Customize analysis</b>> and navigate to the <b>Fields</b> tab.</p>
+				<div style="display: inline-flex;">
+					<img src="imgs/non_para_test_modal.png" alt="T Test Path" style="width:auto;height:300px;margin-left: 20px;">
+				</div>
+				<p>In the <b>Fields</b> tab, add <b>rating</b> to the "Test Fields" and <b>testStimulus</b> to "Groups". Change to <b>Settings</b> tab next.</p>
+				<div style="display: inline-flex;">
+					<img src="imgs/non_para_test_modal_fields.png" alt="T Test Path" style="width:auto;height:300px;margin-left: 20px;">
+				</div>
+				<p>In the <b>Settings</b> tab, check "Customize tests" and check the <b>Kruskal-Wallis 1-way ANOVA</b> option. Under "Multiple comparisons" choose <b>All pairwise</b>. Then click on <b>Run</b></p>
+				<div style="display: inline-flex;">
+					<img src="imgs/non_para_test_modal_settings.png" alt="T Test Path" style="width:auto;height:300px;margin-left: 20px;">
+				</div>
+			</fieldset>
+			</div>
+		</div>
+	</div>
+</section> 
+
+<section class="container" >
+	<div class="panel panel-primary">
+		<div class="panel-heading">
+			<h3 class="panel-title">
+				<a data-target="#output" data-toggle="collapse">Output interpretation</a>
+			</h3>
+		</div>
+		<div  class="panel-collapse collapse in" id="output">
+			<div class="panel-body" >
+					<label>Kruskal-Wallis Test</label><br>
+					<div style="display: inline-flex;">
+						<img src="imgs/output_kruskal_wallis_1.png" alt="Scree plot male" style="width:auto;height:150px;margin-left: 20px;">
+					</div>
+					<br>
+					<div style="display: inline-flex;">
+						<img src="imgs/output_kruskal_wallis_2.png" alt="Scree plot male" style="width:auto;height:150px;margin-left: 20px;">								
+					</div>
+					<br>
+					<div style="display: inline-flex;">
+						<img src="imgs/output_post_hoc.png" alt="Scree plot male" style="width:auto;height:800px;margin-left: 20px;">								
+					</div>
+					<br>
+					<label>Effect Size:</label>
+					<p>
+						Effect sizes are calculated to assess the significance of a result. Since the post hoc test provides information about differences between each group, 
+						what we want to calculate is the effect size of the Dunn-Bonferroni test. To calculate Pearson’s Correlation Coefficient r the sample size n and the z-value of each comparison are used:
+					</p>
+					<div style="display: inline-flex;">
+						<img src="imgs/effect_size_formula.png" alt="Scree plot male" style="width:auto;height:50px;margin-left: 20px;">								
+					</div>
+					<p>
+						The effect size of the diffrence between the first and third test stimulus is:
+					</p>
+					<p>
+						r = |-6,047/ sqrt(74)| = |-6,047 / 8,60| = 0,7
+					</p>
+					<br>
+					<label>Interpretation:</label>
+					<p>
+						The Kruskal-Wallis-Test confirms that the test stimulus has a significant influence on the speech quality ratings
+						(Chi-Quadrat(5) = 130.897, p < .001).
+						Post hoc comparision (Dunn-Bonferroni tests) indicated that the first testStimulus (M=2.62, SD=.98) and the third testStimulus 
+						(M=4.51, SD=.559) differ significantlly regarding the speech quality ratings (z = -6,047, p < .001, r = 0,7) .
+					</p>
+				</fieldset>	 
+			</div>
+		</div>
+
+	</div>
+</section>
+
+</body>
+</html>
