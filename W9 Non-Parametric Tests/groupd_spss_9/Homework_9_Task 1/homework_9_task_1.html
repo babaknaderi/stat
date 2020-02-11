@@ -1,0 +1,278 @@
+﻿<!DOCTYPE html>
+<html lang="en">
+<head>
+    <title>Template</title>
+
+	<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
+	<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+	<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+	<meta content="text/html;charset=utf-8" http-equiv="Content-Type">
+	<meta content="utf-8" http-equiv="encoding">
+</head>
+
+<body>
+<style type="text/css">
+	body{font-family:Tahoma,"Times New Roman", Times, serif;}
+	p{	margin:20px; }
+	.center {
+    display: block;
+    margin-left: auto;
+    margin-right: auto;
+    width: 40%;
+}
+fieldset { padding: 10px; background:#fbfbfb; border-radius:5px; margin-bottom:5px; }
+</style>
+
+
+<section class="container" >
+	<div class="panel panel-primary">
+		<div class="panel-heading">
+			<h3 class="panel-title">
+				<a data-target="#instruction" data-toggle="collapse" >Task 1</a>
+			</h3>
+		</div>
+		<div  class="panel-collapse collapse in" id="instruction">
+			<div class="panel-body" >
+              
+			<p>1.RQ: Does changing the bitrate (independent variable: 2000, 4000, 6000, 50000 kbps) have a
+significant effect on the video quality (VQ) ratings (dependent variable). Please consider all ratings at
+a resolution of 1080p and framerate of 60 fps for the FIRST game. Use the ratings provided in the
+gaming video quality dataset.
+
+</p>
+
+			</div>
+		</div>
+
+	</div>
+</section>
+
+<section class="container" >
+	<div class="panel panel-primary">
+		<div class="panel-heading">
+			<h3 class="panel-title">
+				<a data-target="#setup" data-toggle="collapse" >Setup and transfering data format</a>
+			</h3>
+		</div>
+		
+			  
+				<div  class="panel-collapse collapse in" id="process">
+					<div class="panel-body" >
+					  <fieldset><label>  Loading the dataset </label>
+						<p>
+							Simply load the data set into SPSS. Check “Read Variable Names from the First Row of Data”
+						</p>
+						<div style="display: inline-flex;">
+							<img src="imgs/1.JPG" alt="Outlier condition" style="width:auto;height:600px;margin-left: 20px;">
+						</div>
+						
+					</fieldset>
+					</div>
+				</div>
+			  
+			
+		
+
+	</div>
+</section> 
+
+<section class="container" >
+	<div class="panel panel-primary">
+		<div class="panel-heading">
+			<h3 class="panel-title">
+				<a data-target="#process" data-toggle="collapse" >Performing the test</a>
+			</h3>
+		</div>
+		<div  class="panel-collapse collapse in" id="process">
+			<div class="panel-body" >
+			  
+			<fieldset>	
+				<div  class="panel-collapse collapse in" id="process">
+					<div class="panel-body" >
+					  <fieldset><label> Filtering for the given conditions</label>
+						<p>
+							We have to filter the data according to the given conditions which are resolution of 1080p and framerate of 60 fps for the FIRST game. 
+Data > select cases. In the cases set the conditions shown. This will filter all the unselected conditions.
+
+ 
+						</p>
+						<div style="display: inline-flex;">
+							<img src="imgs/2.jpg" alt="Outlier condition" style="width:auto;height:600px;margin-left: 20px;">
+                                                        
+                                                      
+						</div>
+						
+						<p>
+								
+						</p>
+</p>
+						
+</p>
+						<div style="display: inline-flex;">
+							<img src="imgs/3.jpg" alt="Outlier condition" style="width:auto;height:400px;margin-left: 20px;">
+                                                        
+                                                      
+						</div>
+						
+						<p>
+								
+						</p>
+						<div style="display: inline-flex;">
+							
+						</div>
+
+
+					</fieldset>
+					</div>
+				</div>
+			</fieldset>
+			
+
+			
+			
+						<div  class="panel-collapse collapse in" id="process">
+					<div class="panel-body" >
+					  <fieldset><label> restructuring the data</label>
+						<p> Now we have to restructure the data, making seperate columns for each bitrate. "Data">"Restructure". Choose "Restructure selected cases into variables" and click "next". Then add "Bitrate" to index variable and "PID" to identifier variable. and finish the wizard without changing anything else.
+
+ 
+						</p>
+						<div style="display: inline-flex;">
+							<img src="imgs/4.JPG" alt="Outlier condition" style="width:auto;height:600px;margin-left: 20px;">
+						</div>
+                                                </p>
+						<div style="display: inline-flex;">
+							<img src="imgs/5.JPG" alt="Outlier condition" style="width:auto;height:300px;margin-left: 20px;">
+						</div>
+                                                </p>
+						
+
+                                                </p>
+
+					</fieldset>
+					</div>
+				</div>
+			</fieldset>
+
+                        <div  class="panel-collapse collapse in" id="process">
+					<div class="panel-body" >
+					  <fieldset><label> Performing the test</label>
+						<p>
+							Now, we can do friedman test.  Analyse>Nonparametric tests>lagacy dialogs>K related samples. Add VQ.2000, VQ.4000, VQ.6000 and, VQ.50000 variables to "Test Variables". Check "Friedman" box. Click on "Exact" and choose "Exact". Click "continue" and the "Statistics" menue check "Quartiles"
+
+ 
+						</p>
+						<div style="display: inline-flex;">
+							<img src="imgs/6.JPG" alt="Outlier condition" style="width:auto;height:600px;margin-left: 20px;">
+						</div>
+                                                </p>
+						<div style="display: inline-flex;">
+							<img src="imgs/7.JPG" alt="Outlier condition" style="width:auto;height:400px;margin-left: 20px;">
+						</div>
+<div style="display: inline-flex;">
+							<img src="imgs/8.JPG" alt="Outlier condition" style="width:auto;height:400px;margin-left: 20px;">
+						</div>
+</p>
+						
+					</fieldset>
+					</div>
+ <p>
+
+                        <div  class="panel-collapse collapse in" id="process">
+					<div class="panel-body" >
+					  <fieldset><label> Doing the post hoc tests</label>
+						<p>
+							Now that we know that overall changing bitrate does have an effect on VQ. We would like to know which indivisual bitrate changes effect the VQ. For that, we are going to do a Wilcoxon signed rank test.  Analyse>Nonparametric tests>lagacy dialogs>2 related samples. Add all possible pairs of the VQ at 4 bitrates. 
+
+ 
+						</p>
+						<div style="display: inline-flex;">
+							<img src="imgs/11.JPG" alt="Outlier condition" style="width:auto;height:600px;margin-left: 20px;">
+						</div>
+                                                </p>
+						<div style="display: inline-flex;">
+							<img src="imgs/12.JPG" alt="Outlier condition" style="width:auto;height:400px;margin-left: 20px;">
+						</div>
+</p>
+						
+					</fieldset>
+					</div>
+ <p>
+							
+
+ 
+					
+
+                        					</fieldset>
+					</div>
+				</div>
+			</fieldset>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+                
+
+			
+
+
+
+			</div>
+		</div>
+
+	</div>
+</section> 
+
+<section class="container" >
+	<div class="panel panel-primary">
+		<div class="panel-heading">
+			<h3 class="panel-title">
+				<a data-target="#instruction" data-toggle="collapse" >Output</a>
+			</h3>
+		</div>
+		<div  class="panel-collapse collapse in" id="instruction">
+			<div class="panel-body" >
+				<img src="imgs/9.jpg" alt="Outlier condition" style="width:auto;height:400px;margin-left: 20px;">
+</div>
+<div class="panel-body" >
+				<img src="imgs/10.jpg" alt="Outlier condition" style="width:auto;height:400px;margin-left: 20px;">
+</div>
+<div class="panel-body" >
+				<img src="imgs/13.jpg" alt="Outlier condition" style="width:auto;height:400px;margin-left: 20px;">
+</div>
+
+
+</div>
+<p> There is a statistically significant difference in VQ depending on the Bitrate, χ2(3) = 56.716, p < 0.001. Post hoc analysis with Wilcoxon signed-rank tests was conducted with a Bonferroni correction applied, resulting in a significance level set at p < 0.01. Median (IQR) VQ for bitrate 2000, 4000, 6000 and 50000 were 2.90 (2.45 to 3.40), 3.70 (3.00 to 4.50), 4.40 (3.70 to 4.90) and, 5.30 (5.00 to 5.90), respectively. There were significant differences between VQ ratings at every bitrate as shown.  </p>
+
+						
+
+
+
+
+			</div>
+		</div>
+
+	</div>
+</section>
+
+</body>
+</html>
